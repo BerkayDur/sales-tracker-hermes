@@ -1,0 +1,31 @@
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+jobs:
+  quality_control:
+    name: "Quality Control"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout the code"
+        uses: actions/checkout@v4
+      - name: "Install Python"
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+            # Install dependencies
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest pylint
+          for FILE in $(find . -name 'requirements.txt'); do
+            pip install -r $FILE
+          done
+      - name: "Run Pytest"
+        run: pytest
+      - name: "Run PyLint"
+        run: pylint --fail-under=8 $(find . -name "*.py")
