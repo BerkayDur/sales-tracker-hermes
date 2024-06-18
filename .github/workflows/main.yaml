@@ -152,7 +152,7 @@ jobs:
           if-no-files-found: ignore
 
 
-      # Commit results
+    # Commit results
       - name: Push results
 
         if: '!cancelled()'
@@ -166,4 +166,4 @@ jobs:
           git add .github/badges/passed_percentage.svg
           git add .github/badges/avg_score.svg
           git commit -m "Update scores" || true
-          git push
+          git push origin HEAD:main
