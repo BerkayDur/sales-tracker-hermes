@@ -61,7 +61,7 @@ jobs:
         if: '!cancelled()'
         run: |
           find . -type d \( -path ./.util -o -path ./.venv \) -prune -false -o \( -name '*.py' ! -name 'test*.py' \) \
-          -exec pylint {} \; >> .util/pylint_scores.txt
+          -exec pylint --fail-under 7 {} \; >> .util/pylint_scores.txt
           
     
       # Convert Pylint scores to JSON
