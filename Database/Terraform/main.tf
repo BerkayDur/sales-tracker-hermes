@@ -1,3 +1,5 @@
+# This file terraforms the database on AWS RDS
+
 terraform {
   required_providers {
     aws = {
