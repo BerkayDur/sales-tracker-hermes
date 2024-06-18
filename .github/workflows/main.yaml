@@ -107,7 +107,7 @@ jobs:
           BADGE_PATH: .github/badges/avg_score.svg   
           
       - name: Fail pylin if score below threshold 
-        if: '!cancell()'
+        if: '!cancelled()'
         run: |
           SCORE=${{env.AVG_SCORE}}
           echo "$SCORE"
