@@ -171,7 +171,6 @@ jobs:
 
         if: '!cancelled()'
         run: |
-          echo "Event Type: ${{ github.event_name }}"
           git config --local user.email "mnabiha09@gmail.com"
           git config --local user.name "Testing bot"
           git add .util/pytest_scores.txt
@@ -181,4 +180,10 @@ jobs:
           git add .github/badges/passed_percentage.svg
           git add .github/badges/avg_score.svg
           git commit -m "Update scores" || true
-          git push
+          echo "Event Type: ${{ github.event_name }}"
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            echo "Pushing"
+            git push
+          else
+            echo "No Push"
+          fi
