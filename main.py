@@ -1,3 +1,2 @@
 def return_4():
-    y = 2 + 2
-    return y
+    return 2 + 2

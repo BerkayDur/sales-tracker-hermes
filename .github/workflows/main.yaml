@@ -60,8 +60,15 @@ jobs:
       - name: Run Pylint
         if: '!cancelled()'
         run: |
-          find . -type d \( -path ./.util -o -path ./.venv \) -prune -false -o \( -name '*.py' ! -name 'test*.py' \) \
-          -exec pylint --fail-under=8 {} \; >> .util/pylint_scores.txt
+          OUTPUT=$(find . -type d \( -path ./.util -o -path ./.venv \) -prune -false -o \( -name '*.py' ! -name 'test*.py' \) \
+          -exec pylint {} \;)
+          score=$(echo "$OUTPUT" | grep -Eo '\d+\.\d{2}'| head -n 1) 
+          if [ $score -gt 8 ]; then
+            echo "Code quality score: $score."
+            "$OUTPUT" >> .util/pylint_scores.txt
+          else
+            echo "Code quality score: $score."
+            exit 1
 
       # Convert Pylint scores to JSON
       - name: Convert Pylint scores to JSON
