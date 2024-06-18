@@ -158,4 +158,4 @@ jobs:
           git add .github/badges/passed_percentage.svg
           git add .github/badges/avg_score.svg
           git commit -m "Update scores" || true
-          git push origin main
+          git push
