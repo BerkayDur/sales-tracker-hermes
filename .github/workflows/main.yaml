@@ -110,7 +110,7 @@ jobs:
         if: '!cancelled()'
         run: |
           result=$(echo "$AVG_SCORE < 7.0" | bc -l)
-          
+          echo "$result"
           if [ "$result" -eq 1 ]; then
             echo "4"
             echo " [FAILED]Code quality score: ${SCORE}  ."
