@@ -181,3 +181,4 @@ jobs:
           git add .github/badges/avg_score.svg
           git commit -m "Update scores" || true
           git push origin/${{ github.event.pull_request.base.ref }}
+          echo "${GITHUB_EVENT_NAME}"
