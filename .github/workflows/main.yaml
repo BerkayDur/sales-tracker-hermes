@@ -68,8 +68,8 @@ jobs:
             echo " [FAILED]Code quality score: $SCORE  ."
             exit 1
           fi
-          echo " [PASS] Code quality score: $SCORE ."
-          exit 0
+          echo "[PASS] Code quality score: $SCORE ."
+          
     
       # Convert Pylint scores to JSON
       - name: Convert Pylint scores to JSON
