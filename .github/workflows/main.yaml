@@ -1,6 +1,12 @@
 name: Quality Checks
 
-on: [push, pull_request]
+on:
+  pull_request:
+    branches: 
+      - main
+  push:
+    branches:
+      - '*'
 
 jobs:
   build:
