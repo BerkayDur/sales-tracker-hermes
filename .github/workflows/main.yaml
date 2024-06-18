@@ -64,7 +64,7 @@ jobs:
           -exec pylint {} \;)
           echo "$OUTPUT" >> .util/pylint_scores.txt
           SCORE=$(echo "$OUTPUT" | grep -Eo '\d+\.\d{2}'| head -n 1)
-          if (( $(echo "$SCORE < 3.0" | bc -l) )); then
+          if [ $(echo "$score > 3" | bc -l) -eq 1 ]; then
             echo " [FAILED]Code quality score: $SCORE  ."
             exit 1
           fi
@@ -159,6 +159,7 @@ jobs:
         run: |
           git config --local user.email "mnabiha09@gmail.com"
           git config --local user.name "Testing bot"
+          git pull origin HEAD:main
           git add .util/pytest_scores.txt
           git add .util/pytest_scores.json
           git add .util/pylint_scores.txt
