@@ -62,6 +62,7 @@ jobs:
         run: |
           OUTPUT=$(find . -type d \( -path ./.util -o -path ./.venv \) -prune -false -o \( -name '*.py' ! -name 'test*.py' \) \
           -exec pylint {} \;)
+          echo "$OUTPUT"
           echo "1"
           echo "$OUTPUT" >> .util/pylint_scores.txt
           echo "2"
