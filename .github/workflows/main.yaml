@@ -60,28 +60,8 @@ jobs:
       - name: Run Pylint
         if: '!cancelled()'
         run: |
-          OUTPUT=$(find . -type d \( -path ./.util -o -path ./.venv \) -prune -false -o \( -name '*.py' ! -name 'test*.py' \) \
-          -exec pylint {} \;)
-          echo "$OUTPUT"
-          echo "1"
-          echo "$OUTPUT" >> .util/pylint_scores.txt
-          echo "2"
-          SCORE=$(sed -n '$s/[^0-9]*\([0-9.]*\).*/\1/p' <<< "$OUTPUT")
-          echo "$SCORE"
-          echo "3"
-          result=$(echo "$SCORE < 6.0" | bc -l)
-          echo "8"
-
-          echo "Comparison result: $(echo "$SCORE < 6.0" | bc -l)"
-          echo "7"
-          if [ "$result" -eq 1 ]; then
-            echo "4"
-            echo " [FAILED]Code quality score: ${SCORE}  ."
-            exit 1
-          fi
-          echo "5"
-          echo "[PASS] Code quality score: ${SCORE} ."
-          exit 0
+          find . -type d \( -path ./.util -o -path ./.venv \) -prune -false -o \( -name '*.py' ! -name 'test*.py' \) \
+          -exec pylint {} \; >> .util/pylint_scores.txt
           
     
       # Convert Pylint scores to JSON
@@ -124,7 +104,22 @@ jobs:
           echo "AVG_SCORE=$(jq '.avg_score' .util/pylint_scores.json)" >> $GITHUB_ENV
         env:
           CODE_QUALITY: ${{ env.AVG_SCORE }}
-          BADGE_PATH: .github/badges/avg_score.svg      
+          BADGE_PATH: .github/badges/avg_score.svg   
+          
+      - name: Fail pylin if score below threshold 
+        if: '!cancell()'
+        run: |
+          SCORE=${{env.AVG_SCORE}}
+          echo "$SCORE"
+          if [ "$SCORE" -eq 1 ]; then
+            echo "4"
+            echo " [FAILED]Code quality score: ${SCORE}  ."
+            exit 1
+          fi
+          echo "5"
+          echo "[PASS] Code quality score: ${SCORE} ."
+          exit 0
+
 
       # Generate the badge for passed_percentage
       - name: Generate the badge SVG image for passed_percentage
