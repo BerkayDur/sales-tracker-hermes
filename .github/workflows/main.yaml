@@ -149,6 +149,7 @@ jobs:
 
         if: '!cancelled()'
         run: |
+          git push origin main
           git config --local user.email "mnabiha09@gmail.com"
           git config --local user.name "Testing bot"
           git add .util/pytest_scores.txt
