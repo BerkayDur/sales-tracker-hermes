@@ -106,12 +106,14 @@ jobs:
           CODE_QUALITY: ${{ env.AVG_SCORE }}
           BADGE_PATH: .github/badges/avg_score.svg   
           
-      - name: Fail pylin if score below threshold 
+      - name: Fail pylint if score below threshold 
         if: '!cancelled()'
         run: |
-          SCORE=${{env.AVG_SCORE}}
-          echo "$SCORE"
-          if [ "$SCORE" -eq 1 ]; then
+          SCORE= ${{env.AVG_SCORE}} 
+
+          result=$(echo "$SCORE < 7.0" | bc -l)
+          
+          if [ "$result" -eq 1 ]; then
             echo "4"
             echo " [FAILED]Code quality score: ${SCORE}  ."
             exit 1
