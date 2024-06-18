@@ -66,6 +66,7 @@ jobs:
           echo "$OUTPUT" >> .util/pylint_scores.txt
           echo "2"
           SCORE=$(echo "$OUTPUT" | grep -Eo '\d+\.\d{2}'| head -n 1)
+          echo "$SCORE"
           echo "3"
           result=$(echo "$SCORE < 6.0" | bc -l)
           echo "8"
