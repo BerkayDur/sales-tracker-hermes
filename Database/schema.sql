@@ -24,6 +24,6 @@ CREATE TABLE subscriptions (
 CREATE TABLE price_readings (
     reading_id SERIAL PRIMARY KEY,
     product_id INTEGER NOT NULL REFERENCES products (product_id),
-    timestamp TIMESTAMP NOT NULL,
+    timestamp TIMESTAMP(0) NOT NULL,
     price DECIMAL(10, 2) NOT NULL
 );
