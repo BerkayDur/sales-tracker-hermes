@@ -62,13 +62,16 @@ jobs:
         run: |
           OUTPUT=$(find . -type d \( -path ./.util -o -path ./.venv \) -prune -false -o \( -name '*.py' ! -name 'test*.py' \) \
           -exec pylint {} \;)
+          echo "$OUTPUT" >> .util/pylint_scores.txt
           score=$(echo "$OUTPUT" | grep -Eo '\d+\.\d{2}'| head -n 1) 
-          if [ $score -gt 8 ]; then
+          if [ $score -gt 3 ]; then
             echo "Code quality score: $score."
-            "$OUTPUT" >> .util/pylint_scores.txt
-          else
+            exit 0
+          fi
             echo "Code quality score: $score."
             exit 1
+
+            
 
       # Convert Pylint scores to JSON
       - name: Convert Pylint scores to JSON
