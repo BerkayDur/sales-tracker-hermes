@@ -38,7 +38,7 @@ jobs:
             echo "Command failed with status $exit_status."
             exit $exit_status 
           fi
-          exit 0
+          
 
 
       # Write Pytest overview results to a file
