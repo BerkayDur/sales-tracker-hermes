@@ -32,8 +32,10 @@ jobs:
       - name: Run tests
         if: '!cancelled()'
         run: | 
+          set +e
           OUTPUT=$(pytest)
           exit_status=$?
+          set -e
           if [ $exit_status -ne 0 ] && [ $exit_status -ne 5 ]; then
             echo "Command failed with status $exit_status."
             exit $exit_status
