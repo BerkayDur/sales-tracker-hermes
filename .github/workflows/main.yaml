@@ -109,9 +109,7 @@ jobs:
       - name: Fail pylint if score below threshold 
         if: '!cancelled()'
         run: |
-          SCORE= "$AVG_SCORE"
-
-          result=$(echo "$SCORE < 7.0" | bc -l)
+          result=$(echo "$AVG_SCORE < 7.0" | bc -l)
           
           if [ "$result" -eq 1 ]; then
             echo "4"
