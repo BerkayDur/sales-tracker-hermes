@@ -67,11 +67,10 @@ jobs:
           echo "2"
           SCORE=$(echo "$OUTPUT" | grep -Eo '\d+\.\d{2}'| head -n 1)
           echo "3"
-          if (( $(echo "$SCORE < 3.0" | bc -l))); then
+          if (( $(echo "$SCORE < 6.0" | bc -l) )); then
             echo "4"
             echo " [FAILED]Code quality score: ${SCORE}  ."
             exit 1
-
           fi
           echo "5"
           echo "[PASS] Code quality score: ${SCORE} ."
