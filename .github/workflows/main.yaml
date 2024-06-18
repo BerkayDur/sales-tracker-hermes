@@ -15,8 +15,6 @@ jobs:
       # Checkout the code
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
       # Install Python
       - name: Install Python
         uses: actions/setup-python@v5
@@ -182,4 +180,4 @@ jobs:
           git add .github/badges/passed_percentage.svg
           git add .github/badges/avg_score.svg
           git commit -m "Update scores" || true
-          git push 
+          git push origin/${{ github.event.pull_request.base.ref }}
