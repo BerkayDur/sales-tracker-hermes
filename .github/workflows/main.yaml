@@ -62,12 +62,18 @@ jobs:
         run: |
           OUTPUT=$(find . -type d \( -path ./.util -o -path ./.venv \) -prune -false -o \( -name '*.py' ! -name 'test*.py' \) \
           -exec pylint {} \;)
+          echo "1"
           echo "$OUTPUT" >> .util/pylint_scores.txt
+          echo "2"
           SCORE=$(echo "$OUTPUT" | grep -Eo '\d+\.\d{2}'| head -n 1)
+          echo "3"
           if (( $(echo "$SCORE < 3.0" | bc -l))); then
+          echo "3"
             echo " [FAILED]Code quality score: $SCORE  ."
             exit 1
+
           fi
+          echo "4"
           echo "[PASS] Code quality score: $SCORE ."
           exit 0
           
