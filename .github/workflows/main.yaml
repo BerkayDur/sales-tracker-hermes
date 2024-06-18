@@ -10,6 +10,7 @@ on:
 
 jobs:
   build:
+    name: pylint and pytest scores
     runs-on: ubuntu-latest
     steps:
       # Checkout the code
