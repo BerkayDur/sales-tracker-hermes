@@ -67,7 +67,12 @@ jobs:
           echo "2"
           SCORE=$(echo "$OUTPUT" | grep -Eo '\d+\.\d{2}'| head -n 1)
           echo "3"
-          if [ $(echo "$SCORE < 6.0" | bc -l) -eq 1 ]; then
+          result=$(echo "$SCORE < 6.0" | bc -l)
+          echo "8"
+
+          echo "Comparison result: $(echo "$SCORE < 6.0" | bc -l)"
+          echo "7"
+          if [ "$result" -eq 1 ]; then
             echo "4"
             echo " [FAILED]Code quality score: ${SCORE}  ."
             exit 1
