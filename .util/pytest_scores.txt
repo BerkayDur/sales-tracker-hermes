@@ -1,6 +1,8 @@
 ============================= test session starts ==============================
 platform linux -- Python 3.12.3, pytest-8.2.2, pluggy-1.5.0
 rootdir: /home/runner/work/sales-tracker-hermes/sales-tracker-hermes
-collected 0 items
+collected 1 item
 
-============================ no tests ran in 0.00s =============================
+test_main.py .                                                           [100%]
+
+============================== 1 passed in 0.01s ===============================
