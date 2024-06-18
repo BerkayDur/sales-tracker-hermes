@@ -34,9 +34,9 @@ jobs:
         run: | 
           OUTPUT=$(pytest)
           exit_status=$?
-          if [ $exit_status -ne 0 || $exit_status -ne 5 ]; then
+          if [ $exit_status -ne 0 ] && [ $exit_status -ne 5 ]; then
             echo "Command failed with status $exit_status."
-            exit $exit_status 
+            exit $exit_status
           fi
           exit 0
 
