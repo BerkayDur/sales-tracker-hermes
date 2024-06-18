@@ -63,8 +63,8 @@ jobs:
           OUTPUT=$(find . -type d \( -path ./.util -o -path ./.venv \) -prune -false -o \( -name '*.py' ! -name 'test*.py' \) \
           -exec pylint {} \;)
           echo "$OUTPUT" >> .util/pylint_scores.txt
-          score=$(echo "$OUTPUT" | grep -Eo '\d+\.\d{2}'| head -n 1) 
-          if [ $score -gt 3 ]; then
+          score=$(echo "$OUTPUT" | grep -Eo '\d+\.\d{2}'| head -n 1)
+          if [ $(echo "$score > 3" | bc -l) -eq 1 ]; then
             echo "Code quality score: $score."
             exit 0
           fi
@@ -154,7 +154,7 @@ jobs:
           if-no-files-found: ignore
 
 
-      # Commit results
+    # Commit results
       - name: Push results
 
         if: '!cancelled()'
@@ -168,4 +168,4 @@ jobs:
           git add .github/badges/passed_percentage.svg
           git add .github/badges/avg_score.svg
           git commit -m "Update scores" || true
-          git push
+          git push origin HEAD:${{ github.ref }}
