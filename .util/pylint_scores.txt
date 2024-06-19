@@ -1,8 +1,7 @@
 ************* Module provision_lambda
-ETL/Provision/provision_lambda.py:52:0: C0116: Missing function or method docstring (missing-function-docstring)
-ETL/Provision/provision_lambda.py:52:12: W0613: Unused argument 'event' (unused-argument)
-ETL/Provision/provision_lambda.py:52:24: W0613: Unused argument 'context' (unused-argument)
+ETL/Provision/provision_lambda.py:59:12: W0613: Unused argument 'event' (unused-argument)
+ETL/Provision/provision_lambda.py:59:24: W0613: Unused argument 'context' (unused-argument)
 
 -----------------------------------
-Your code has been rated at 9.06/10
+Your code has been rated at 9.49/10
 
