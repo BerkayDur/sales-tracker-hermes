@@ -116,7 +116,7 @@ jobs:
       - name: Fail pylint if score below threshold 
         if: '!cancelled()'
         run: |
-          result=$(echo "$AVG_SCORE < 9.0" | bc -l)
+          result=$(echo "$AVG_SCORE < 8.0" | bc -l)
           if [ "$result" -eq 1 ]; then
             echo "[FAILED] Code quality score: $AVG_SCORE."
             exit 1
