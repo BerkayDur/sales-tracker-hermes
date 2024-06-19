@@ -1,6 +1,6 @@
 ************* Module main
-main.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+main.py:4:13: W0613: Unused argument 'x' (unused-argument)
 
 -----------------------------------
-Your code has been rated at 6.67/10
+Your code has been rated at 8.33/10
 
