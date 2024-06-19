@@ -1,0 +1,16 @@
+************* Module aggregate
+ETL/Email/aggregate.py:11:0: C0301: Line too long (138/100) (line-too-long)
+ETL/Email/aggregate.py:19:0: C0301: Line too long (154/100) (line-too-long)
+ETL/Email/aggregate.py:27:0: C0301: Line too long (154/100) (line-too-long)
+ETL/Email/aggregate.py:63:0: C0304: Final newline missing (missing-final-newline)
+ETL/Email/aggregate.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+ETL/Email/aggregate.py:3:0: E0401: Unable to import 'dotenv' (import-error)
+ETL/Email/aggregate.py:50:0: C0116: Missing function or method docstring (missing-function-docstring)
+ETL/Email/aggregate.py:50:29: W0621: Redefining name 'data' from outer scope (line 62) (redefined-outer-name)
+ETL/Email/aggregate.py:50:29: W0613: Unused argument 'data' (unused-argument)
+ETL/Email/aggregate.py:53:0: C0116: Missing function or method docstring (missing-function-docstring)
+ETL/Email/aggregate.py:53:29: W0613: Unused argument 'product_ids' (unused-argument)
+
+-----------------------------------
+Your code has been rated at 3.48/10
+
