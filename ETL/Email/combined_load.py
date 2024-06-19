@@ -11,18 +11,22 @@ from helpers import get_cursor
 def create_single_insert_format_string(num_of_values: int) -> str:
     '''Creates a single insert format string that can be used to insert a single row.'''
     if not isinstance(num_of_values, int):
-        raise TypeError('The number of values to construct insert format string form must be an integer.')
+        raise TypeError(
+            'The number of values to construct insert format string form must be an integer.')
     if num_of_values <= 0:
-        raise ValueError('The number of values to construct insert format string form must a positive integer.')
+        raise ValueError(
+            'The number of values to construct insert format string form must a positive integer.')
     return '(' + ',' .join(['%s'] * num_of_values) + ')'
 
 def create_multiple_insert_format_string(num_of_values: int, single_insert_format: str) -> str:
     '''Creates a single insert format string that can be used to insert multiple rows with
     a single execute.'''
     if not isinstance(num_of_values, int):
-        raise TypeError('The number of values to construct insert format string form must be an integer.')
+        raise TypeError(
+            'The number of values to construct insert format string form must be an integer.')
     if num_of_values <= 0:
-        raise ValueError('The number of values to construct insert format string form must a positive integer.')
+        raise ValueError(
+            'The number of values to construct insert format string form must a positive integer.')
     if not isinstance(single_insert_format, str):
         raise TypeError('the single insert format string that is repeated must be of type string.')
     return ', '.join([single_insert_format]*num_of_values) + ';'
