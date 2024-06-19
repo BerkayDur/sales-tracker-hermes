@@ -132,13 +132,29 @@ This script will load the environment variables and connect you directly to the 
 
 ### Querying the Database
 
-To run predefined queries on the database, first create the queries in the `query.sql` file, for example: 
+To run predefined queries on the database, first create the queries in the `query.sql` file, for example:
+
 ```sql
 SELECT * FROM price_readings;
 ```
+
 Then run the `query.sh` script to run it:
 
 ```bash
 bash query.sh
 ```
 
+### Inserting to the Database
+
+To insert data into the database, first create the commands in the `insert.sql` file, for example:
+
+```sql
+INSERT INTO price_readings (product_id, reading_at, price)
+VALUES (1, '2024-06-19 10:00:00', 19.99),
+```
+
+Then run the `insert.sh` script to run it:
+
+```bash
+bash insert.sql
+```
