@@ -1,0 +1,187 @@
+name: Quality Checks
+
+on:
+  pull_request:
+    branches: 
+      - main
+  push:
+    branches:
+      - '*'
+
+jobs:
+  build:
+    name: pylint and pytest scores
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the code
+      - name: Checkout
+        uses: actions/checkout@v4
+      # Install Python
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      # Install dependencies
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest pylint
+          for FILE in $(find . -name 'requirements.txt'); do
+            pip install -r $FILE
+          done
+
+      # Create .util
+      - name: Create .util
+        run: |
+          [ ! -d .util ] && mkdir -p .util || true
+
+      # Run pytest
+      - name: Run tests
+        if: '!cancelled()'
+        run: | 
+          set +e
+          OUTPUT=$(pytest)
+          exit_status=$?
+          set -e
+          if [ $exit_status -ne 0 ] && [ $exit_status -ne 5 ]; then
+            echo "Command failed with status $exit_status."
+            exit $exit_status
+          fi
+          echo "Command passed with status $exit_status."
+          exit 0
+
+
+      # Write Pytest overview results to a file
+      - name: Record test results
+        if: '!cancelled()'
+        run: |
+          [ ! -f .util/pytest_scores.txt ] && touch '.util/pytest_scores.txt'
+          pytest -r N --tb=no > .util/pytest_scores.txt || true
+
+      - name: Create pylint_scores
+        if: '!cancelled()'
+        run: |
+          :> .util/pylint_scores.txt
+
+      # Run Pylint and Get output in file
+      - name: Run Pylint
+        if: '!cancelled()'
+        run: |
+          find . -type d \( -path ./.util -o -path ./.venv \) -prune -false -o \( -name '*.py' ! -name 'test*.py' \) \
+          -exec pylint {} \; >> .util/pylint_scores.txt
+          
+    
+      # Convert Pylint scores to JSON
+      - name: Convert Pylint scores to JSON
+        if: '!cancelled()'
+        run: python .util/parse_raw_python.py --input .util/pylint_scores.txt --output .util/pylint_scores.json --type pylint
+
+      # Conver Pytest scores to JSON
+      - name: Convert Pytest scores to JSON
+        if: '!cancelled()'
+        run: python .util/parse_raw_python.py --input .util/pytest_scores.txt --output .util/pytest_scores.json --type pytest
+
+      # Create Directory for badges
+      - name: Create badge path directory
+        if: '!cancelled()'
+        run: |
+          [ ! -d .github/badges ] && mkdir -p .github/badges || true
+      
+      # Create Base badges
+      - name: Create base badges
+        if: '!cancelled()'
+        run: |
+          [ ! -f .github/badges/passed_percentage.svg ] && touch .github/badges/passed_percentage.svg || true
+          [ ! -f .github/badges/avg_score.svg ] && touch .github/badges/avg_score.svg || true
+
+      # Get the passed_percentage from pytest_scores.json
+      - name: Obtain passed_percentage from JSON
+        if: '!cancelled()'
+        run: |
+          echo "PASSED_PERCENTAGE=$(jq '.passed_percentage' .util/pytest_scores.json)" >> $GITHUB_ENV
+        env:
+          CODE_QUALITY: ${{ env.PASSED_PERCENTAGE }}
+          BADGE_PATH: .github/badges/passed_percentage.svg
+
+
+      # Get the avg_score from pylint_scores.json
+      - name: Obtain avg_score from JSON
+        if: '!cancelled()'
+        run: |
+          echo "AVG_SCORE=$(jq '.avg_score' .util/pylint_scores.json)" >> $GITHUB_ENV
+        env:
+          CODE_QUALITY: ${{ env.AVG_SCORE }}
+          BADGE_PATH: .github/badges/avg_score.svg   
+          
+      - name: Fail pylint if score below threshold 
+        if: '!cancelled()'
+        run: |
+          result=$(echo "$AVG_SCORE < 9.0" | bc -l)
+          if [ "$result" -eq 1 ]; then
+            echo "[FAILED] Code quality score: $AVG_SCORE."
+            exit 1
+          fi
+          echo "[PASS] Code quality score: $AVG_SCORE."
+          exit 0
+
+
+      # Generate the badge for passed_percentage
+      - name: Generate the badge SVG image for passed_percentage
+        if: '!cancelled()'
+        uses: emibcn/badge-action@v1
+        id: passed_percentage_badge
+        with:
+          label: 'Passing Tests: '
+          status: ${{ format('{0}%', env.PASSED_PERCENTAGE) }}
+          color: 'blue'
+          path: .github/badges/passed_percentage.svg
+          scale: 1.5
+      - name: Upload badge as artefact
+        if: '!cancelled()'
+        uses: actions/upload-artifact@v2
+        with:
+          name: badge
+          path: .github/badges/passed_percentage.svg
+          if-no-files-found: ignore
+
+      # Generate the badge for avg_score
+      - name: Generate the badge SVG image for avg_score
+        if: '!cancelled()'
+        uses: emibcn/badge-action@v1
+        id: avg_score_badge
+        with:
+          label: 'Pylint Score: '
+          status: ${{ format('{0}/10.00', env.AVG_SCORE) }}
+          color: 'blue'
+          path: .github/badges/avg_score.svg
+          scale: 1.5
+      - name: Upload badge as artefact
+        if: '!cancelled()'
+        uses: actions/upload-artifact@v2
+        with:
+          name: badge
+          path: .github/badges/avg_score.svg
+          if-no-files-found: ignore
+
+
+    # Commit results
+      - name: Push results
+
+        if: '!cancelled()'
+        run: |
+          git config --local user.email "mnabiha09@gmail.com"
+          git config --local user.name "Testing bot"
+          git add .util/pytest_scores.txt
+          git add .util/pytest_scores.json
+          git add .util/pylint_scores.txt
+          git add .util/pylint_scores.json
+          git add .github/badges/passed_percentage.svg
+          git add .github/badges/avg_score.svg
+          git commit -m "Update scores" || true
+          echo "Event Type: ${{ github.event_name }}"
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            echo "Pushing"
+            git push
+          else
+            echo "No Push"
+          fi
