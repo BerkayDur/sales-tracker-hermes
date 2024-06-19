@@ -1,6 +1,4 @@
-************* Module main
-main.py:4:0: C0116: Missing function or method docstring (missing-function-docstring)
 
------------------------------------
-Your code has been rated at 6.67/10
+------------------------------------
+Your code has been rated at 10.00/10
 
