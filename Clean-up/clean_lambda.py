@@ -10,14 +10,14 @@ from psycopg2.extras import RealDictCursor
 from psycopg2.extensions import connection, cursor
 
 
-def get_connection(config) -> connection:
+def get_connection() -> connection:
     "Establishes a connection with the database"
     return connect(
-        user=config["DB_USER"],
-        password=config["DB_PASSWORD"],
-        host=config["DB_HOST"],
-        port=config["DB_PORT"],
-        database=config["DB_NAME"]
+        user=ENV["DB_USER"],
+        password=ENV["DB_PASSWORD"],
+        host=ENV["DB_HOST"],
+        port=ENV["DB_PORT"],
+        database=ENV["DB_NAME"]
     )
 
 
@@ -42,7 +42,7 @@ def delete_unsubscribed(conn: connection, table: str) -> list[dict]:
 def handler(event, context) -> str:  # pylint: disable=unused-argument
     "Main function which connects to the database and deletes the products"
     logging.basicConfig()
-    db_conn = get_connection(ENV)
+    db_conn = get_connection()
     deleted_readings = delete_unsubscribed(db_conn, "price_readings")
     deleted_products = delete_unsubscribed(db_conn, "products")
 
@@ -52,4 +52,4 @@ def handler(event, context) -> str:  # pylint: disable=unused-argument
 
 if __name__ == "__main__":
     load_dotenv()
-    print(handler({}, None))
+    print(handler(None, None))
