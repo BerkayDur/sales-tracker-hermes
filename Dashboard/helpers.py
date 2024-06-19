@@ -3,7 +3,7 @@
 import re
 
 
-WEBSITES = ('asos')
+WEBSITES = ('asos',)
 
 class MatchingError(Exception):
     '''Exception regarding matching a pattern.'''
@@ -17,6 +17,7 @@ def extract_website_name(url: str) -> str:
         return re.findall(r'(?<=www\.).+(?=\.co)', url)[0]
     except IndexError as e:
         raise MatchingError("Cannot determine website name from url.") from e
+
 
 if __name__ == '__main__':
     print(extract_website_name('''https://www.asos.com/nike/nike-air-force-1-07-\
