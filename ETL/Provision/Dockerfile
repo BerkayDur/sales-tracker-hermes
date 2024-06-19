@@ -7,4 +7,4 @@ RUN pip install -r requirements.txt
 
 COPY provision_lambda.py .
 
-CMD ["provision_lambda.handler"]
+CMD [ "provision_lambda.handler" ]

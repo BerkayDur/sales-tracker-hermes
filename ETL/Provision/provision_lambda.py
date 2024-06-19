@@ -1,5 +1,6 @@
 "A script to read the url, and product data from the database"
 from os import environ as ENV
+import logging
 
 from dotenv import load_dotenv
 import psycopg2
@@ -31,11 +32,17 @@ def read_database(conn: connection):
                     LEFT JOIN price_readings USING (product_id)
                     ORDER BY product_id, reading_at DESC""")
         data = cur.fetchall()
+    logging.info("Product details taken from database")
     return data
 
 
 def group_data(data: list[dict], processing_batch_size: int) -> list[list[dict]]:
     "Groups product data into lists up to a length of 5"
+    if not isinstance(data, list):
+        raise TypeError("Input must be a list.")
+    if not all(isinstance(product, dict) for product in data):
+        raise TypeError("All items in the list must be dictionaries.")
+
     product_outputs = []
     temp = []
     for product in data:
@@ -50,8 +57,7 @@ def group_data(data: list[dict], processing_batch_size: int) -> list[list[dict]]
 
 
 def handler(event=None, context=None) -> dict[str, list[list[dict]]]:
-
-    load_dotenv()
+    "Lambda handler function"
     db_conn = get_connection(ENV)
     product_data = [dict(row) for row in read_database(db_conn)]
 
@@ -60,4 +66,6 @@ def handler(event=None, context=None) -> dict[str, list[list[dict]]]:
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    load_dotenv()
     handler()
