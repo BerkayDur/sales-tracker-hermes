@@ -4,12 +4,12 @@ CREATE TABLE products(
     product_id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     url TEXT UNIQUE NOT NULL,
     product_code TEXT NOT NULL,
-    product_name TEXT NOT NULL,
+    product_name TEXT NOT NULL
 );
 
 CREATE TABLE users (
     user_id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    email TEXT UNIQUE NOT NULL,
+    email TEXT UNIQUE NOT NULL
 );
 
 CREATE TABLE subscriptions (
