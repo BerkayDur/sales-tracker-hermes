@@ -1,6 +1,10 @@
-************* Module main
-main.py:4:13: W0613: Unused argument 'x' (unused-argument)
+
+------------------------------------
+Your code has been rated at 10.00/10
+
+************* Module extract
+extract.py:4:0: C0116: Missing function or method docstring (missing-function-docstring)
 
 -----------------------------------
-Your code has been rated at 8.33/10
+Your code has been rated at 6.67/10
 
