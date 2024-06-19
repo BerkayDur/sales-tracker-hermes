@@ -38,3 +38,8 @@ variable "SG_NAME" {
   type = string
   default = "c11-hermes-sg"
 }
+
+variable "AWS_AZ" {
+  type = string
+  default = "eu-west-2"
+}

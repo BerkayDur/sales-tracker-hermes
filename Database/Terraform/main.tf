@@ -17,7 +17,7 @@ provider "aws" {
 resource "aws_db_instance" "database" {
     allocated_storage                     = 20
     db_name                               = var.DB_NAME
-    availability_zone                     = "eu-west-2a"
+    availability_zone                     = var.AWS_AZ
     copy_tags_to_snapshot                 = true
     db_subnet_group_name                  = var.DB_SUBNET
     engine                                = "postgres"
