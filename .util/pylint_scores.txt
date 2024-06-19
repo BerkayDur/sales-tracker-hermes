@@ -33,12 +33,7 @@ ETL/Email/aggregate.py:75:0: C0116: Missing function or method docstring (missin
 -----------------------------------
 Your code has been rated at 4.86/10
 
-************* Module combined_load
-ETL/Email/combined_load.py:14:0: C0301: Line too long (106/100) (line-too-long)
-ETL/Email/combined_load.py:16:0: C0301: Line too long (112/100) (line-too-long)
-ETL/Email/combined_load.py:23:0: C0301: Line too long (106/100) (line-too-long)
-ETL/Email/combined_load.py:25:0: C0301: Line too long (112/100) (line-too-long)
 
------------------------------------
-Your code has been rated at 8.67/10
+------------------------------------
+Your code has been rated at 10.00/10
 
