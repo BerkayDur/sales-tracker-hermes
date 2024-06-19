@@ -1,5 +1,7 @@
 -- File to query the database
 
+
+
 -- Example queries for each table
 SELECT * FROM price_readings;
 
