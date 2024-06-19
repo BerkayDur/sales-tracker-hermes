@@ -1,4 +1,6 @@
+************* Module main
+main.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 
-------------------------------------
-Your code has been rated at 10.00/10
+-----------------------------------
+Your code has been rated at 6.67/10
 
