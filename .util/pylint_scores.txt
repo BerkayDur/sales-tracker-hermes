@@ -1,14 +1,9 @@
 ************* Module conftest
-ETL/Pipeline/conftest.py:24:0: C0301: Line too long (191/100) (line-too-long)
-ETL/Pipeline/conftest.py:30:0: C0301: Line too long (194/100) (line-too-long)
-ETL/Pipeline/conftest.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-ETL/Pipeline/conftest.py:5:0: C0116: Missing function or method docstring (missing-function-docstring)
-ETL/Pipeline/conftest.py:10:0: C0116: Missing function or method docstring (missing-function-docstring)
-ETL/Pipeline/conftest.py:19:0: C0116: Missing function or method docstring (missing-function-docstring)
-ETL/Pipeline/conftest.py:37:0: C0116: Missing function or method docstring (missing-function-docstring)
+ETL/Pipeline/conftest.py:29:0: C0301: Line too long (112/100) (line-too-long)
+ETL/Pipeline/conftest.py:36:0: C0301: Line too long (108/100) (line-too-long)
 
 -----------------------------------
-Your code has been rated at 2.22/10
+Your code has been rated at 7.78/10
 
 ************* Module extract
 ETL/Pipeline/extract.py:96:0: C0301: Line too long (191/100) (line-too-long)
