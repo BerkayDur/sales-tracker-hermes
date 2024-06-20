@@ -1,14 +1,16 @@
 """This file tests whether the clean_lambda file functions correctly"""
 
 import json
-import pytest
 from unittest.mock import patch, MagicMock
+
+import pytest
 
 from clean_lambda import delete_unsubscribed, handler
 
 
-@pytest.fixture()
-def unsubscribed_products() -> list[dict]:
+@pytest.fixture(name="unsubscribed_products")
+def fixture_unsubscribed_products() -> list[dict]:
+    """Example data for unsubscribed products"""
     return [{"product_id": 4, "url": "http://example.com/product4",
              "product_code": "P004", "product_name": "Product 4"},
             {"product_id": 5, "url": "http://example.com/product5",
@@ -37,7 +39,8 @@ def test_delete_unsubscribed(unsubscribed_products: list[dict]) -> None:
 
 @patch('clean_lambda.get_connection')
 @patch('clean_lambda.delete_unsubscribed')
-def test_handler(mock_delete_unsubscribed, mock_get_connection, unsubscribed_products: list[dict]) -> None:
+def test_handler(mock_delete_unsubscribed, mock_get_connection,
+                 unsubscribed_products: list[dict]) -> None:
     """Tests the handler function"""
     mock_delete_unsubscribed.return_value = unsubscribed_products
     mock_get_connection.return_value = MagicMock()

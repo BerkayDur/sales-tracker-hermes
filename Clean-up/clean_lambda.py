@@ -39,7 +39,7 @@ def delete_unsubscribed(conn: connection, table: str) -> list[dict]:
     return [dict(i) for i in data]
 
 
-def handler(event, context) -> str:  # pylint: disable=unused-argument
+def handler(_event, _context) -> str:
     "Main function which connects to the database and deletes the products"
     logging.basicConfig()
     db_conn = get_connection()
