@@ -1,6 +1,12 @@
+************* Module helpers
+ETL/Email/helpers.py:7:0: E0401: Unable to import 'boto3' (import-error)
+ETL/Email/helpers.py:8:0: E0401: Unable to import 'botocore' (import-error)
+ETL/Email/helpers.py:9:0: E0401: Unable to import 'botocore.client' (import-error)
+ETL/Email/helpers.py:10:0: E0401: Unable to import 'botocore.exceptions' (import-error)
+ETL/Email/helpers.py:11:0: E0401: Unable to import 'mypy_boto3_ses.client' (import-error)
 
-------------------------------------
-Your code has been rated at 10.00/10
+-----------------------------------
+Your code has been rated at 0.00/10
 
 ************* Module conftest
 ETL/Email/conftest.py:10:0: C0301: Line too long (138/100) (line-too-long)
@@ -37,10 +43,9 @@ Your code has been rated at 4.86/10
 ETL/Email/email_service.py:172:0: C0301: Line too long (104/100) (line-too-long)
 ETL/Email/email_service.py:7:0: E0401: Unable to import 'dotenv' (import-error)
 ETL/Email/email_service.py:10:0: E0401: Unable to import 'mypy_boto3_ses' (import-error)
-ETL/Email/email_service.py:12:0: E0611: No name 'get_ses_client' in module 'helpers' (no-name-in-module)
 
 -----------------------------------
-Your code has been rated at 7.92/10
+Your code has been rated at 8.55/10
 
 
 ------------------------------------
