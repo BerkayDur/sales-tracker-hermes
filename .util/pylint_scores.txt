@@ -1,0 +1,39 @@
+
+------------------------------------
+Your code has been rated at 10.00/10
+
+************* Module conftest
+ETL/Email/conftest.py:10:0: C0301: Line too long (138/100) (line-too-long)
+ETL/Email/conftest.py:19:0: C0301: Line too long (154/100) (line-too-long)
+ETL/Email/conftest.py:28:0: C0301: Line too long (154/100) (line-too-long)
+ETL/Email/conftest.py:35:0: C0304: Final newline missing (missing-final-newline)
+ETL/Email/conftest.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+ETL/Email/conftest.py:6:0: C0116: Missing function or method docstring (missing-function-docstring)
+ETL/Email/conftest.py:3:0: C0411: standard import "datetime.datetime" should be placed before third party import "pytest" (wrong-import-order)
+
+-----------------------------------
+Your code has been rated at 0.00/10
+
+************* Module aggregate
+ETL/Email/aggregate.py:12:0: C0301: Line too long (138/100) (line-too-long)
+ETL/Email/aggregate.py:20:0: C0301: Line too long (154/100) (line-too-long)
+ETL/Email/aggregate.py:28:0: C0301: Line too long (154/100) (line-too-long)
+ETL/Email/aggregate.py:56:0: C0301: Line too long (108/100) (line-too-long)
+ETL/Email/aggregate.py:65:0: C0301: Line too long (119/100) (line-too-long)
+ETL/Email/aggregate.py:83:62: C0303: Trailing whitespace (trailing-whitespace)
+ETL/Email/aggregate.py:89:0: C0304: Final newline missing (missing-final-newline)
+ETL/Email/aggregate.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+ETL/Email/aggregate.py:3:0: E0401: Unable to import 'dotenv' (import-error)
+ETL/Email/aggregate.py:53:0: C0116: Missing function or method docstring (missing-function-docstring)
+ETL/Email/aggregate.py:53:29: W0613: Unused argument 'data' (unused-argument)
+ETL/Email/aggregate.py:56:68: W0621: Redefining name 'product_ids' from outer scope (line 83) (redefined-outer-name)
+ETL/Email/aggregate.py:71:0: C0116: Missing function or method docstring (missing-function-docstring)
+ETL/Email/aggregate.py:75:0: C0116: Missing function or method docstring (missing-function-docstring)
+
+-----------------------------------
+Your code has been rated at 4.86/10
+
+
+------------------------------------
+Your code has been rated at 10.00/10
+
