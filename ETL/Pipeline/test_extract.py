@@ -1,6 +1,7 @@
 """This file tests whether the extract file works as expected"""
 from unittest.mock import patch
 import pytest
+
 from extract import (get_product_info, get_url, get_current_price,
                      get_sale_status, process_product, populate)
 
@@ -14,8 +15,7 @@ def test_get_url_success(fake_product_data):
 
 def test_get_url_fail():
     """Tests the get_url raises an error with an non int value"""
-    with pytest.raises(TypeError):
-        assert get_url("hello")
+    assert get_url([1, 2, 3, 4]) is None
 
 
 @patch('extract.requests.get')
@@ -50,8 +50,7 @@ def test_get_current_price_success(fake_product_response_info):
 def test_get_current_price_failed():
     """Tests the get_current_price function with a missing key"""
     product_info_missing_key = {}
-    result = get_current_price(product_info_missing_key)
-    assert "Error getting current price:" in result
+    assert get_current_price(product_info_missing_key) is None
 
 
 def test_get_sale_status_success(fake_product_response_info):
@@ -62,8 +61,7 @@ def test_get_sale_status_success(fake_product_response_info):
 def test_get_sale_status_failed():
     """Tests the get_sale_status function with a missing key"""
     product_info_missing_key = {}
-    result = get_sale_status(product_info_missing_key)
-    assert "Error getting sale status:" in result
+    assert get_sale_status(product_info_missing_key) is None
 
 
 def test_get_sale_status_no_discount():
