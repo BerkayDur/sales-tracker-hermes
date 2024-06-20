@@ -42,14 +42,37 @@ resource "aws_lambda_function" "c11-hermes-clean_lambda" {
 
 # terraform import aws_cloudwatch_event_rule.c11-hermes-clean-daily default/c11-hermes-clean-daily
 resource "aws_cloudwatch_event_rule" "c11-hermes-clean-daily" {
-    description         = "Runs every day"
+    description         = "Runs every day at midnight"
     name                = "c11-hermes-clean-daily"
     schedule_expression = "cron(0 0 * * ? *)"
 }
 
 # terraform import aws_cloudwatch_event_target.c11-hermes-clean-daily-target default/c11-hermes-clean-daily/6lshg4d2i72jbq4o4mj2u
 resource "aws_cloudwatch_event_target" "c11-hermes-clean-daily-target" {
-    depends_on = [ aws_cloudwatch_event_rule.c11-hermes-clean-daily, aws_lambda_function.c11-hermes-clean_lambda ]
+    depends_on = [ aws_lambda_function.c11-hermes-clean_lambda ]
     arn            = "arn:aws:lambda:eu-west-2:129033205317:function:c11-hermes-clean_lambda"
     rule           = "c11-hermes-clean-daily"
+}
+
+# terraform import aws_iam_role.lambda_role c11-hermes-clean_lambda-role-yk4tvt6d
+resource "aws_iam_role" "lambda_role" {
+    assume_role_policy    = jsonencode(
+        {
+            Statement = [
+                {
+                    Action    = "sts:AssumeRole"
+                    Effect    = "Allow"
+                    Principal = {
+                        Service = "lambda.amazonaws.com"
+                    }
+                },
+            ]
+            Version   = "2012-10-17"
+        }
+    )
+    managed_policy_arns   = [
+        "arn:aws:iam::129033205317:policy/service-role/AWSLambdaBasicExecutionRole-99772b07-38c2-414a-b7b0-c3a33f7f0b29",
+    ]
+    name                  = "c11-hermes-clean_lambda-role-yk4tvt6d"
+    path                  = "/service-role/"
 }

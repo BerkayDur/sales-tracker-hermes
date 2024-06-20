@@ -1,6 +1,6 @@
 "A script to remove unsubscribed products from the database"
 
-from os import environ as ENV
+from os import _Environ, environ as ENV
 import logging
 import json
 
@@ -10,19 +10,22 @@ from psycopg2.extras import RealDictCursor
 from psycopg2.extensions import connection, cursor
 
 
-def get_connection() -> connection:
+def get_connection(config: _Environ) -> connection:
     "Establishes a connection with the database"
     return connect(
-        user=ENV["DB_USER"],
-        password=ENV["DB_PASSWORD"],
-        host=ENV["DB_HOST"],
-        port=ENV["DB_PORT"],
-        database=ENV["DB_NAME"]
+        user=config["DB_USER"],
+        password=config["DB_PASSWORD"],
+        host=config["DB_HOST"],
+        port=config["DB_PORT"],
+        database=config["DB_NAME"]
     )
 
 
 def get_cursor(conn: connection) -> cursor:
     "Returns a cursor for the database"
+    if not isinstance(conn, connection):
+        raise TypeError(
+            'A cursor can only be constructed from a Psycopg2 connection object')
     return conn.cursor(cursor_factory=RealDictCursor)
 
 
@@ -42,7 +45,7 @@ def delete_unsubscribed(conn: connection, table: str) -> list[dict]:
 def handler(_event, _context) -> str:
     "Main function which connects to the database and deletes the products"
     logging.basicConfig()
-    db_conn = get_connection()
+    db_conn = get_connection(ENV)
     deleted_readings = delete_unsubscribed(db_conn, "price_readings")
     deleted_products = delete_unsubscribed(db_conn, "products")
 
