@@ -14,7 +14,7 @@ def configure_log() -> None:
     )
 
 
-def get_url(product_id: int) -> str:
+def get_url(product_id: int) -> str | None:
     """Returns the API URL for a given product on the ASOS website."""
     if not isinstance(product_id, int):
         logging.error('Product ID must be a integer to get the url.')
@@ -24,7 +24,7 @@ def get_url(product_id: int) -> str:
         {product_id}&store=COM&currency=GBP&keyStoreDataversion=ornjx7v-36&country=GB"
 
 
-def get_product_info(product_data: int, headers: dict) -> dict:
+def get_product_info(product_data: int, headers: dict) -> dict | None:
     """Gets the price information for a specified product from the ASOS API."""
     price_endpoint = get_url(product_data['product_id'])
 
@@ -40,7 +40,7 @@ def get_product_info(product_data: int, headers: dict) -> dict:
     return response[0]
 
 
-def get_current_price(product_info: dict) -> int:
+def get_current_price(product_info: dict) -> int | None:
     """Extracts the current price of the product from the product information."""
     try:
         return product_info["productPrice"]["current"]["value"]
@@ -49,7 +49,7 @@ def get_current_price(product_info: dict) -> int:
     return None
 
 
-def get_sale_status(product_info: dict) -> bool:
+def get_sale_status(product_info: dict) -> bool | None:
     """Determines if the product is on sale based on its discount percentage."""
     try:
         discount = product_info["productPrice"]["discountPercentage"]
