@@ -23,9 +23,9 @@ def test_delete_unsubscribed(unsubscribed_products: list[dict]) -> None:
     assert len(deleted_products) == len(unsubscribed_products)
     assert deleted_products == unsubscribed_products
     mock_cur.execute.assert_called_once_with(f"""
-            DELETE FROM {table}
-            WHERE product_id NOT IN (SELECT product_id FROM subscriptions)
-            RETURNING *;""")
+                DELETE FROM {table}
+                WHERE product_id NOT IN (SELECT product_id FROM subscriptions)
+                RETURNING *;""")
     mock_conn.commit.assert_called_once()
 
 
