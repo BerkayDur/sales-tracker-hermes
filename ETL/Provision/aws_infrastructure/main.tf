@@ -21,6 +21,14 @@ resource "aws_iam_role" "provision_lambda_role" {
   })
 }
 
+resource "aws_ecr_repository" "provision-repo" {
+  name                 = "hermes-provision-lambda"
+  image_tag_mutability = "MUTABLE"
+  image_scanning_configuration {
+    scan_on_push = false
+  }
+}
+
 
 resource "aws_iam_role_policy_attachment" "lambda_policy" {
   role       = aws_iam_role.provision_lambda_role.name
