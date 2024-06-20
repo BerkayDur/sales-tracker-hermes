@@ -1,16 +1,19 @@
 # This file terraforms lambda and eventbridge on AWS
 
 terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.0"
+    required_providers {
+        aws = {
+            source  = "hashicorp/aws"
+            version = "~> 5.0"
+        }
     }
-  }
 }
 
 provider "aws" {
-  region = var.AWS_REGION
+    region = var.AWS_REGION
+    access_key = var.ACCESS_KEY
+    secret_key = var.SECRET_ACCESS_KEY 
+
 }
 
 # terraform import aws_lambda_function.c11-hermes-clean_lambda c11-hermes-clean_lambda

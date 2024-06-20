@@ -48,14 +48,14 @@ def test_handler(mock_delete_unsubscribed, mock_get_connection,
 
 @pytest.mark.parametrize("invalid_types", [0, "test", {"key": "value"}, [0, 1, 2], (0, 1, 2), {0, 1, 2}])
 def test_get_cursor_invalid_type(invalid_types) -> None:
-    """Checks for connection type"""
+    """Checks for error raised on invalid connection type"""
     with pytest.raises(TypeError):
         get_cursor(invalid_types)
 
 
 @pytest.mark.parametrize("invalid_types", [0, {"key": "value"}, [0, 1, 2], (0, 1, 2), {0, 1, 2}])
 def test_delete_unsubscribed_invalid_type(invalid_types) -> None:
-    """Checks for string type"""
+    """Checks for error raised on invalid string type"""
     with pytest.raises(TypeError):
         conn = MagicMock(spec=connection)
         delete_unsubscribed(conn, invalid_types)

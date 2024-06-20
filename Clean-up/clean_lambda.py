@@ -35,20 +35,27 @@ def delete_unsubscribed(conn: connection, table: str) -> list[dict]:
     if not isinstance(table, str):
         raise TypeError('table must be of type string')
 
-    with get_cursor(conn) as cur:
-        cur.execute(f"""
-            DELETE FROM {table}
-            WHERE product_id NOT IN (SELECT product_id FROM subscriptions)
-            RETURNING *;""")
-        data = cur.fetchall()
-    conn.commit()
-    logging.info(data)
+    try:
+        with get_cursor(conn) as cur:
+            cur.execute(f"""
+                DELETE FROM {table}
+                WHERE product_id NOT IN (SELECT product_id FROM subscriptions)
+                RETURNING *;""")
+            data = cur.fetchall()
+        conn.commit()
+        logging.info("Deleted records from %s: %s", table, data)
+
+    except Exception as e:
+        logging.error("Error deleting from table %s: %s", table, e)
+        conn.rollback()
+        raise
+
     return [dict(i) for i in data]
 
 
 def handler(_event, _context) -> str:
     "Main function which connects to the database and deletes the products"
-    logging.basicConfig()
+    logging.basicConfig(level="INFO")
     db_conn = get_connection(ENV)
     deleted_readings = delete_unsubscribed(db_conn, "price_readings")
     deleted_products = delete_unsubscribed(db_conn, "products")
