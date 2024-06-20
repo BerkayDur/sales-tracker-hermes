@@ -192,8 +192,8 @@ def get_email_list(
         emails: pd.Series,
         ses_client: SESClient) -> set:
     '''Given a Series of emails, return of these emails that are verified on AWS.'''
-    if not isinstance(emails, pd.DataFrame):
-        raise TypeError('emails must be a pandas DataFrame.')
+    if not isinstance(emails, pd.Series):
+        raise TypeError('emails must be a pandas Series.')
     if not is_ses(ses_client):
         raise TypeError('ses_client must be a BOTO3 SES Client.')
     verified_emails = ses_client.list_verified_email_addresses()['VerifiedEmailAddresses']

@@ -3,6 +3,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 import psycopg2.extensions as psycopg2_types
+from mypy_boto3_ses import SESClient
 import pandas as pd
 
 from email_service import (
@@ -257,3 +258,25 @@ def test_get_formatted_email_valid(mock_format_email_from_data_frame, mock_get_s
 def test_get_formatted_email_type_error(fake_data):
     with pytest.raises(TypeError):
         get_formatted_email(fake_data)
+
+@patch('email_service.is_ses')
+def test_get_email_list_valid(mock_is_ses):
+    fake_data = pd.Series(['TEST1', 'TEST2', 'TEST3'])
+    fake_ses_client = MagicMock()
+    mock_is_ses.return_value = True
+    fake_ses_client.list_verified_email_addresses.return_value = {'VerifiedEmailAddresses': ['TEST1', 'TEST2']}
+    assert get_email_list(fake_data, fake_ses_client) == set(['TEST1', 'TEST2'])
+
+@pytest.mark.parametrize('fake_data', [[{'product_id': 1, 'price_threshold': 10.0}], {'product_id': 1, 'price_threshold': 10.0}, pd.Series([{'product_id': 1, 'price_threshold': 10.0}])])
+def test_get_email_list_type_error_1(fake_data):
+    fake_ses_client = MagicMock()
+    with pytest.raises(TypeError):
+        get_email_list(fake_data, fake_ses_client)
+    
+@patch('email_service.is_ses')
+def test_get_email_list_type_error_2(mock_is_ses):
+    fake_data = pd.Series(['TEST1', 'TEST2', 'TEST3'])
+    fake_ses_client = MagicMock()
+    mock_is_ses.return_value = False
+    with pytest.raises(TypeError):
+        get_email_list(fake_data, fake_ses_client)
