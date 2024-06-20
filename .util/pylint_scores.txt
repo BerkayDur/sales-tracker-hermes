@@ -40,12 +40,12 @@ ETL/Email/aggregate.py:75:0: C0116: Missing function or method docstring (missin
 Your code has been rated at 4.86/10
 
 ************* Module email_service
-ETL/Email/email_service.py:172:0: C0301: Line too long (104/100) (line-too-long)
+ETL/Email/email_service.py:220:0: C0301: Line too long (104/100) (line-too-long)
 ETL/Email/email_service.py:7:0: E0401: Unable to import 'dotenv' (import-error)
 ETL/Email/email_service.py:10:0: E0401: Unable to import 'mypy_boto3_ses' (import-error)
 
 -----------------------------------
-Your code has been rated at 8.55/10
+Your code has been rated at 9.10/10
 
 
 ------------------------------------
