@@ -1,4 +1,4 @@
-# This file outputs information about the labda function
+# This file outputs information about the lambda function
 
 output "lambda_name" {
   value = aws_lambda_function.c11-hermes-clean_lambda.function_name

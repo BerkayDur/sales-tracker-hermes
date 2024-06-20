@@ -70,7 +70,11 @@ This file lists the Python dependencies required by the clean-up script.
 
 ## test_clean_lambda.py
 
-This file contains unit tests for the clean-up script to ensure its correctness. It uses `pytest` for testing.
+This file contains unit tests for the clean-up script to ensure its correctness. It uses `pytest` for testing. Enter the following command in the terminal to run the test:
+
+```sh
+pytest test_clean_lambda.py
+```
 
 ## Terraform
 
