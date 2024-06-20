@@ -2,17 +2,9 @@
 ------------------------------------
 Your code has been rated at 10.00/10
 
-************* Module conftest
-ETL/Email/conftest.py:10:0: C0301: Line too long (138/100) (line-too-long)
-ETL/Email/conftest.py:19:0: C0301: Line too long (154/100) (line-too-long)
-ETL/Email/conftest.py:28:0: C0301: Line too long (154/100) (line-too-long)
-ETL/Email/conftest.py:35:0: C0304: Final newline missing (missing-final-newline)
-ETL/Email/conftest.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-ETL/Email/conftest.py:6:0: C0116: Missing function or method docstring (missing-function-docstring)
-ETL/Email/conftest.py:3:0: C0411: standard import "datetime.datetime" should be placed before third party import "pytest" (wrong-import-order)
 
------------------------------------
-Your code has been rated at 0.00/10
+------------------------------------
+Your code has been rated at 10.00/10
 
 ************* Module email_service
 ETL/Email/email_service.py:220:0: C0301: Line too long (104/100) (line-too-long)
