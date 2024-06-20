@@ -2,3 +2,9 @@
 ------------------------------------
 Your code has been rated at 10.00/10
 
+************* Module conftest
+Clean-up/conftest.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+
+-----------------------------------
+Your code has been rated at 6.67/10
+
