@@ -1,3 +1,5 @@
+"""Stores all the fixtures used in the test files"""
+
 import pytest
 
 
