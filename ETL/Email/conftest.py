@@ -1,13 +1,17 @@
-import pytest
+'''This file contains pytest configurations'''
 
 from datetime import datetime
 
+import pytest
+
 @pytest.fixture
 def fake_products():
+    '''Contains some fake product reading data.'''
     return [
     {
         'product_id' : 1,
-        'url' : 'https://www.asos.com/nike-running/nike-running-juniper-trail-2-gtx-trainers-in-grey/prd/205300355#colourWayId-205300357',
+        'url' : 'https://www.asos.com/nike-running/nike-running-juniper\
+-trail-2-gtx-trainers-in-grey/prd/205300355#colourWayId-205300357',
         'current_price' : 83.99,
         'previous_price' : 104.99,
         'is_on_sale' : True,
@@ -16,7 +20,8 @@ def fake_products():
     },
     {
         'product_id' : 2,
-        'url' : 'https://www.asos.com/nike-training/nike-training-everyday-lightweight-6-pack-no-show-socks-in-black/prd/205607655#colourWayId-205607656',
+        'url' : 'https://www.asos.com/nike-training/nike-training-everyday\
+-lightweight-6-pack-no-show-socks-in-black/prd/205607655#colourWayId-205607656',
         'current_price' : 340.99,
         'previous_price' : 350.99,
         'is_on_sale' : True,
@@ -25,7 +30,8 @@ def fake_products():
     },
     {
         'product_id' : 3,
-        'url' : 'https://www.asos.com/nike-training/nike-training-everyday-lightweight-6-pack-no-show-socks-in-black/prd/205607655#colourWayId-205607656',
+        'url' : 'https://www.asos.com/nike-training/nike-training-everyday\
+-lightweight-6-pack-no-show-socks-in-black/prd/205607655#colourWayId-205607656',
         'current_price' : 18.99,
         'previous_price' : 19.99,
         'is_on_sale' : False,
