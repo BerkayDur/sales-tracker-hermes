@@ -3,6 +3,6 @@ platform linux -- Python 3.12.4, pytest-8.2.2, pluggy-1.5.0
 rootdir: /home/runner/work/sales-tracker-hermes/sales-tracker-hermes
 collected 11 items
 
-ETL/Pipeline/test_extract.py .F...F.F...                                 [100%]
+ETL/Pipeline/test_extract.py ...........                                 [100%]
 
-========================= 3 failed, 8 passed in 0.13s ==========================
+============================== 11 passed in 0.13s ==============================
