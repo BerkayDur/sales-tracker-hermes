@@ -23,9 +23,6 @@ def get_connection(config: _Environ) -> connection:
 
 def get_cursor(conn: connection) -> cursor:
     "Returns a cursor for the database"
-    if not isinstance(conn, connection):
-        raise TypeError(
-            'A cursor can only be constructed from a Psycopg2 connection object')
     return conn.cursor(cursor_factory=RealDictCursor)
 
 
