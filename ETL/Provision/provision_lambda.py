@@ -56,7 +56,7 @@ def group_data(data: list[dict], processing_batch_size: int) -> list[list[dict]]
     return product_outputs
 
 
-def handler(event=None, context=None) -> dict[str, list[list[dict]]]:
+def handler(event=None, context=None) -> dict[str, list[list[dict]]]:  # pylint: disable=unused-argument
     "Lambda handler function"
     db_conn = get_connection(ENV)
     product_data = [dict(row) for row in read_database(db_conn)]
