@@ -3,13 +3,16 @@
 import json
 from unittest.mock import patch, MagicMock
 
-from clean_lambda import delete_unsubscribed, handler
+from psycopg2.extensions import connection, cursor
+import pytest
+
+from clean_lambda import delete_unsubscribed, handler, get_cursor
 
 
 def test_delete_unsubscribed(unsubscribed_products: list[dict]) -> None:
     """Tests the delete_unsubscribed function"""
-    mock_conn = MagicMock()
-    mock_cur = MagicMock()
+    mock_conn = MagicMock(spec=connection)
+    mock_cur = MagicMock(spec=cursor)
     mock_conn.cursor.return_value.__enter__.return_value = mock_cur
 
     mock_cur.fetchall.return_value = unsubscribed_products
@@ -41,3 +44,16 @@ def test_handler(mock_delete_unsubscribed, mock_get_connection,
     assert "deleted_products" in result_data
     assert result_data["deleted_readings"] == unsubscribed_products
     assert result_data["deleted_products"] == unsubscribed_products
+
+
+def test_get_cursor_invalid_type() -> None:
+    """Checks for connection type"""
+    with pytest.raises(TypeError):
+        get_cursor(0)
+
+
+def test_delete_unsubscribed_invalid_type() -> None:
+    """Checks for string type"""
+    with pytest.raises(TypeError):
+        conn = MagicMock(spec=connection)
+        delete_unsubscribed(conn, 0)
