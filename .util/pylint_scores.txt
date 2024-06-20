@@ -1,7 +1,4 @@
-************* Module provision_lambda
-ETL/Provision/provision_lambda.py:59:12: W0613: Unused argument 'event' (unused-argument)
-ETL/Provision/provision_lambda.py:59:24: W0613: Unused argument 'context' (unused-argument)
 
------------------------------------
-Your code has been rated at 9.49/10
+------------------------------------
+Your code has been rated at 10.00/10
 
