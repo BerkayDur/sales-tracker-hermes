@@ -204,7 +204,6 @@ def send_emails(
     mail_list = set(merged_data['email'])
 
     mail_list = [get_formatted_email(group_by_email(merged_data, email)) for email in mail_list]
-    print(mail_list)
     return all(send_email_to_client(ses_client, content) for content in mail_list)
 
 if __name__ == '__main__':
