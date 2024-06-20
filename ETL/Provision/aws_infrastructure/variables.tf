@@ -1,3 +1,5 @@
+# This file assigns variables to the values stored in terraform.tfvars
+
 variable "ACCESS_KEY" {
     type = string
   
