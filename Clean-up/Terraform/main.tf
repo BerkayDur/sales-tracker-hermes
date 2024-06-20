@@ -18,6 +18,7 @@ resource "aws_lambda_function" "c11-hermes-clean_lambda" {
     function_name         = "c11-hermes-clean_lambda"
     image_uri             = "129033205317.dkr.ecr.eu-west-2.amazonaws.com/c11-hermes-clean@sha256:e9ccc95322d51a339b97f61fc1f109b1f9f0d21a4598c3d470c6f857328587ca"
     package_type          = "Image"
+    architectures         = ["x86_64"]
     role                  = aws_iam_role.lambda_role.arn
 
     environment {

@@ -46,14 +46,16 @@ def test_handler(mock_delete_unsubscribed, mock_get_connection,
     assert result_data["deleted_products"] == unsubscribed_products
 
 
-def test_get_cursor_invalid_type() -> None:
+@pytest.mark.parametrize("invalid_types", [0, "test", {"key": "value"}, [0, 1, 2], (0, 1, 2), {0, 1, 2}])
+def test_get_cursor_invalid_type(invalid_types) -> None:
     """Checks for connection type"""
     with pytest.raises(TypeError):
-        get_cursor(0)
+        get_cursor(invalid_types)
 
 
-def test_delete_unsubscribed_invalid_type() -> None:
+@pytest.mark.parametrize("invalid_types", [0, {"key": "value"}, [0, 1, 2], (0, 1, 2), {0, 1, 2}])
+def test_delete_unsubscribed_invalid_type(invalid_types) -> None:
     """Checks for string type"""
     with pytest.raises(TypeError):
         conn = MagicMock(spec=connection)
-        delete_unsubscribed(conn, 0)
+        delete_unsubscribed(conn, invalid_types)
