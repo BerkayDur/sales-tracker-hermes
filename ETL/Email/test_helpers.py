@@ -29,6 +29,7 @@ def test_is_ses_valid():
     [botocore.client.BaseClient, 'sns'],
     [botocore.client.BaseClient, 'ec2'],
     [float, 's3'],
+    [dict, 'ses'],
 ])
 def test_is_ses_invalid(invalid_types):
     mock_client = MagicMock(spec=invalid_types[0])
