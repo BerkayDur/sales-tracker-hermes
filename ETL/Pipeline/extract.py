@@ -1,8 +1,17 @@
 """Extract Script: Pulls current price and sale status from ASOS API"""
 from datetime import datetime
+import logging
+
 import requests
 from lambda_multiprocessing import Pool
-import logging
+
+
+def configure_log() -> None:
+    """Configures log output"""
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s'
+    )
 
 
 def get_url(product_id: int) -> str:
@@ -15,7 +24,7 @@ def get_url(product_id: int) -> str:
         {product_id}&store=COM&currency=GBP&keyStoreDataversion=ornjx7v-36&country=GB"
 
 
-def get_product_info(product_data: int, headers: dict) -> int:
+def get_product_info(product_data: int, headers: dict) -> dict:
     """Gets the price information for a specified product from the ASOS API."""
     price_endpoint = get_url(product_data['product_id'])
 
@@ -80,36 +89,10 @@ def populate(product_list: list[dict]) -> list[dict]:
     return results
 
 
-def configure_log() -> None:
-    """Configures log output"""
-    logging.basicConfig(
-        level=logging.INFO,
-        format='%(asctime)s - %(levelname)s - %(message)s'
-    )
+def handler(_event, _context):
+    """Main function which lambda will call"""
+    populate([])
 
 
 if __name__ == '__main__':
-    inputs = [{
-        'product_id': 2,
-        'current_price': '',
-        'previous_price': 85,
-        'url': "https://www.asos.com/adidas-originals/adidas-originals-gazelle-trainers-in-white-and-blue/prd/205759745#ctaref-we%20recommend%20carousel_11&featureref1-we%20recommend%20pers",
-        'product_name': 'adidas Originals Gazelle trainers in white and blue White'
-    },
-        {
-        'product_id': 206107351,
-        'current_price': '',
-        'previous_price': 56,
-        'url': "https://www.asos.com/new-balance/new-balance-fresh-foam-arishi-v4-running-trainers-in-white-and-orange/prd/206107351#colourWayId-206107353",
-        'product_name': 'New Balance Fresh Foam Arishi v4 running trainers in white and orange'
-    },
-
-        {
-        'product_id': 205928631,
-        'current_price': '',
-        'previous_price': 25,
-        'url': "https://www.asos.com/pasq/pasq-two-pocket-tote-bag-with-removable-pouch-in-black/prd/205928631#colourWayId-205928635",
-        'product_name': 'PASQ two pocket tote bag with removable pouch in black'
-    }]
     configure_log()
-    print(populate(inputs))

@@ -33,6 +33,16 @@ def test_get_product_info_success(mock_get, fake_product_data, fake_headers,
 
 @patch('extract.requests.get')
 def test_get_product_info_failed(mock_get, fake_product_data, fake_headers):
+    """Tests the get_product_info function fails with an empty response"""
+
+    mock_get.return_value.json.return_value = []
+
+    result = get_product_info(fake_product_data, fake_headers)
+    assert result == None
+
+
+@patch('extract.requests.get')
+def test_get_product_info_empty_response(mock_get, fake_product_data, fake_headers):
     """Tests the get_product_info function fails with invalid data """
 
     mock_get.side_effect = ValueError("API error:")
