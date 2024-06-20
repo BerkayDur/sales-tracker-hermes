@@ -5,4 +5,4 @@ collected 11 items
 
 ETL/Pipeline/test_extract.py .F...F.F...                                 [100%]
 
-========================= 3 failed, 8 passed in 0.14s ==========================
+========================= 3 failed, 8 passed in 0.13s ==========================
