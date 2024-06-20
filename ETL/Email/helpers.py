@@ -23,6 +23,8 @@ def get_connection(config: dict) -> psycopg2_types.connection:
 
 def get_cursor(connection: psycopg2_types.connection) -> psycopg2_types.cursor:
     '''Get a psycopg2 cursor using the configuration of a RealDictCursor'''
+    if not isinstance(connection, psycopg2_types.connection):
+        raise TypeError('connection must be of a psycopg2 ')
     return connection.cursor(cursor_factory=RealDictCursor)
 
 def get_ses_client(config: dict) -> SES_CLIENT:
