@@ -16,9 +16,7 @@ Your code has been rated at 10.00/10
 
 ************* Module handler
 ETL/Email/handler.py:52:0: C0304: Final newline missing (missing-final-newline)
-ETL/Email/handler.py:11:0: C0411: standard import "datetime.datetime" should be placed before third party imports "helpers.get_connection", "combined_load.write_new_price_entries_to_db", "email_service.PRODUCT_READING_KEYS" (wrong-import-order)
-ETL/Email/handler.py:11:0: W0611: Unused datetime imported from datetime (unused-import)
 
 -----------------------------------
-Your code has been rated at 8.93/10
+Your code has been rated at 9.63/10
 
