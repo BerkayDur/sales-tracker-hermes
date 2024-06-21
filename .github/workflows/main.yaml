@@ -161,7 +161,7 @@ jobs:
         id: avg_score_badge
         with:
           label: 'Pylint Score: '
-          status: ${{ format('{0}/10.00', env.AVG_SCORE) }}
+          status: ${{ format('{0}/10', env.AVG_SCORE) }}
           color: 'blue'
           path: .github/badges/avg_score.svg
           scale: 1.5
