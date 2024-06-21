@@ -89,6 +89,23 @@ jobs:
           CODE_QUALITY: ${{ env.PASSED_PERCENTAGE }}
           BADGE_PATH: .github/badges/passed_percentage.svg
 
+      # Get the number_of_tests from pylint_scores.json
+      - name: Obtain avg_score from JSON
+        if: '!cancelled()'
+        run: |
+          echo "TOTAL_TESTS=$(jq '.total_tests' .util/pylint_scores.json)" >> $GITHUB_ENV
+        env:
+          CODE_QUALITY: ${{ env.TOTAL_TESTS }}
+          BADGE_PATH: .github/badges/number_of_tests.svg   
+
+      # Get the passing_tests from pylint_scores.json
+      - name: Obtain avg_score from JSON
+        if: '!cancelled()'
+        run: |
+          echo "PASSING_TESTS=$(jq '.passed' .util/pylint_scores.json)" >> $GITHUB_ENV
+        env:
+          CODE_QUALITY: ${{ env.PASSING_TESTS }}
+          BADGE_PATH: .github/badges/number_of_tests.svg   
 
       # Get the avg_score from pylint_scores.json
       - name: Obtain avg_score from JSON
@@ -129,6 +146,27 @@ jobs:
           name: badge
           path: .github/badges/passed_percentage.svg
           if-no-files-found: ignore
+
+
+      # Generate the badge for number_of_tests
+      - name: Generate the badge SVG image for number_of_tests
+        if: '!cancelled()'
+        uses: emibcn/badge-action@v1
+        id: number_of_tests_badge
+        with:
+          label: 'Passing/Total Tests: '
+          status: ${{ format('{0}/{1}', env.PASSING_TESTS , env.TOTAL_TESTS) }}
+          color: 'blue'
+          path: .github/badges/number_of_tests.svg
+          scale: 1.5
+      - name: Upload badge as artefact
+        if: '!cancelled()'
+        uses: actions/upload-artifact@v2
+        with:
+          name: badge
+          path: .github/badges/number_of_tests.svg
+          if-no-files-found: ignore
+
 
       # Generate the badge for avg_score
       - name: Generate the badge SVG image for avg_score
