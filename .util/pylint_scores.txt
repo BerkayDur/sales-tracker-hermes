@@ -1,10 +1,8 @@
+************* Module helpers
+ETL/Email/helpers.py:47:0: C0304: Final newline missing (missing-final-newline)
 
-------------------------------------
-Your code has been rated at 10.00/10
-
-
-------------------------------------
-Your code has been rated at 10.00/10
+-----------------------------------
+Your code has been rated at 9.52/10
 
 
 ------------------------------------
@@ -17,4 +15,16 @@ Your code has been rated at 10.00/10
 
 ------------------------------------
 Your code has been rated at 10.00/10
+
+************* Module handler
+ETL/Email/handler.py:72:0: C0301: Line too long (133/100) (line-too-long)
+ETL/Email/handler.py:82:0: C0301: Line too long (135/100) (line-too-long)
+ETL/Email/handler.py:92:0: C0301: Line too long (140/100) (line-too-long)
+ETL/Email/handler.py:102:0: C0301: Line too long (151/100) (line-too-long)
+ETL/Email/handler.py:112:0: C0301: Line too long (200/100) (line-too-long)
+ETL/Email/handler.py:124:0: C0301: Line too long (127/100) (line-too-long)
+ETL/Email/handler.py:131:0: C0304: Final newline missing (missing-final-newline)
+
+-----------------------------------
+Your code has been rated at 8.21/10
 
