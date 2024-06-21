@@ -33,10 +33,12 @@ def subscribe(product_url):
 
 
 def check_url_exists(product_url) -> bool:
+    """Check if the url exists"""
     return False
 
 
 def get_price(product_url) -> str:
+    """Gets the price from the product_url"""
     return "£20"
 
 
