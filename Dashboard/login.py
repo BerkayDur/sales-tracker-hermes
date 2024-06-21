@@ -64,6 +64,7 @@ def login_page() -> None:
         if authenticate(conn, login_email):
             login(login_email)
         else:
+            logging.error("Invalid email address. Please try again.")
             st.error("Invalid email address. Please try again.")
 
     st.write("---")
@@ -78,22 +79,24 @@ def login_page() -> None:
         logging.info("Sign up button clicked with %s", signup_email)
         conn = get_connection(ENV)
         if authenticate(conn, signup_email):
-            st.error(f"The email \
-                        {signup_email} is already registered. Please log in.")
+            logging.error(
+                "The email %s is already registered. Please log in.", signup_email)
+            st.error(
+                f"The email {signup_email} is already registered. Please log in.")
         elif re.match(EMAIL_PATTERN, signup_email):
             add_email(conn, signup_email)
             login(signup_email)
         else:
+            logging.error("Invalid email address. Please try again.")
             st.error("Invalid email address. Please try again.")
 
 
 def login(email: str) -> None:
     """Login and move to next page"""
-    logging.info("%s logged in", email)
     st.session_state.logged_in = True
     st.session_state.email = email
-    st.success(
-        f"Welcome! You are logged in with email: {email}")
+    logging.info("Welcome! You are logged in with email: %s", email)
+    st.success(f"Welcome! You are logged in with email: {email}")
     sleep(1)
     st.switch_page("pages/price.py")
 
