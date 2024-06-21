@@ -52,7 +52,7 @@ jobs:
       - name: Run Pylint
         if: '!cancelled()'
         run: |
-          find . -type d \( -path ./.util -o -path ./.venv \) -prune -false -o \( -name '*.py' ! -name 'test*.py' \) \
+          find . \( -name '*.py' ! -name 'test*.py' \) \
           -exec pylint {} \; >> .util/pylint_scores.txt
           
     
