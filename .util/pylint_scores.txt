@@ -6,17 +6,9 @@ Your code has been rated at 10.00/10
 ------------------------------------
 Your code has been rated at 10.00/10
 
-************* Module email_service
-ETL/Email/email_service.py:263:0: W0311: Bad indentation. Found 6 spaces, expected 8 (bad-indentation)
-ETL/Email/email_service.py:264:0: W0311: Bad indentation. Found 6 spaces, expected 8 (bad-indentation)
-ETL/Email/email_service.py:174:8: W0621: Redefining name 'ses_client' from outer scope (line 11) (redefined-outer-name)
-ETL/Email/email_service.py:186:8: W0621: Redefining name 'ses_client' from outer scope (line 11) (redefined-outer-name)
-ETL/Email/email_service.py:227:8: W0621: Redefining name 'ses_client' from outer scope (line 11) (redefined-outer-name)
-ETL/Email/email_service.py:278:40: E0602: Undefined variable 'sample_data' (undefined-variable)
-ETL/Email/email_service.py:5:0: W0611: Unused datetime imported from datetime (unused-import)
 
------------------------------------
-Your code has been rated at 9.32/10
+------------------------------------
+Your code has been rated at 10.00/10
 
 
 ------------------------------------
