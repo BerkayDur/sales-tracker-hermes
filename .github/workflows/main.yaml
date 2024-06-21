@@ -30,38 +30,27 @@ jobs:
             pip install -r $FILE
           done
 
-      # Create .util
-      - name: Create .util
-        run: |
-          [ ! -d .util ] && mkdir -p .util || true
-
       # Run pytest
       - name: Run tests
         run: | 
-          set +e
-          OUTPUT=$(pytest)
-          exit_status=$?
-          set -e
-          if [ $exit_status -ne 0 ] && [ $exit_status -ne 5 ]; then
-            echo "Command failed with status $exit_status."
-            exit $exit_status
-          fi
-          echo "Command passed with status $exit_status."
-          exit 0
+          pytest
 
 
       # Write Pytest overview results to a file
       - name: Record test results
+        if: '!cancelled()'
         run: |
           [ ! -f .util/pytest_scores.txt ] && touch '.util/pytest_scores.txt'
           pytest -r N --tb=no > .util/pytest_scores.txt || true
 
       - name: Create pylint_scores
+        if: '!cancelled()'
         run: |
           :> .util/pylint_scores.txt
 
       # Run Pylint and Get output in file
       - name: Run Pylint
+        if: '!cancelled()'
         run: |
           find . -type d \( -path ./.util -o -path ./.venv \) -prune -false -o \( -name '*.py' ! -name 'test*.py' \) \
           -exec pylint {} \; >> .util/pylint_scores.txt
@@ -69,25 +58,30 @@ jobs:
     
       # Convert Pylint scores to JSON
       - name: Convert Pylint scores to JSON
+        if: '!cancelled()'
         run: python .util/parse_raw_python.py --input .util/pylint_scores.txt --output .util/pylint_scores.json --type pylint
 
       # Conver Pytest scores to JSON
       - name: Convert Pytest scores to JSON
+        if: '!cancelled()'
         run: python .util/parse_raw_python.py --input .util/pytest_scores.txt --output .util/pytest_scores.json --type pytest
 
       # Create Directory for badges
       - name: Create badge path directory
+        if: '!cancelled()'
         run: |
           [ ! -d .github/badges ] && mkdir -p .github/badges || true
       
       # Create Base badges
       - name: Create base badges
+        if: '!cancelled()'
         run: |
           [ ! -f .github/badges/passed_percentage.svg ] && touch .github/badges/passed_percentage.svg || true
           [ ! -f .github/badges/avg_score.svg ] && touch .github/badges/avg_score.svg || true
 
       # Get the passed_percentage from pytest_scores.json
       - name: Obtain passed_percentage from JSON
+        if: '!cancelled()'
         run: |
           echo "PASSED_PERCENTAGE=$(jq '.passed_percentage' .util/pytest_scores.json)" >> $GITHUB_ENV
         env:
@@ -97,6 +91,7 @@ jobs:
 
       # Get the avg_score from pylint_scores.json
       - name: Obtain avg_score from JSON
+        if: '!cancelled()'
         run: |
           echo "AVG_SCORE=$(jq '.avg_score' .util/pylint_scores.json)" >> $GITHUB_ENV
         env:
