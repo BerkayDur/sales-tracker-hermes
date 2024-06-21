@@ -4,10 +4,6 @@ provider "aws" {
     secret_key = var.SECRET_ACCESS_KEY 
 }
 
-variable "email_load_lambda_name" {
-  default = "c11-hermes-email-load-lambda"
-}
-
 data "aws_iam_policy_document" "assume_role" {
     statement {
       effect = "Allow"

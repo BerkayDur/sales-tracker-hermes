@@ -1,3 +1,7 @@
+variable "email_load_lambda_name" {
+  default = "c11-hermes-email-load-lambda"
+}
+
 variable "ACCESS_KEY" {
     type = string
 }
