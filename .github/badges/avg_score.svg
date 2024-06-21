@@ -1,5 +1,5 @@
-<svg width="239.25" height="30" viewBox="0 0 1595 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pylint Score:: 9.442/10.00">
-  <title>Pylint Score:: 9.442/10.00</title>
+<svg width="239.25" height="30" viewBox="0 0 1595 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pylint Score:: 9.642/10.00">
+  <title>Pylint Score:: 9.642/10.00</title>
   <linearGradient id="a" x2="0" y2="100%">
     <stop offset="0" stop-opacity=".1" stop-color="#EEE"/>
     <stop offset="1" stop-opacity=".1"/>
@@ -13,8 +13,8 @@
   <g aria-hidden="true" fill="#fff" text-anchor="start" font-family="Verdana,DejaVu Sans,sans-serif" font-size="110">
     <text x="60" y="148" textLength="705" fill="#000" opacity="0.25">Pylint Score:</text>
     <text x="50" y="138" textLength="705">Pylint Score:</text>
-    <text x="860" y="148" textLength="690" fill="#000" opacity="0.25">9.442/10.00</text>
-    <text x="850" y="138" textLength="690">9.442/10.00</text>
+    <text x="860" y="148" textLength="690" fill="#000" opacity="0.25">9.642/10.00</text>
+    <text x="850" y="138" textLength="690">9.642/10.00</text>
   </g>
   
 </svg>
