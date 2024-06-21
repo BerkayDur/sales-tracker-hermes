@@ -1,18 +1,12 @@
-************* Module load
-Dashboard/load.py:5:0: E0401: Unable to import 'dotenv' (import-error)
-Dashboard/load.py:6:0: E0401: Unable to import 'psycopg2' (import-error)
-Dashboard/load.py:7:0: E0401: Unable to import 'psycopg2.extras' (import-error)
-Dashboard/load.py:8:0: E0401: Unable to import 'psycopg2.extensions' (import-error)
 
------------------------------------
-Your code has been rated at 3.55/10
+------------------------------------
+Your code has been rated at 10.00/10
 
 ************* Module extract
-Dashboard/extract.py:5:0: E0401: Unable to import 'bs4' (import-error)
 Dashboard/extract.py:92:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
 
 -----------------------------------
-Your code has been rated at 9.23/10
+Your code has been rated at 9.87/10
 
 ************* Module conftest
 ETL/Pipeline/conftest.py:24:0: C0301: Line too long (191/100) (line-too-long)
@@ -28,5 +22,5 @@ Your code has been rated at 2.22/10
 
 
 -------------------------------------------------------------------
-Your code has been rated at 10.00/10 (previous run: 9.23/10, +0.77)
+Your code has been rated at 10.00/10 (previous run: 9.87/10, +0.13)
 
