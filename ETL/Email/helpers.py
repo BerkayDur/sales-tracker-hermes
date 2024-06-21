@@ -6,9 +6,9 @@ import logging
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from psycopg2.extensions import connection, cursor
-import boto3
-import botocore.client
-import botocore.exceptions
+
+from boto3 import client
+from botocore.client import BaseClient
 import mypy_boto3_ses.client as ses_client
 
 
@@ -31,7 +31,7 @@ def get_cursor(conn: connection) -> cursor:
 
 def get_ses_client(config: dict) -> ses_client:
     '''Returns an ses client from a configuration.'''
-    return boto3.client(
+    return client(
         'ses',
         aws_access_key_id = config["ACCESS_KEY"],
         aws_secret_access_key = config['SECRET_ACCESS_KEY'],
@@ -40,7 +40,7 @@ def get_ses_client(config: dict) -> ses_client:
 
 def is_ses(client: ses_client) -> bool:
     '''Returns true if ses client else false.'''
-    return (isinstance(client, botocore.client.BaseClient)
+    return (isinstance(client, BaseClient)
             and client._service_model.service_name == 'ses') #pylint: disable=protected-access
 
 if __name__ == '__main__':
