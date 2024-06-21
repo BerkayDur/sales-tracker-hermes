@@ -214,7 +214,6 @@ def get_email_list(
         logging.error('ses_client must be a BOTO3 SES Client.')
         raise TypeError('ses_client must be a BOTO3 SES Client.')
     verified_emails = ses_client.list_verified_email_addresses()['VerifiedEmailAddresses']
-    print(emails)
     return set(emails) & set(verified_emails)
 
 def send_email_to_client(
@@ -292,17 +291,12 @@ def send_emails(
         return False
     logging.info('Successfully merged customer data and products readings.')
 
-    ########### this mail_list will be used in practice over the one after it.
     logging.info('Getting list of email-verified customers.')
     mail_list = get_email_list(merged_data['email'], ses_client)
-    print('###############')
-    print(mail_list)
-    print('###############')
     if len(mail_list) == 0:
       logging.error("Customer emails aren't verified, exit early.")
       return False
     logging.info('Successfully get list of email-verified customers.')
-    # mail_list = set(merged_data['email'])
 
     logging.info('Start formatting emails for each customer.')
     mail_list = [get_formatted_email(group_by_email(merged_data, email)) for email in mail_list]
