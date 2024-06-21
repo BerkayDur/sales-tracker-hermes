@@ -1,8 +1,9 @@
 ************* Module helpers
 ETL/Email/helpers.py:47:0: C0304: Final newline missing (missing-final-newline)
+ETL/Email/helpers.py:41:11: W0621: Redefining name 'client' from outer scope (line 10) (redefined-outer-name)
 
 -----------------------------------
-Your code has been rated at 9.52/10
+Your code has been rated at 9.00/10
 
 
 ------------------------------------
