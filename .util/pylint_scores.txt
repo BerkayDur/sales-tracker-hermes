@@ -2,10 +2,7 @@
 ------------------------------------
 Your code has been rated at 10.00/10
 
-************* Module extract
-ETL/Pipeline/extract.py:167:0: C0301: Line too long (142/100) (line-too-long)
-ETL/Pipeline/extract.py:178:0: C0304: Final newline missing (missing-final-newline)
 
------------------------------------
-Your code has been rated at 9.80/10
+------------------------------------
+Your code has been rated at 10.00/10
 
