@@ -9,7 +9,7 @@ provider "aws" {
 # ETL State Machine
 
 resource "aws_sfn_state_machine" "etl_state_machine" {
-  name     = "c11-hermes-etl-state-machine"
+  name     = "c11-hermes-sale-tracker-state-machine"
   role_arn = aws_iam_role.sfn_role.arn
 
   definition = jsonencode({
@@ -24,14 +24,14 @@ resource "aws_sfn_state_machine" "etl_state_machine" {
           "Payload.$"    = "$",
           FunctionName = "arn:aws:lambda:eu-west-2:129033205317:function:c11-hermes-provision:$LATEST"
         },
-        Next = "Get Product Data in Parallel"
+        Next = "Get Product Data in Parallel",
+        OutputPath: "$.Payload"
       },
       "Get Product Data in Parallel" = {
         Type = "Map",
         ItemProcessor = {
           ProcessorConfig = {
-            Mode          = "DISTRIBUTED",
-            ExecutionType = "STANDARD"
+            Mode          = "INLINE"
           },
           StartAt = "Scrape Product Data",
           States = {
@@ -41,15 +41,16 @@ resource "aws_sfn_state_machine" "etl_state_machine" {
               OutputPath = "$.Payload",
               Parameters = {
                 "Payload.$"    = "$",
-                FunctionName = "arn:aws:lambda:eu-west-2:129033205317:function:hermes-test-parallel-etl:$LATEST"
+                FunctionName = "arn:aws:lambda:eu-west-2:129033205317:function:c11-hermes-extract_price_readings-lambda:$LATEST"
               },
-              End = true
+              End = true,
+              OutputPath: "$.Payload"
             }
           }
         },
         Next = "Aggregate Data",
         Label = "GetProductDatainParallel",
-        MaxConcurrency = 10,
+        MaxConcurrency = 5,
         InputPath = "$.output"
       },
       "Aggregate Data" = {
@@ -58,7 +59,7 @@ resource "aws_sfn_state_machine" "etl_state_machine" {
         OutputPath = "$.Payload",
         Parameters = {
           "Payload.$"    = "$",
-          FunctionName = "arn:aws:lambda:eu-west-2:129033205317:function:hermes-test-agregate:$LATEST"
+          FunctionName = "arn:aws:lambda:eu-west-2:129033205317:function:c11-hermes-email-load-lambda:$LATEST"
         },
         End = true
       }
@@ -97,8 +98,8 @@ resource "aws_iam_role_policy" "sfn_role_policy" {
         ],
         Resource = [
           "arn:aws:lambda:eu-west-2:129033205317:function:c11-hermes-provision:$LATEST",
-          "arn:aws:lambda:eu-west-2:129033205317:function:hermes-test-parallel-etl:$LATEST",
-          "arn:aws:lambda:eu-west-2:129033205317:function:hermes-test-agregate:$LATEST",
+          "arn:aws:lambda:eu-west-2:129033205317:function:c11-hermes-extract_price_readings-lambda:$LATEST",
+          "arn:aws:lambda:eu-west-2:129033205317:function:c11-hermes-email-load-lambda:$LATEST",
           "arn:aws:states:eu-west-2:129033205317:stateMachine:c11-hermes-etl-state-machine"
         ]
       }
@@ -136,7 +137,7 @@ resource "aws_iam_role_policy" "scheduler_role_policy" {
         Action = [
           "states:StartExecution"
         ],
-        Resource = "arn:aws:states:eu-west-2:129033205317:stateMachine:c11-hermes-etl-state-machine"
+        Resource = "arn:aws:states:eu-west-2:129033205317:stateMachine:c11-hermes-sale-tracker-state-machine"
       }
     ]
   })
