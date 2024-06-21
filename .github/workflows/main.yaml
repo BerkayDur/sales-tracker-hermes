@@ -78,6 +78,7 @@ jobs:
         run: |
           [ ! -f .github/badges/passed_percentage.svg ] && touch .github/badges/passed_percentage.svg || true
           [ ! -f .github/badges/avg_score.svg ] && touch .github/badges/avg_score.svg || true
+          [ ! -f .github/badges/number_of_tests.svg ] && touch .github/badges/number_of_tests.svg || true
 
       # Get the passed_percentage from pytest_scores.json
       - name: Obtain passed_percentage from JSON
