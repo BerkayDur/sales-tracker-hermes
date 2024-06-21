@@ -8,13 +8,13 @@ from helpers import get_connection, get_ses_client
 from combined_load import write_new_price_entries_to_db
 from email_service import PRODUCT_READING_KEYS, verify_keys, send_emails
 
-from datetime import datetime
 
 def handler(_event, _context) -> None:
     '''Handler takes in product readings where price has decreased
     or product is on sale.
 
     Using this it emails customers and inserts the readings into the database.'''
+
     logging.basicConfig(level='INFO')
 
     if not _event.get('products'):
