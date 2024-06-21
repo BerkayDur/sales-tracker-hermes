@@ -214,6 +214,7 @@ def get_email_list(
         logging.error('ses_client must be a BOTO3 SES Client.')
         raise TypeError('ses_client must be a BOTO3 SES Client.')
     verified_emails = ses_client.list_verified_email_addresses()['VerifiedEmailAddresses']
+    print(emails)
     return set(emails) & set(verified_emails)
 
 def send_email_to_client(
