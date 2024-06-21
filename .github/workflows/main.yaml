@@ -201,6 +201,7 @@ jobs:
           git add .util/pylint_scores.json
           git add .github/badges/passed_percentage.svg
           git add .github/badges/avg_score.svg
+          git add .github/badges/number_of_tests.svg
           git commit -m "Update scores" || true
           echo "Event Type: ${{ github.event_name }}"
           if [[ "${{ github.event_name }}" == "push" ]]; then
