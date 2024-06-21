@@ -92,8 +92,8 @@ def configure_logging():
 def extract_product_information():
     """ Extracts product information from a specific URL."""
     configure_logging()
-    url = "https://www.asos.com/asos-design/asos-design-cotton-cami-top-with-front-ties-\
-in-white/prd/206262254#ctaref-complementary%20items_1&featureref1-complementary%20items"
+    url = "https://www.asos.com/asos-design/asos-design-laptop-compartment-\
+canvas-tote-bag-in-natural-nude/prd/205186757#colourWayId-205186759"
 
     headers = {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)\
