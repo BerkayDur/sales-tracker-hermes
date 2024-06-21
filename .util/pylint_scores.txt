@@ -1,10 +1,23 @@
-************* Module extract
-Dashboard/extract.py:74:0: C0301: Line too long (102/100) (line-too-long)
-Dashboard/extract.py:5:0: E0401: Unable to import 'bs4' (import-error)
-Dashboard/extract.py:70:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+************* Module load
+Dashboard/load.py:46:0: C0301: Line too long (109/100) (line-too-long)
+Dashboard/load.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+Dashboard/load.py:4:0: E0401: Unable to import 'dotenv' (import-error)
+Dashboard/load.py:5:0: E0401: Unable to import 'psycopg2' (import-error)
+Dashboard/load.py:6:0: E0401: Unable to import 'psycopg2.extras' (import-error)
+Dashboard/load.py:7:0: E0401: Unable to import 'psycopg2.extensions' (import-error)
+Dashboard/load.py:51:0: C0116: Missing function or method docstring (missing-function-docstring)
 
 -----------------------------------
-Your code has been rated at 8.89/10
+Your code has been rated at 2.58/10
+
+************* Module extract
+Dashboard/extract.py:132:0: C0301: Line too long (133/100) (line-too-long)
+Dashboard/extract.py:5:0: E0401: Unable to import 'bs4' (import-error)
+Dashboard/extract.py:145:4: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
+Dashboard/extract.py:129:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+
+-----------------------------------
+Your code has been rated at 8.97/10
 
 ************* Module conftest
 ETL/Pipeline/conftest.py:24:0: C0301: Line too long (191/100) (line-too-long)
@@ -20,5 +33,5 @@ Your code has been rated at 2.22/10
 
 
 -------------------------------------------------------------------
-Your code has been rated at 10.00/10 (previous run: 8.89/10, +1.11)
+Your code has been rated at 10.00/10 (previous run: 8.97/10, +1.03)
 
