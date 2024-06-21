@@ -163,12 +163,12 @@ def validate_input(product_list):
     return valid_entries
 
 
-def handler(_event, _context=None) -> dict:
+def handler(_event, _context=None) -> list:
     """Main function which lambda will call"""
     configure_log()
-    cleaned_data = validate_input(_event["output"])
+    cleaned_data = validate_input(_event)
     product_readings = extract_price_and_sales_data(cleaned_data)
-    return {"output": product_readings}
+    return product_readings
 
 
 if __name__ == '__main__':
