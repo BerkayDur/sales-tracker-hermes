@@ -90,7 +90,7 @@ jobs:
           BADGE_PATH: .github/badges/passed_percentage.svg
 
       # Get the number_of_tests from pylint_scores.json
-      - name: Obtain avg_score from JSON
+      - name: Obtain total_tests from JSON
         if: '!cancelled()'
         run: |
           echo "TOTAL_TESTS=$(jq '.total_tests' .util/pylint_scores.json)" >> $GITHUB_ENV
@@ -99,7 +99,7 @@ jobs:
           BADGE_PATH: .github/badges/number_of_tests.svg   
 
       # Get the passing_tests from pylint_scores.json
-      - name: Obtain avg_score from JSON
+      - name: Obtain passing_tests from JSON
         if: '!cancelled()'
         run: |
           echo "PASSING_TESTS=$(jq '.passed' .util/pylint_scores.json)" >> $GITHUB_ENV
