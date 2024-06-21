@@ -1,18 +1,10 @@
 ************* Module extract
-Dashboard/extract.py:8:0: C0301: Line too long (138/100) (line-too-long)
-Dashboard/extract.py:73:0: C0301: Line too long (185/100) (line-too-long)
-Dashboard/extract.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-Dashboard/extract.py:3:0: E0401: Unable to import 'bs4' (import-error)
-Dashboard/extract.py:17:19: W3101: Missing timeout argument for method 'requests.get' can cause your program to hang indefinitely (missing-timeout)
-Dashboard/extract.py:35:0: C0116: Missing function or method docstring (missing-function-docstring)
-Dashboard/extract.py:64:0: C0116: Missing function or method docstring (missing-function-docstring)
-Dashboard/extract.py:71:0: C0116: Missing function or method docstring (missing-function-docstring)
-Dashboard/extract.py:83:4: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
-Dashboard/extract.py:71:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
-Dashboard/extract.py:4:0: C0411: standard import "logging" should be placed before third party imports "requests", "bs4.BeautifulSoup" (wrong-import-order)
+Dashboard/extract.py:74:0: C0301: Line too long (102/100) (line-too-long)
+Dashboard/extract.py:5:0: E0401: Unable to import 'bs4' (import-error)
+Dashboard/extract.py:70:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
 
 -----------------------------------
-Your code has been rated at 7.58/10
+Your code has been rated at 8.89/10
 
 ************* Module conftest
 ETL/Pipeline/conftest.py:24:0: C0301: Line too long (191/100) (line-too-long)
@@ -28,5 +20,5 @@ Your code has been rated at 2.22/10
 
 
 -------------------------------------------------------------------
-Your code has been rated at 10.00/10 (previous run: 7.58/10, +2.42)
+Your code has been rated at 10.00/10 (previous run: 8.89/10, +1.11)
 
