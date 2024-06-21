@@ -32,6 +32,7 @@ def get_product_info(product_data: dict, headers: dict) -> dict | None:
         raise TypeError('header must be of type dict')
 
     price_endpoint = get_url(product_data['product_code'])
+
     if not price_endpoint:
         return None
 
@@ -40,10 +41,10 @@ def get_product_info(product_data: dict, headers: dict) -> dict | None:
         response.raise_for_status()
 
     except requests.exceptions.Timeout as e:
-        logging.error(f"Timeout occurred in get_product_info: {e}")
+        logging.error("Timeout occurred in get_product_info: %s", e)
         return None
     except requests.exceptions.RequestException as e:
-        logging.error(f"RequestException occurred in get_product_info: {e}")
+        logging.error("RequestException occurred in get_product_info: %s", e)
         return None
 
     response_json = response.json()
@@ -63,7 +64,7 @@ def get_current_price(product_info: dict) -> int | None:
     try:
         return product_info["productPrice"]["current"]["value"]
     except KeyError as e:
-        logging.error(f"Error getting current price:")
+        logging.error("Error getting current price %s:", e)
     return None
 
 
@@ -77,7 +78,7 @@ def get_sale_status(product_info: dict) -> bool | None:
         return discount > 0
 
     except KeyError as e:
-        logging.error(f"Error getting sale status: {e}")
+        logging.error("Error getting sale status:%s", e)
         return None
 
 
@@ -98,7 +99,7 @@ def process_product(product: dict) -> dict | None:
             product['is_on_sale'] = sale
             product['reading_at'] = datetime.now()
             return product
-    logging.error(f"Error processing product {product['product_code']} ")
+    logging.error("Error processing product %s", product['product_code'])
     return None
 
 
@@ -127,7 +128,8 @@ def is_dict(entry):
 
 def has_correct_types(entry, required_keys):
     """Check if all required keys have the correct data type."""
-    return all(isinstance(entry[key], required_type) for key, required_type in required_keys.items())
+    return all(isinstance(entry[key], required_type)
+               for key, required_type in required_keys.items())
 
 
 def convert_product_code(entry):
@@ -150,9 +152,9 @@ def validate_input(product_list):
     valid_entries = []
 
     for entry in product_list:
-        if is_dict(entry) and has_required_keys(entry, required_keys):
-            if convert_product_code(entry) and has_correct_types(entry, required_keys):
-                valid_entries.append(entry)
+        if (is_dict(entry) and has_required_keys(entry, required_keys) and
+                convert_product_code(entry) and has_correct_types(entry, required_keys)):
+            valid_entries.append(entry)
 
     if not valid_entries:
         raise ValueError(
@@ -163,30 +165,12 @@ def validate_input(product_list):
 
 def handler(_event, _context):
     """Main function which lambda will call"""
-    extract_price_and_sales_data([])
+    configure_log()
+    cleaned_data = validate_input(product_input)
+    extract_price_and_sales_data()
 
 
 if __name__ == '__main__':
-    inputs = [
-        {
-            'product_id': 1,
-            'url': "https://www.asos.com/adidas-originals/adidas-originals-gazelle-trainers-in-white-and-blue/prd/205759745#ctaref-we%20recommend%20carousel_11&featureref1-we%20recommend%20pers",
-            'product_code': 205759745,
-            'product_name': 'adidas Originals Gazelle trainers in white and blue White'
-        },
-        {
-            'product_id': 2,
-            'product_code': 206107351,
-            'url': "https://www.asos.com/new-balance/new-balance-fresh-foam-arishi-v4-running-trainers-in-white-and-orange/prd/206107351#colourWayId-206107353",
-            'product_name': 'New Balance Fresh Foam Arishi v4 running trainers in white and orange'
-        },
-        {
-            'product_id': 3,
-            'product_code': "hh",
-            'url': "https://www.asos.com/pasq/pasq-two-pocket-tote-bag-with-removable-pouch-in-black/prd/205928631#colourWayId-205928635",
-            'product_name': 'PASQ two pocket tote bag with removable pouch in black'
-        }
-    ]
     configure_log()
-    valid_input = validate_input(inputs)
-    print(extract_price_and_sales_data(valid_input))
+    cleaned_data = validate_input(product_input)
+    extract_price_and_sales_data()
