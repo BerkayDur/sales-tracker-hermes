@@ -1,6 +1,8 @@
+************* Module login
+Dashboard/login.py:12:0: C0301: Line too long (463/100) (line-too-long)
 
-------------------------------------
-Your code has been rated at 10.00/10
+-----------------------------------
+Your code has been rated at 9.83/10
 
 ************* Module 1_price
 Dashboard/pages/1_price.py:1:0: C0103: Module name "1_price" doesn't conform to snake_case naming style (invalid-name)
