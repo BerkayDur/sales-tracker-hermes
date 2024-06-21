@@ -237,7 +237,7 @@ def send_email_to_client(
         Source='trainee.berkay.dur@sigmalabs.co.uk',
         Destination={
             'ToAddresses': [
-                'trainee.berkay.dur@sigmalabs.co.uk', ##Should eventually be: email_content['recipient']
+                email_content['recipient'],
             ]
         },
         Message={
@@ -292,13 +292,16 @@ def send_emails(
     logging.info('Successfully merged customer data and products readings.')
 
     ########### this mail_list will be used in practice over the one after it.
-    # logging.info('Getting list of email-verified customers.')
-    # mail_list = get_email_list(merged_data['email'], ses_client)
-    # if len(main_list) == 0:
-    #   logging.error("Customer emails aren't verified, exit early."")
-    #   return False
-    # logging.info('Successfully get list of email-verified customers.')
-    mail_list = set(merged_data['email'])
+    logging.info('Getting list of email-verified customers.')
+    mail_list = get_email_list(merged_data['email'], ses_client)
+    print('###############')
+    print(mail_list)
+    print('###############')
+    if len(mail_list) == 0:
+      logging.error("Customer emails aren't verified, exit early.")
+      return False
+    logging.info('Successfully get list of email-verified customers.')
+    # mail_list = set(merged_data['email'])
 
     logging.info('Start formatting emails for each customer.')
     mail_list = [get_formatted_email(group_by_email(merged_data, email)) for email in mail_list]
