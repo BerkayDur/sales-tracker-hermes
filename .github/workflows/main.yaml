@@ -94,18 +94,12 @@ jobs:
         if: '!cancelled()'
         run: |
           echo "TOTAL_TESTS=$(jq '.total_tests' .util/pytest_scores.json)" >> $GITHUB_ENV
-        env:
-          CODE_QUALITY: ${{ env.TOTAL_TESTS }}
-          BADGE_PATH: .github/badges/number_of_tests.svg   
 
       # Get the passing_tests from pytest_scores.json
       - name: Obtain passing_tests from JSON
         if: '!cancelled()'
         run: |
           echo "PASSING_TESTS=$(jq '.passed' .util/pytest_scores.json)" >> $GITHUB_ENV
-        env:
-          CODE_QUALITY: ${{ env.PASSING_TESTS }}
-          BADGE_PATH: .github/badges/number_of_tests.svg   
 
       # Get the avg_score from pylint_scores.json
       - name: Obtain avg_score from JSON
