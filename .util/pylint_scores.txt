@@ -7,11 +7,14 @@ Your code has been rated at 10.00/10
 Your code has been rated at 10.00/10
 
 ************* Module email_service
-ETL/Email/email_service.py:220:0: C0301: Line too long (104/100) (line-too-long)
-ETL/Email/email_service.py:7:0: E0401: Unable to import 'dotenv' (import-error)
+ETL/Email/email_service.py:240:0: C0301: Line too long (104/100) (line-too-long)
+ETL/Email/email_service.py:8:0: E0401: Unable to import 'dotenv' (import-error)
+ETL/Email/email_service.py:208:8: W0621: Redefining name 'ses_client' from outer scope (line 11) (redefined-outer-name)
+ETL/Email/email_service.py:220:8: W0621: Redefining name 'ses_client' from outer scope (line 11) (redefined-outer-name)
+ETL/Email/email_service.py:261:8: W0621: Redefining name 'ses_client' from outer scope (line 11) (redefined-outer-name)
 
 -----------------------------------
-Your code has been rated at 9.51/10
+Your code has been rated at 9.43/10
 
 
 ------------------------------------
