@@ -1,20 +1,12 @@
 """Load Script: Populates the product table with the product information"""
-from os import _Environ, environ as ENV
+from os import _Environ, environ
 import logging
 
 from dotenv import load_dotenv
 import psycopg2
 import psycopg2.extras
 from psycopg2.extensions import connection, cursor
-from extract import extract_product_information
-
-
-def configure_logging():
-    """Sets up basic logger."""
-    return logging.basicConfig(
-        level=logging.INFO,
-        format='%(asctime)s - %(levelname)s - %(message)s'
-    )
+from extract import extract_product_information, configure_logging
 
 
 def get_connection(config: _Environ) -> connection:
@@ -23,8 +15,8 @@ def get_connection(config: _Environ) -> connection:
         user=config["DB_USER"],
         host=config["DB_HOST"],
         database=config["DB_NAME"],
-        password=config["DB_PASSWORD"],
-        port=config["DB_PORT"]
+        # password=config["DB_PASSWORD"],
+        # port=config["DB_PORT"]
     )
 
 
@@ -50,15 +42,19 @@ def insert_product_information_database(conn: connection, extracted_data):
     logging.info("Product information successfully added into the database")
 
 
-def load_product_data():
+def load_product_data(config: _Environ) -> None:
     """Retrieves product information, inserts it into a database."""
-
+    logging.info("Trying to load product information")
     configure_logging()
-    conn = get_connection(ENV)
+    conn = get_connection(config)
     extracted_data = extract_product_information()
-    insert_product_information_database(conn, extracted_data)
+    try:
+        insert_product_information_database(conn, extracted_data)
+        logging.info("Loading successfully completed!")
+    except Exception:
+        print("Unable to load data.")
 
 
 if __name__ == '__main__':
     load_dotenv()
-    load_product_data()
+    load_product_data(environ)

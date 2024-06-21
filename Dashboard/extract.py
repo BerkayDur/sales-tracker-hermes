@@ -4,14 +4,16 @@ import logging
 import requests
 from bs4 import BeautifulSoup
 
+DEFAULT_TIMEOUT = 30
 
-def get_product_page(url: str, headers: dict) -> str:
+
+def get_product_page(url: str, headers: dict) -> str | None:
     """Fetch the HTML content of a product page from a given URL."""
     if not url:
         logging.error("URL is empty")
         return None
     try:
-        response = requests.get(url, headers=headers, timeout=30)
+        response = requests.get(url, headers=headers, timeout=DEFAULT_TIMEOUT)
         return response.text
     except requests.exceptions.RequestException as e:
         logging.error("A request error has occurred: %s", e)
@@ -20,7 +22,7 @@ def get_product_page(url: str, headers: dict) -> str:
     return None
 
 
-def get_soup(url: str, headers: dict) -> BeautifulSoup:
+def get_soup(url: str, headers: dict) -> BeautifulSoup | None:
     """Returns a soup object for a game given the web address."""
     response = get_product_page(url, headers=headers)
     if response:
@@ -29,7 +31,7 @@ def get_soup(url: str, headers: dict) -> BeautifulSoup:
     return None
 
 
-def scrap_product_information(soup: BeautifulSoup) -> dict:
+def scrape_product_information(soup: BeautifulSoup) -> dict | None:
     """Extract product information from a BeautifulSoup object."""
     if not soup:
         logging.error("Soup object is None")
@@ -43,7 +45,7 @@ def scrap_product_information(soup: BeautifulSoup) -> dict:
     return None
 
 
-def get_product_code(product_data: dict) -> str:
+def get_product_code(product_data: dict) -> str | None:
     """Returns product ID from the webpage"""
     if not product_data:
         logging.error("Missing product data")
@@ -62,7 +64,7 @@ def get_product_code(product_data: dict) -> str:
     return None
 
 
-def get_product_name(product_data: dict) -> str:
+def get_product_name(product_data: dict) -> str | None:
     """Returns product ID from the webpage"""
     if not product_data:
         logging.error("Missing product data")
@@ -81,7 +83,7 @@ def get_product_name(product_data: dict) -> str:
     return None
 
 
-def configure_logging():
+def configure_logging() -> logging:
     """Sets up basic logger"""
     return logging.basicConfig(
         level=logging.INFO,
@@ -89,12 +91,10 @@ def configure_logging():
     )
 
 
-def extract_product_information():
+def extract_product_information() -> tuple | None:
     """ Extracts product information from a specific URL."""
     configure_logging()
-    url = "https://www.asos.com/asos-design/asos-design-laptop-compartment-\
-canvas-tote-bag-in-natural-nude/prd/205186757#colourWayId-205186759"
-
+    url = ""
     headers = {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)\
         AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'}
@@ -102,17 +102,17 @@ canvas-tote-bag-in-natural-nude/prd/205186757#colourWayId-205186759"
     logging.info("Extraction started")
     soup = get_soup(url, headers=headers)
     if not soup:
-        logging.error("Failed to scrap product information")
+        logging.error("Failed to scrape product information")
+        return None
 
     logging.info("Scraping web page")
-    data = scrap_product_information(soup)
+    data = scrape_product_information(soup)
     if data:
         product_code = get_product_code(data)
         product_name = get_product_name(data)
         logging.info("Extraction completed successfully!")
         return (url, product_code, product_name)
-
-    logging.error("Failed to scrap product information")
+    return None
 
 
 if __name__ == "__main__":
