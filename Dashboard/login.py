@@ -9,11 +9,7 @@ from dotenv import load_dotenv
 from psycopg2 import connect
 from psycopg2.extensions import connection
 
-EMAIL = r"""(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\x01-\x08\x0b
-\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]
-*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]
-?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0
-b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])"""
+EMAIL = r"""(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])"""
 
 
 def get_connection(config: _Environ) -> connection:
@@ -27,10 +23,9 @@ def get_connection(config: _Environ) -> connection:
     )
 
 
-def authenticate(email) -> tuple | None:
+def authenticate(conn: connection, email: str) -> tuple | None:
     """Find email in database"""
     logging.info("Searching for %s in database", email)
-    conn = get_connection(ENV)
     with conn.cursor() as cur:
         cur.execute("""
             SELECT email FROM users
@@ -39,14 +34,15 @@ def authenticate(email) -> tuple | None:
     return data
 
 
-def add_email(email):
+def add_email(conn: connection, email: str) -> tuple | None:
     """Add email to database"""
     logging.info("Adding %s to database", email)
     conn = get_connection(ENV)
     with conn.cursor() as cur:
         cur.execute("""
-            INSERT INTO users (email)
-            VALUES email = %s""", (email,))
+            INSERT INTO users(email)
+            VALUES (%s)
+            RETURNING email""", (email,))
         data = cur.fetchone()
     return data
 
@@ -55,13 +51,13 @@ def login_page() -> None:
     """Login page"""
     st.title("Login Page")
 
-    st.write("trainee.faris.abulula@sigmalabs.co.uk")
     email = st.text_input(
         "Please enter your email to access the website:")
 
     if st.button("Login"):
         logging.info("Login button clicked with %s", email)
-        if authenticate(email):
+        conn = get_connection(ENV)
+        if authenticate(conn, email):
             logging.info("%s logged in", email)
             st.success(f"Welcome! You are logged in with email: {email}")
             st.session_state.logged_in = True
@@ -81,6 +77,8 @@ def login_page() -> None:
         logging.info("Sign up button clicked")
         st.write(email)
         if re.search(EMAIL, email):
+            conn = get_connection(ENV)
+            add_email(conn, email)
             st.success(f"Welcome! You are logged in with email: {email}")
             st.session_state.logged_in = True
             st.session_state.email = email
@@ -89,7 +87,7 @@ def login_page() -> None:
             st.error("Invalid email address. Please try again.")
 
 
-def main() -> None:
+def initialise() -> None:
     """Checking login information"""
     if 'logged_in' not in st.session_state:
         st.session_state.logged_in = False
@@ -102,4 +100,4 @@ def main() -> None:
 if __name__ == "__main__":
     logging.basicConfig(level="INFO")
     load_dotenv()
-    main()
+    initialise()
