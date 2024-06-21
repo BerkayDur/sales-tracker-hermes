@@ -2,6 +2,7 @@
 
 import logging
 
+
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from psycopg2.extensions import connection, cursor

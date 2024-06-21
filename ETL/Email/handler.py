@@ -3,6 +3,7 @@
 
 from os import environ as CONFIG
 import logging
+from datetime import datetime
 
 from helpers import get_connection, get_ses_client
 from combined_load import write_new_price_entries_to_db
@@ -38,6 +39,14 @@ def handler(_event, _context) -> None:
             'status': 'No product entires!'
         }
     logging.info('Successfully passed validations!')
+    logging.info('Start converting Datetime.')
+    for i, product in enumerate(_event['products']):
+        try:
+            _event['products'][i]['reading_at'] = datetime.fromisoformat(product['reading_at'])
+        except TypeError:
+            _event['products'].pop(i)
+    logging.info('Successfully converted Datetime.')
+
     conn = get_connection(CONFIG)
     ses_client = get_ses_client(CONFIG)
     logging.info('Start entering new price entries to database.')
