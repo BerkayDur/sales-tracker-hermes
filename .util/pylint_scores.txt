@@ -6,12 +6,18 @@ ETL/Pipeline/conftest.py:36:0: C0301: Line too long (108/100) (line-too-long)
 Your code has been rated at 7.78/10
 
 ************* Module extract
-ETL/Pipeline/extract.py:48:8: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
-ETL/Pipeline/extract.py:48:22: W1309: Using an f-string that does not have any interpolated variables (f-string-without-interpolation)
-ETL/Pipeline/extract.py:47:4: W0612: Unused variable 'e' (unused-variable)
-ETL/Pipeline/extract.py:58:8: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
-ETL/Pipeline/extract.py:87:40: C0121: Comparison 'x != None' should be 'x is not None' (singleton-comparison)
+ETL/Pipeline/extract.py:130:0: C0301: Line too long (101/100) (line-too-long)
+ETL/Pipeline/extract.py:173:0: C0301: Line too long (195/100) (line-too-long)
+ETL/Pipeline/extract.py:180:0: C0301: Line too long (160/100) (line-too-long)
+ETL/Pipeline/extract.py:186:0: C0301: Line too long (138/100) (line-too-long)
+ETL/Pipeline/extract.py:43:8: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
+ETL/Pipeline/extract.py:46:8: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
+ETL/Pipeline/extract.py:66:8: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
+ETL/Pipeline/extract.py:66:22: W1309: Using an f-string that does not have any interpolated variables (f-string-without-interpolation)
+ETL/Pipeline/extract.py:65:4: W0612: Unused variable 'e' (unused-variable)
+ETL/Pipeline/extract.py:80:8: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
+ETL/Pipeline/extract.py:101:4: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
 
 -----------------------------------
-Your code has been rated at 9.11/10
+Your code has been rated at 8.91/10
 
