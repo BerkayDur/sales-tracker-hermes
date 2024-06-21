@@ -113,7 +113,7 @@ def extract_price_and_sales_data(product_list: list[dict]) -> list[dict]:
         logging.info("Finished Extraction")
         logging.info("Removing erroneous / missing data")
         results = [i for i in results if i is not None]
-    return [results]
+    return results
 
 
 def has_required_keys(entry, required_keys):
@@ -172,4 +172,43 @@ def handler(_event, _context=None) -> list:
 
 
 if __name__ == '__main__':
-    print(handler(None, None))
+    # print(handler(None, None))
+    print(extract_price_and_sales_data(validate_input(
+    [
+      {
+        "product_id": 1,
+        "product_code": "206022050",
+        "product_name": "adidas Originals 72 slogan t-shirt in white",
+        "url": "https://www.asos.com/adidas-originals/adidas-originals-72-slogan-t-shirt-in-white/prd/206022050#colourWayId-206022051",
+        "previous_price": 30.99
+      },
+      {
+        "product_id": 2,
+        "product_code": "206169129",
+        "product_name": "New Balance 327 trainers in grey - exclusive to ASOS",
+        "url": "https://www.asos.com/new-balance/new-balance-327-trainers-in-grey-exclusive-to-asos/prd/206169129#colourWayId-206169132",
+        "previous_price": 120
+      },
+      {
+        "product_id": 3,
+        "product_code": "205727541",
+        "product_name": "ASOS DESIGN halter neck low back maxi sundress in black",
+        "url": "https://www.asos.com/asos-design/asos-design-halter-neck-low-back-maxi-sundress-in-black/prd/205727541#colourWayId-205727547",
+        "previous_price": 26
+      },
+      {
+        "product_id": 4,
+        "product_code": "205454389",
+        "product_name": "ASOS DESIGN relaxed t-shirt in grey with floral outline back print",
+        "url": "https://www.asos.com/asos-design/asos-design-relaxed-t-shirt-in-grey-with-floral-outline-back-print/prd/205454389#colourWayId-205454390",
+        "previous_price": None
+      },
+      {
+        "product_id": 5,
+        "product_code": "205598222",
+        "product_name": "ASOS DESIGN slim with linen suit in brown",
+        "url": "https://www.asos.com/asos-design/asos-design-slim-with-linen-suit-in-brown/grp/206508195?ctaref=featured+product&featureref1=featured+product&#colourWayId-205598228&productId-205598222",
+        "previous_price": None
+      }
+    ]
+    )))
