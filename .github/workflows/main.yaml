@@ -93,7 +93,7 @@ jobs:
       - name: Obtain total_tests from JSON
         if: '!cancelled()'
         run: |
-          echo "TOTAL_TESTS=$(jq '.total_tests' .util/pytest_scores.json)" >> $GITHUB_ENV
+          echo "TOTAL_TESTS=$(jq '.total' .util/pytest_scores.json)" >> $GITHUB_ENV
 
       # Get the passing_tests from pytest_scores.json
       - name: Obtain passing_tests from JSON
