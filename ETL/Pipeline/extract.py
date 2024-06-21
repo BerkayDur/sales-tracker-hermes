@@ -49,7 +49,7 @@ def get_product_info(product_data: dict, headers: dict) -> dict | None:
 
     response_json = response.json()
 
-    if 'errorCode' in response_json or response_json is None:
+    if 'errorCode' in response_json or response_json is None or len(response_json) == 0:
         logging.error('No valid ProductIds requested')
         return None
 
