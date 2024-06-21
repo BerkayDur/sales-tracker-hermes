@@ -2,14 +2,7 @@
 ------------------------------------
 Your code has been rated at 10.00/10
 
-************* Module extract
-ETL/Pipeline/extract.py:169:4: W0621: Redefining name 'cleaned_data' from outer scope (line 175) (redefined-outer-name)
-ETL/Pipeline/extract.py:169:34: E0602: Undefined variable 'product_input' (undefined-variable)
-ETL/Pipeline/extract.py:170:4: E1120: No value for argument 'product_list' in function call (no-value-for-parameter)
-ETL/Pipeline/extract.py:169:4: W0612: Unused variable 'cleaned_data' (unused-variable)
-ETL/Pipeline/extract.py:175:34: E0602: Undefined variable 'product_input' (undefined-variable)
-ETL/Pipeline/extract.py:176:4: E1120: No value for argument 'product_list' in function call (no-value-for-parameter)
 
------------------------------------
-Your code has been rated at 7.82/10
+------------------------------------
+Your code has been rated at 10.00/10
 
