@@ -89,20 +89,20 @@ jobs:
           CODE_QUALITY: ${{ env.PASSED_PERCENTAGE }}
           BADGE_PATH: .github/badges/passed_percentage.svg
 
-      # Get the number_of_tests from pylint_scores.json
+      # Get the number_of_tests from pytest_scores.json
       - name: Obtain total_tests from JSON
         if: '!cancelled()'
         run: |
-          echo "TOTAL_TESTS=$(jq '.total_tests' .util/pylint_scores.json)" >> $GITHUB_ENV
+          echo "TOTAL_TESTS=$(jq '.total_tests' .util/pytest_scores.json)" >> $GITHUB_ENV
         env:
           CODE_QUALITY: ${{ env.TOTAL_TESTS }}
           BADGE_PATH: .github/badges/number_of_tests.svg   
 
-      # Get the passing_tests from pylint_scores.json
+      # Get the passing_tests from pytest_scores.json
       - name: Obtain passing_tests from JSON
         if: '!cancelled()'
         run: |
-          echo "PASSING_TESTS=$(jq '.passed' .util/pylint_scores.json)" >> $GITHUB_ENV
+          echo "PASSING_TESTS=$(jq '.passed' .util/pytest_scores.json)" >> $GITHUB_ENV
         env:
           CODE_QUALITY: ${{ env.PASSING_TESTS }}
           BADGE_PATH: .github/badges/number_of_tests.svg   
