@@ -4,8 +4,6 @@
 from os import environ as CONFIG
 import logging
 
-from dotenv import load_dotenv
-
 from helpers import get_connection, get_ses_client
 from combined_load import write_new_price_entries_to_db
 from email_service import PRODUCT_READING_KEYS, verify_keys, send_emails
@@ -17,40 +15,6 @@ def handler(_event, _context) -> None:
     or product is on sale.
 
     Using this it emails customers and inserts the readings into the database.'''
-    # load_dotenv('.env')
-    _event['products'] = [
-    {
-        'product_id' : 1,
-        'url' : 'https://www.asos.com/nike-running/nike-running-juniper-trail\
--2-gtx-trainers-in-grey/prd/205300355#colourWayId-205300357',
-        'current_price' : 83.99,
-        'previous_price' : 104.99,
-        'is_on_sale' : True,
-        'reading_at' : datetime.now(),
-        'product_name' : 'Nike Running Juniper Trail 2 GTX Trainers in Grey'
-    },
-    {
-        'product_id' : 2,
-        'url' : 'https://www.asos.com/nike-training/nike-training-everyday-lightweight-\
-6-pack-no-show-socks-in-black/prd/205607655#colourWayId-205607656',
-        'current_price' : 340.99,
-        'previous_price' : 350.99,
-        'is_on_sale' : True, 
-        'reading_at' : datetime.now(),
-        'product_name' : 'Nike training everyday lightweight 6 pack no show socks in black'
-    },
-    {
-        'product_id' : 3,
-        'url' : 'https://www.asos.com/nike-training/nike-training-everyday-lightweight-6-pack\
--no-show-socks-in-black/prd/205607655#colourWayId-205607656',
-        'current_price' : 18.99,
-        'previous_price' : 19.99,
-        'is_on_sale' : True,
-        'reading_at' : datetime.now(),
-        'product_name' : 'Falcon'
-    }
-]
-
     logging.basicConfig(level='INFO')
 
     if not _event.get('products'):
