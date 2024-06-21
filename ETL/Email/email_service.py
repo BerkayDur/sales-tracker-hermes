@@ -18,6 +18,7 @@ PRODUCT_READING_KEYS = set(('product_id', 'url', 'current_price',
                             'previous_price', 'is_on_sale',
                             'reading_at', 'product_name'))
 
+
 def verify_keys(keys: list, required_keys: set) -> bool:
     '''Verifies if all required keys are in keys.'''
     return not required_keys - set(keys)
@@ -171,26 +172,26 @@ def get_formatted_email(
 
 def get_email_list(
         emails: pd.Series,
-        ses_client: ses_client) -> set:
+        ses: ses_client) -> set:
     '''Given a Series of emails, return of these emails that are verified on AWS.'''
     if not isinstance(emails, pd.Series):
         logging.error('emails must be a pandas Series.')
         raise TypeError('emails must be a pandas Series.')
-    if not is_ses(ses_client):
+    if not is_ses(ses):
         logging.error('ses_client must be a BOTO3 SES Client.')
         raise TypeError('ses_client must be a BOTO3 SES Client.')
-    verified_emails = ses_client.list_verified_email_addresses()['VerifiedEmailAddresses']
+    verified_emails = ses.list_verified_email_addresses()['VerifiedEmailAddresses']
     return set(emails) & set(verified_emails)
 
 def send_email_to_client(
-        ses_client: ses_client,
+        ses: ses_client,
         email_content: dict[str]) -> bool:
     '''Email a client using a pre-formatted email given by dict of keys:
                 1. recipient
                 2. subject
                 3. body
     Returns True if status code is 2XX else False.'''
-    if not is_ses(ses_client):
+    if not is_ses(ses):
         logging.error('ses_client must be a BOTO3 SES Client.')
         raise TypeError('ses_client must be a BOTO3 SES Client.')
     if not isinstance(email_content, dict):
@@ -199,7 +200,7 @@ def send_email_to_client(
     if not all(isinstance(content, str) for content in email_content):
         logging.error('Elements of email_content must be of type str.')
         raise TypeError('Elements of email_content must be of type str.')
-    res = ses_client.send_email(
+    res = ses.send_email(
         Source='trainee.berkay.dur@sigmalabs.co.uk',
         Destination={
             'ToAddresses': [
@@ -224,7 +225,7 @@ def send_email_to_client(
 
 def send_emails(
         conn: connection,
-        ses_client: ses_client,
+        ses: ses_client,
         product_readings: list[dict],
         product_keys: set) -> bool:
     '''Performs the entire pipeline to send emails to clients based on product readings.'''
@@ -258,16 +259,16 @@ def send_emails(
     logging.info('Successfully merged customer data and products readings.')
 
     logging.info('Getting list of email-verified customers.')
-    mail_list = get_email_list(merged_data['email'], ses_client)
+    mail_list = get_email_list(merged_data['email'], ses)
     if len(mail_list) == 0:
-      logging.error("Customer emails aren't verified, exit early.")
-      return False
+        logging.error("Customer emails aren't verified, exit early.")
+        return False
     logging.info('Successfully get list of email-verified customers.')
 
     logging.info('Start formatting emails for each customer.')
     mail_list = [get_formatted_email(group_by_email(merged_data, email)) for email in mail_list]
     logging.info('Successfully format emails for each customer.')
-    return all(send_email_to_client(ses_client, content) for content in mail_list)
+    return all(send_email_to_client(ses, content) for content in mail_list)
 
 if __name__ == '__main__':
     logging.basicConfig(level='INFO')
@@ -275,4 +276,36 @@ if __name__ == '__main__':
     connection_obj = get_connection(CONFIG)
     client = get_ses_client(CONFIG)
 
+    sample_data = [
+    {
+        'product_id' : 1,
+        'url' : 'https://www.asos.com/nike-running/nike-running-juniper-trail\
+-2-gtx-trainers-in-grey/prd/205300355#colourWayId-205300357',
+        'current_price' : 83.99,
+        'previous_price' : 104.99,
+        'is_on_sale' : True,
+        'reading_at' : datetime.now(),
+        'product_name' : 'Nike Running Juniper Trail 2 GTX Trainers in Grey'
+    },
+    {
+        'product_id' : 2,
+        'url' : 'https://www.asos.com/nike-training/nike-training-everyday-lightweight-\
+6-pack-no-show-socks-in-black/prd/205607655#colourWayId-205607656',
+        'current_price' : 340.99,
+        'previous_price' : 350.99,
+        'is_on_sale' : True, 
+        'reading_at' : datetime.now(),
+        'product_name' : 'Nike training everyday lightweight 6 pack no show socks in black'
+    },
+    {
+        'product_id' : 3,
+        'url' : 'https://www.asos.com/nike-training/nike-training-everyday-lightweight-6-pack\
+-no-show-socks-in-black/prd/205607655#colourWayId-205607656',
+        'current_price' : 18.99,
+        'previous_price' : 19.99,
+        'is_on_sale' : True,
+        'reading_at' : datetime.now(),
+        'product_name' : 'Falcon'
+    }
+    ]
     send_emails(connection_obj, client, sample_data, PRODUCT_READING_KEYS)
