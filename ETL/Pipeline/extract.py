@@ -14,34 +14,52 @@ def configure_log() -> None:
     )
 
 
-def get_url(product_id: int) -> str | None:
+def get_url(product_code: int) -> str | None:
     """Returns the API URL for a given product on the ASOS website."""
-    if not isinstance(product_id, int):
+    if not isinstance(product_code, int):
         logging.error('Product ID must be a integer to get the url.')
         return None
 
     return f"https://www.asos.com/api/product/catalogue/v4/stockprice?productIds=\
-        {product_id}&store=COM&currency=GBP&keyStoreDataversion=ornjx7v-36&country=GB"
+        {product_code}&store=COM&currency=GBP&keyStoreDataversion=ornjx7v-36&country=GB"
 
 
-def get_product_info(product_data: int, headers: dict) -> dict | None:
+def get_product_info(product_data: dict, headers: dict) -> dict | None:
     """Gets the price information for a specified product from the ASOS API."""
-    price_endpoint = get_url(product_data['product_id'])
+    if not isinstance(product_data, dict):
+        raise TypeError('product_info must be of type dict')
+    if not isinstance(headers, dict):
+        raise TypeError('header must be of type dict')
 
+    price_endpoint = get_url(product_data['product_code'])
     if not price_endpoint:
         return None
 
-    response = requests.get(price_endpoint, headers, timeout=60).json()
+    try:
+        response = requests.get(price_endpoint, headers, timeout=40)
+        response.raise_for_status()
 
-    if 'errorCode' in response or not response:
+    except requests.exceptions.Timeout as e:
+        logging.error(f"Timeout occurred in get_product_info: {e}")
+        return None
+    except requests.exceptions.RequestException as e:
+        logging.error(f"RequestException occurred in get_product_info: {e}")
+        return None
+
+    response_json = response.json()
+
+    if 'errorCode' in response_json or response_json is None:
         logging.error('No valid ProductIds requested')
         return None
 
-    return response[0]
+    return response_json[0]
 
 
 def get_current_price(product_info: dict) -> int | None:
     """Extracts the current price of the product from the product information."""
+    if not isinstance(product_info, dict):
+        raise TypeError('product_info must be of type dict')
+
     try:
         return product_info["productPrice"]["current"]["value"]
     except KeyError as e:
@@ -51,9 +69,13 @@ def get_current_price(product_info: dict) -> int | None:
 
 def get_sale_status(product_info: dict) -> bool | None:
     """Determines if the product is on sale based on its discount percentage."""
+    if not isinstance(product_info, dict):
+        raise TypeError('product_info must be of type dict')
+
     try:
         discount = product_info["productPrice"]["discountPercentage"]
         return discount > 0
+
     except KeyError as e:
         logging.error(f"Error getting sale status: {e}")
         return None
@@ -64,7 +86,9 @@ def process_product(product: dict) -> dict | None:
     headers = {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)\
         AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'}
+
     product_info = get_product_info(product, headers)
+
     if product_info:
         curr_price = get_current_price(product_info)
         sale = get_sale_status(product_info)
@@ -74,25 +98,95 @@ def process_product(product: dict) -> dict | None:
             product['is_on_sale'] = sale
             product['reading_at'] = datetime.now()
             return product
+    logging.error(f"Error processing product {product['product_code']} ")
     return None
 
 
-def populate(product_list: list[dict]) -> list[dict]:
-    """Populates each product dictionary in the product list with current price, reading time, 
+def extract_price_and_sales_data(product_list: list[dict]) -> list[dict]:
+    """Populates each product dictionary in the product list with current price, reading time,
     and sale status using multiprocessing."""
     logging.info("Starting Extraction")
     with Pool(processes=4) as pool:
         logging.info("Adding the current price and sale status")
         results = list(pool.map(process_product, product_list))
-        results = list(filter(lambda x: x != None, results))
-
+        logging.info("Finished Extraction")
+        logging.info("Removing erroneous / missing data")
+        results = [i for i in results if i is not None]
     return results
+
+
+def has_required_keys(entry, required_keys):
+    """Check if all required keys are present in the dictionary."""
+    return all(key in entry for key in required_keys)
+
+
+def is_dict(entry):
+    """Check if the entry is a dictionary."""
+    return isinstance(entry, dict)
+
+
+def has_correct_types(entry, required_keys):
+    """Check if all required keys have the correct data type."""
+    return all(isinstance(entry[key], required_type) for key, required_type in required_keys.items())
+
+
+def convert_product_code(entry):
+    """Convert the product_code from str to int."""
+    try:
+        entry['product_code'] = int(entry['product_code'])
+        return True
+    except (ValueError, TypeError):
+        return False
+
+
+def validate_input(product_list):
+    """Validates the input list of products"""
+    required_keys = {
+        'product_id': int,
+        'url': str,
+        'product_code': int,
+        'product_name': str
+    }
+    valid_entries = []
+
+    for entry in product_list:
+        if is_dict(entry) and has_required_keys(entry, required_keys):
+            if convert_product_code(entry) and has_correct_types(entry, required_keys):
+                valid_entries.append(entry)
+
+    if not valid_entries:
+        raise ValueError(
+            "The list is empty after validation. Please provide a valid product list.")
+
+    return valid_entries
 
 
 def handler(_event, _context):
     """Main function which lambda will call"""
-    populate([])
+    extract_price_and_sales_data([])
 
 
 if __name__ == '__main__':
+    inputs = [
+        {
+            'product_id': 1,
+            'url': "https://www.asos.com/adidas-originals/adidas-originals-gazelle-trainers-in-white-and-blue/prd/205759745#ctaref-we%20recommend%20carousel_11&featureref1-we%20recommend%20pers",
+            'product_code': 205759745,
+            'product_name': 'adidas Originals Gazelle trainers in white and blue White'
+        },
+        {
+            'product_id': 2,
+            'product_code': 206107351,
+            'url': "https://www.asos.com/new-balance/new-balance-fresh-foam-arishi-v4-running-trainers-in-white-and-orange/prd/206107351#colourWayId-206107353",
+            'product_name': 'New Balance Fresh Foam Arishi v4 running trainers in white and orange'
+        },
+        {
+            'product_id': 3,
+            'product_code': "hh",
+            'url': "https://www.asos.com/pasq/pasq-two-pocket-tote-bag-with-removable-pouch-in-black/prd/205928631#colourWayId-205928635",
+            'product_name': 'PASQ two pocket tote bag with removable pouch in black'
+        }
+    ]
     configure_log()
+    valid_input = validate_input(inputs)
+    print(extract_price_and_sales_data(valid_input))
