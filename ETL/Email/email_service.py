@@ -3,11 +3,12 @@ customers on a price decrease / sale of their tracked items.'''
 
 from os import environ as CONFIG
 from datetime import datetime
+import logging
 
 from dotenv import load_dotenv
-import psycopg2.extensions as psycopg2_types
+from psycopg2.extensions import connection
 import pandas as pd
-from mypy_boto3_ses import SESClient
+import mypy_boto3_ses.client as ses_client
 
 from helpers import get_connection, get_cursor, get_ses_client, is_ses
 from combined_load import create_single_insert_format_string
@@ -50,35 +51,39 @@ sample_data = [
     }
 ]
 
-sample_data_pd = pd.DataFrame(sample_data)
 
 def verify_keys(keys: list, required_keys: set) -> bool:
     '''Verifies if all required keys are in keys.'''
     return not required_keys - set(keys)
 
 def get_customer_information(
-        conn: psycopg2_types.connection,
+        conn: connection,
         product_ids: list[int]) -> pd.DataFrame:
     '''Gets the customer information for each each of the products ids as a DataFrame with columns:
                             product_id
                             email
                             price_threshold'''
-    if not isinstance(conn, psycopg2_types.connection):
+    if not isinstance(conn, connection):
+        logging.error('conn must be a psycopg2 connection object.')
         raise TypeError('conn must be a psycopg2 connection object.')
     if not isinstance(product_ids, list):
+        logging.error('products_ids must be a list.')
         raise TypeError('product_ids must be a list.')
     if len(product_ids) == 0:
+        logging.error('list product_ids cannot be empty.')
         raise ValueError('list product_ids cannot be empty.')
     if not all(isinstance(product_id, int) for product_id in product_ids):
+        logging.error('All elements of products_ids must be an int.')
         raise TypeError('All elements of product_ids must be an int.')
     query = f'''SELECT subscriptions.product_id, users.email, subscriptions.price_threshold
                 FROM users
-                JOIN subscriptions ON users.user_id = subscriptions.user_id
+                JOIN subscriptions USING (user_id)
                 WHERE subscriptions.product_id
                 IN {create_single_insert_format_string(len(product_ids))};'''
     with get_cursor(conn) as cur:
         cur.execute(query, product_ids)
         data = cur.fetchall()
+
     return pd.DataFrame(data)
 
 def get_merged_customer_and_product_reading_table(
@@ -88,8 +93,10 @@ def get_merged_customer_and_product_reading_table(
             1. have passed the customers price threshold
             2. are on sale'''
     if not isinstance(customer_information, pd.DataFrame):
+        logging.error('customer_information must be a pandas DataFrame.')
         raise TypeError('customer_information must be a pandas DataFrame.')
     if not isinstance(product_reading, pd.DataFrame):
+        logging.error('product_reading must be a pandas DataFrame.')
         raise TypeError('product_reading must be a pandas DataFrame.')
     merged = customer_information.merge(product_reading, on=['product_id'], how='left')
     return merged[(merged['current_price'] <= merged['price_threshold']) | (merged['is_on_sale'])]
@@ -99,9 +106,11 @@ def group_by_email(
         email: str) -> pd.DataFrame:
     '''Group the data table rows by an email.'''
     if not isinstance(data, pd.DataFrame):
+        logging.error('data must be a pandas DataFrame.')
         raise TypeError('data must be a pandas DataFrame.')
     if not isinstance(email, str):
-        raise TypeError('email must be string containing the email to filter by.')
+        logging.error('email must be a string containing the email to filter by.')
+        raise TypeError('email must be a string containing the email to filter by.')
     return data[data['email'] == email]
 
 
@@ -113,6 +122,7 @@ def format_email_from_data_frame(
 
 
     if not isinstance(row_data, pd.Series):
+        logging.error('row_data must be a pandas Series.')
         raise TypeError('row_data must be a pandas Series.')
     email_type = None
     sale_and_thres = False
@@ -137,6 +147,7 @@ def get_subject(
         email_types: pd.Series) -> str:
     '''Create an email subject based on the email types.'''
     if not isinstance(email_types, pd.Series):
+        logging.error('email_types must be a pandas Series.')
         raise TypeError('email_types must be a pandas Series.')
     has_threshold = any(email_types == 'threshold')
     has_sale = any(email_types == 'sale')
@@ -150,8 +161,10 @@ def get_html_unordered_list(
         content_to_place_in_list: list[str]) -> str:
     '''Get an unordered html list containing the correct tags from a list of strings.'''
     if not isinstance(content_to_place_in_list, list):
-        raise TypeError('content_to_place_in_list must be a list.')
+        logging.error('content_to_place_in_list must be of type list.')
+        raise TypeError('content_to_place_in_list must be of type list.')
     if not all(isinstance(content, str) for content in content_to_place_in_list):
+        logging.error('Elements in content_to_place_in_list must be of type str.')
         raise TypeError('Elements in content_to_place_in_list must be of type str.')
     if len(content_to_place_in_list) == 0:
         return ''
@@ -161,6 +174,7 @@ def create_email_body(
         email_data: pd.DataFrame) -> str:
     '''Create the body of an email based on the data for each customer.'''
     if not isinstance(email_data, pd.DataFrame):
+        logging.error('email_data must be a pandas DataFrame.')
         raise TypeError('email_data must be a pandas DataFrame.')
     sale_message = get_html_unordered_list(
         email_data[email_data['email_type'] == 'sale']['message'].to_list())
@@ -179,6 +193,7 @@ def get_formatted_email(
         customer_data: pd.DataFrame) -> dict:
     '''Formats customer data into a dictionary containing the relevant data for an email.'''
     if not isinstance(customer_data, pd.DataFrame):
+        logging.error('customer_data must be a pandas DataFrame.')
         raise TypeError('customer_data must be a pandas DataFrame.')
     applied_data = customer_data.apply(format_email_from_data_frame, axis=1)
     return {
@@ -190,17 +205,19 @@ def get_formatted_email(
 
 def get_email_list(
         emails: pd.Series,
-        ses_client: SESClient) -> set:
+        ses_client: ses_client) -> set:
     '''Given a Series of emails, return of these emails that are verified on AWS.'''
     if not isinstance(emails, pd.Series):
+        logging.error('emails must be a pandas Series.')
         raise TypeError('emails must be a pandas Series.')
     if not is_ses(ses_client):
+        logging.error('ses_client must be a BOTO3 SES Client.')
         raise TypeError('ses_client must be a BOTO3 SES Client.')
     verified_emails = ses_client.list_verified_email_addresses()['VerifiedEmailAddresses']
     return set(emails) & set(verified_emails)
 
 def send_email_to_client(
-        ses_client: SESClient,
+        ses_client: ses_client,
         email_content: dict[str]) -> bool:
     '''Email a client using a pre-formatted email given by dict of keys:
                 1. recipient
@@ -208,10 +225,13 @@ def send_email_to_client(
                 3. body
     Returns True if status code is 2XX else False.'''
     if not is_ses(ses_client):
+        logging.error('ses_client must be a BOTO3 SES Client.')
         raise TypeError('ses_client must be a BOTO3 SES Client.')
     if not isinstance(email_content, dict):
+        logging.error('email_content must be of type dict.')
         raise TypeError('email_content must be of type dict.')
     if not all(isinstance(content, str) for content in email_content):
+        logging.error('Elements of email_content must be of type str.')
         raise TypeError('Elements of email_content must be of type str.')
     res = ses_client.send_email(
         Source='trainee.berkay.dur@sigmalabs.co.uk',
@@ -237,36 +257,58 @@ def send_email_to_client(
             and res['ResponseMetadata']['HTTPStatusCode'] < 300)
 
 def send_emails(
-        conn: psycopg2_types.connection,
-        ses_client: SESClient,
+        conn: connection,
+        ses_client: ses_client,
         product_readings: list[dict],
         product_keys: set) -> bool:
     '''Performs the entire pipeline to send emails to clients based on product readings.'''
+    logging.info('filtering send_emails input to remove bad inputs.')
     if not isinstance(product_readings, list):
+        logging.error(
+            'elements of product_readings in send_emails are not of type list, exit early.')
         return False
     product_readings = list(
         filter(lambda x: isinstance(x, dict) and verify_keys(x.keys(), product_keys),
                product_readings))
     if len(product_readings) == 0:
+        logging.error('No product_readings, exit early.')
         return False
-
+    logging.info('finish filtering send_emails input.')
 
     product_ids = [data['product_id'] for data in product_readings]
 
+    logging.info('get customer information from database.')
     customer_info = get_customer_information(conn, product_ids)
+    if len(customer_info) == 0:
+        logging.error('No customer information, exit early.')
+        return False
+    logging.info('Successfully got customer information from the database.')
+    logging.info('Start merging customer data and products readings.')
     merged_data = get_merged_customer_and_product_reading_table(
         customer_info, pd.DataFrame(product_readings))
+    if len(merged_data) == 0:
+        logging.error('No merged data, exit early.')
+        return False
+    logging.info('Successfully merged customer data and products readings.')
 
     ########### this mail_list will be used in practice over the one after it.
+    # logging.info('Getting list of email-verified customers.')
     # mail_list = get_email_list(merged_data['email'], ses_client)
+    # if len(main_list) == 0:
+    #   logging.error("Customer emails aren't verified, exit early."")
+    #   return False
+    # logging.info('Successfully get list of email-verified customers.')
     mail_list = set(merged_data['email'])
 
+    logging.info('Start formatting emails for each customer.')
     mail_list = [get_formatted_email(group_by_email(merged_data, email)) for email in mail_list]
+    logging.info('Successfully format emails for each customer.')
     return all(send_email_to_client(ses_client, content) for content in mail_list)
 
 if __name__ == '__main__':
+    logging.basicConfig(level='INFO')
     load_dotenv('.env')
-    connection = get_connection(CONFIG)
+    connection_obj = get_connection(CONFIG)
     client = get_ses_client(CONFIG)
 
-    send_emails(connection, client, sample_data, PRODUCT_READING_KEYS)
+    send_emails(connection_obj, client, sample_data, PRODUCT_READING_KEYS)

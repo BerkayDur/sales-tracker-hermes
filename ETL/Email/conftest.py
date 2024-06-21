@@ -4,8 +4,8 @@ from datetime import datetime
 
 import pytest
 
-@pytest.fixture
-def fake_products():
+@pytest.fixture(name='fake_products')
+def fixture_fake_products():
     '''Contains some fake product reading data.'''
     return [
     {
