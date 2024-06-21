@@ -45,18 +45,77 @@ def scrap_product_information(soup: BeautifulSoup) -> dict:
 
 def get_product_code(product_data: dict) -> str:
     """Returns product ID from the webpage"""
-    if not product_data or 'productID' not in product_data:
-        logging.error("Missing productID")
+    if not product_data:
+        logging.error("Missing product data")
         return None
-    return product_data["productID"]
+
+    product_id = product_data.get("productID")
+    if product_id:
+        return str(product_id)
+
+    graph = product_data.get("@graph")
+    if graph:  # Ensure @graph is a dictionary
+        product_id = graph[0]['productID']
+        return product_id
+        # print("PRODUCT_ID!!!!!!", product_id)
+        # if product_id:
+        #     return str(product_id['productID'])
+
+    logging.error("Missing productID in product_data")
+    return None
 
 
 def get_product_name(product_data: dict) -> str:
-    """Returns product name from the webpage"""
-    if not product_data or 'name' not in product_data:
-        logging.error("Missing product name")
+    """Returns product ID from the webpage"""
+    if not product_data:
+        logging.error("Missing product data")
         return None
-    return product_data["name"]
+
+    product_name = product_data.get("name")
+    if product_name:
+        return product_name
+
+    graph = product_data.get("@graph")
+    if graph:  # Ensure @graph is a dictionary
+        product_name = graph[0]['name']
+        return product_name
+        # print("PRODUCT_ID!!!!!!", product_id)
+        # if product_id:
+        #     return str(product_id['productID'])
+
+    logging.error("Missing productID in product_data")
+    return None
+
+
+# def get_product_code(product_data: dict) -> str:
+#     """Returns product ID from the webpage"""
+#     if not product_data:
+#         logging.error("Missing productID")
+#         return None
+#     if product_data["productID"]:
+#         return str(product_data["productID"])
+
+
+# def get_product_name(product_data: dict) -> str:
+#     """Returns product ID from the webpage"""
+#     if not product_data:
+#         logging.error("Missing product data")
+#         return None
+
+#     product_name = product_data.get("name")
+#     if product_name:
+#         return str(product_name)
+
+#     graph = product_data.get("@graph")
+#     # print(graph)
+#     if graph:
+#         product_name = (graph.get("name"))[0]
+#         print(product_name)
+#         if product_name:
+#             return product_name
+
+#     logging.error("Missing productID in product_data")
+#     return None
 
 
 def configure_logging():
@@ -70,9 +129,7 @@ def configure_logging():
 def extract_product_information():
     """ Extracts product information from a specific URL."""
     configure_logging()
-    url = "https://www.asos.com/adidas-originals/adidas-originals-gazelle-trainers-\
-in-white-and-blue/prd/205759745#ctaref-we%20recommend%20carousel_11&featureref1-we%20recommend%20pers"
-    url = ""
+    url = "https://www.asos.com/miss-selfridge/miss-selfridge-lace-micro-bloomer-shorts-in-ivory/prd/206590518#colourWayId-206590519"
 
     headers = {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)\
@@ -89,9 +146,10 @@ in-white-and-blue/prd/205759745#ctaref-we%20recommend%20carousel_11&featureref1-
         product_code = get_product_code(data)
         product_name = get_product_name(data)
         logging.info("Extraction completed successfully!")
-        return {'product_code': product_code, 'product_name': product_name}
+        return (url, product_code, product_name)
+    else:
 
-    logging.error("Failed to scrap product information")
+        logging.error("Failed to scrap product information")
 
 
 if __name__ == "__main__":
