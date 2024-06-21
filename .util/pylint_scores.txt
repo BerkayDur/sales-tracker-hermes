@@ -2,6 +2,23 @@
 ------------------------------------
 Your code has been rated at 10.00/10
 
+************* Module login
+Dashboard/login.py:31:0: C0116: Missing function or method docstring (missing-function-docstring)
+
+-----------------------------------
+Your code has been rated at 9.55/10
+
+************* Module 1_price
+Dashboard/pages/1_price.py:1:0: C0103: Module name "1_price" doesn't conform to snake_case naming style (invalid-name)
+Dashboard/pages/1_price.py:24:0: C0116: Missing function or method docstring (missing-function-docstring)
+
+-----------------------------------
+Your code has been rated at 8.82/10
+
+
+------------------------------------
+Your code has been rated at 10.00/10
+
 
 ------------------------------------
 Your code has been rated at 10.00/10
