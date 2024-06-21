@@ -1,7 +1,12 @@
 ============================= test session starts ==============================
 platform linux -- Python 3.12.4, pytest-8.2.2, pluggy-1.5.0
 rootdir: /home/runner/work/sales-tracker-hermes/sales-tracker-hermes
-collected 71 items / 1 error
+collected 149 items
 
-!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-=============================== 1 error in 0.58s ===============================
+ETL/Email/test_combined_load.py ........................................ [ 26%]
+.................                                                        [ 38%]
+ETL/Email/test_email_service.py ........................................ [ 65%]
+......................................                                   [ 90%]
+ETL/Email/test_helpers.py ..............                                 [100%]
+
+============================= 149 passed in 0.63s ==============================
