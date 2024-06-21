@@ -7,7 +7,7 @@ import pytest
 from extract import (get_product_info, get_url, get_current_price,
                      get_sale_status, process_product,
                      extract_price_and_sales_data, has_required_keys, is_dict,
-                     has_correct_types, validate_input)
+                     has_correct_types, validate_input, remove_stale_products)
 
 
 def test_get_url_valid_product_code(fake_product_data):
@@ -223,3 +223,31 @@ def test_validate_input_empty_list():
     with pytest.raises(ValueError):
         result = validate_input([])
         assert "The list is empty after validation. Please provide a valid product list." in result
+
+def test_remove_stale_products_valid_1():
+    fake_products = [
+        {'previous_price': None,
+         'current_price': 39.99}
+    ]
+    assert remove_stale_products(fake_products) == [
+        {'previous_price': None,
+         'current_price': 39.99}
+    ]
+
+def test_remove_stale_products_valid_2():
+    fake_products = [
+        {'previous_price': 40.00,
+         'current_price': 39.99}
+    ]
+    assert remove_stale_products(fake_products) == [
+        {'previous_price': 40.00,
+         'current_price': 39.99}
+    ]
+
+def test_remove_stale_products_valid_3():
+    fake_products = [
+        {'previous_price': 30.00,
+         'current_price': 39.99}
+    ]
+    assert remove_stale_products(fake_products) == [
+    ]

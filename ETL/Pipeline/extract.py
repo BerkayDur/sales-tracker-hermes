@@ -162,13 +162,16 @@ def validate_input(product_list):
 
     return valid_entries
 
+def remove_stale_products(products: list[dict]) -> list[dict]:
+    '''remove products where the price hasn't decreased!'''
+    return [product for product in products if product.get('previous_price') is None or product['current_price'] <= product['previous_price']]
 
 def handler(_event, _context=None) -> list:
     """Main function which lambda will call"""
     configure_log()
     cleaned_data = validate_input(_event)
     product_readings = extract_price_and_sales_data(cleaned_data)
-    return product_readings
+    return remove_stale_products(product_readings)
 
 
 if __name__ == '__main__':
