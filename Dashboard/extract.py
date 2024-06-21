@@ -1,11 +1,8 @@
+"Extract Script: Pulls product information from ASOS webspage"
 import json
+import logging
 import requests
 from bs4 import BeautifulSoup
-import logging
-
-
-HEADERS = {
-    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'}
 
 
 def get_product_page(url: str, headers: dict) -> str:
@@ -14,7 +11,7 @@ def get_product_page(url: str, headers: dict) -> str:
         logging.error("URL is empty")
         return None
     try:
-        response = requests.get(url, headers=headers)
+        response = requests.get(url, headers=headers, timeout=30)
         return response.text
     except requests.exceptions.RequestException as e:
         logging.error("A request error has occurred: %s", e)
@@ -33,6 +30,7 @@ def get_soup(url: str, headers: dict) -> BeautifulSoup:
 
 
 def scrap_product_information(soup: BeautifulSoup) -> dict:
+    """Extract product information from a BeautifulSoup object."""
     if not soup:
         logging.error("Soup object is None")
         return None
@@ -62,6 +60,7 @@ def get_product_name(product_data: dict) -> str:
 
 
 def configure_logging():
+    """Sets up basic logger"""
     return logging.basicConfig(
         level=logging.INFO,
         format='%(asctime)s - %(levelname)s - %(message)s'
@@ -69,12 +68,18 @@ def configure_logging():
 
 
 def extract_product_information():
+    """ Extracts product information from a specific URL."""
     configure_logging()
-    url = "https://www.asos.com/adidas-originals/adidas-originals-gazelle-trainers-in-white-and-blue/prd/205759745#ctaref-we%20recommend%20carousel_11&featureref1-we%20recommend%20pers"
-    # url = ""
+    url = "https://www.asos.com/adidas-originals/adidas-originals-gazelle-trainers-\
+in-white-and-blue/prd/205759745#ctaref-we%20recommend%20carousel_11&featureref1-we%20recommend%20pers"
+    url = ""
+
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)\
+        AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'}
 
     logging.info("Extraction started")
-    soup = get_soup(url, headers=HEADERS)
+    soup = get_soup(url, headers=headers)
     if not soup:
         logging.error("Failed to scrap product information")
 
@@ -84,11 +89,10 @@ def extract_product_information():
         product_code = get_product_code(data)
         product_name = get_product_name(data)
         logging.info("Extraction completed successfully!")
-        return (product_code, product_name)
-    else:
-        logging.error("Failed to scrap product information")
+        return {'product_code': product_code, 'product_name': product_name}
+
+    logging.error("Failed to scrap product information")
 
 
 if __name__ == "__main__":
     extract_product_information()
-    # print(get_product_page("", headers=HEADERS))
