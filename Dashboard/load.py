@@ -15,8 +15,8 @@ def get_connection(config: _Environ) -> connection:
         user=config["DB_USER"],
         host=config["DB_HOST"],
         database=config["DB_NAME"],
-        # password=config["DB_PASSWORD"],
-        # port=config["DB_PORT"]
+        password=config["DB_PASSWORD"],
+        port=config["DB_PORT"]
     )
 
 
