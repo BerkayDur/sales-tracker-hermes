@@ -97,7 +97,7 @@ def process_product(product: dict) -> dict | None:
         if not sale is None and not curr_price is None:
             product['current_price'] = curr_price
             product['is_on_sale'] = sale
-            product['reading_at'] = datetime.now()
+            product['reading_at'] = datetime.now().isoformat(".", "seconds")
             return product
     logging.error("Error processing product %s", product['product_code'])
     return None
@@ -113,7 +113,7 @@ def extract_price_and_sales_data(product_list: list[dict]) -> list[dict]:
         logging.info("Finished Extraction")
         logging.info("Removing erroneous / missing data")
         results = [i for i in results if i is not None]
-    return results
+    return [results]
 
 
 def has_required_keys(entry, required_keys):
@@ -163,14 +163,13 @@ def validate_input(product_list):
     return valid_entries
 
 
-def handler(_event, _context):
+def handler(_event, _context=None) -> dict:
     """Main function which lambda will call"""
     configure_log()
-    cleaned_data = validate_input(product_input)
-    extract_price_and_sales_data()
+    cleaned_data = validate_input(_event["output"])
+    product_readings = extract_price_and_sales_data(cleaned_data)
+    return {"output": product_readings}
 
 
 if __name__ == '__main__':
-    configure_log()
-    cleaned_data = validate_input(product_input)
-    extract_price_and_sales_data()
+    print(handler(None, None))
