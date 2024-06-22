@@ -2,6 +2,13 @@
 ------------------------------------
 Your code has been rated at 10.00/10
 
+************* Module ses_get_emails
+Dashboard/utilities/ses_get_emails.py:18:0: C0305: Trailing newlines (trailing-newlines)
+Dashboard/utilities/ses_get_emails.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+
+-----------------------------------
+Your code has been rated at 7.14/10
+
 ************* Module login
 Dashboard/login.py:15:0: C0301: Line too long (471/100) (line-too-long)
 
