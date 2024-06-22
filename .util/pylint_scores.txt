@@ -2,14 +2,9 @@
 ------------------------------------
 Your code has been rated at 10.00/10
 
-************* Module email_verification
-Dashboard/utilities/email_verification.py:8:0: E0401: Unable to import 'boto3' (import-error)
-Dashboard/utilities/email_verification.py:9:0: E0401: Unable to import 'botocore.client' (import-error)
-Dashboard/utilities/email_verification.py:10:0: E0401: Unable to import 'botocore.exceptions' (import-error)
-Dashboard/utilities/email_verification.py:11:0: E0401: Unable to import 'mypy_boto3_ses.client' (import-error)
 
------------------------------------
-Your code has been rated at 4.59/10
+------------------------------------
+Your code has been rated at 10.00/10
 
 ************* Module login
 Dashboard/login.py:15:0: C0301: Line too long (471/100) (line-too-long)
