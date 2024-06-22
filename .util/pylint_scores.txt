@@ -3,11 +3,11 @@
 Your code has been rated at 10.00/10
 
 ************* Module ses_get_emails
-Dashboard/utilities/ses_get_emails.py:18:0: C0305: Trailing newlines (trailing-newlines)
-Dashboard/utilities/ses_get_emails.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+Dashboard/utilities/ses_get_emails.py:46:4: W0621: Redefining name 'all_emails' from outer scope (line 55) (redefined-outer-name)
+Dashboard/utilities/ses_get_emails.py:47:4: W0621: Redefining name 'verified_emails' from outer scope (line 56) (redefined-outer-name)
 
 -----------------------------------
-Your code has been rated at 7.14/10
+Your code has been rated at 9.46/10
 
 ************* Module login
 Dashboard/login.py:15:0: C0301: Line too long (471/100) (line-too-long)
