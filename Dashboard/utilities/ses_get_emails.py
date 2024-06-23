@@ -23,38 +23,40 @@ def is_ses(boto_ses_client: ses_client) -> bool:
     return (isinstance(boto_ses_client, BaseClient)
             and boto_ses_client._service_model.service_name == 'ses') #pylint: disable=protected-access
 
-def get_all_ses_emails(boto_ses_client: ses_client) -> list[str]:
-    '''returns all ses emails'''
-    if not is_ses(boto_ses_client):
-        logging.error('client passed to get_all_ses_emails is not a boto3 ses client.')
-        return []
-    return boto_ses_client.list_identities(IdentityType="EmailAddress")['Identities']
+def get_ses_emails(boto_ses_client: ses_client, method: str) -> list[str]:
+    '''Given a boto3 ses client a method, return a list of emails.
 
-
-def get_verified_ses_emails(boto_ses_client: ses_client) -> list[str]:
-    '''returns verified ses emails'''
+    Method is an enumerated with 3 possible values:
+        'all'
+        'verified'
+        'unverified'
+    '''
     if not is_ses(boto_ses_client):
-        logging.error('client passed to get_verified_ses_emails is not a boto3 ses client.')
+        logging.error('client passed to get_ses_emails is not a boto3 ses client.')
         return []
-    return boto_ses_client.list_verified_email_addresses()['VerifiedEmailAddresses']
-
-def get_unverified_ses_emails(boto_ses_client: ses_client) -> list[str]:
-    '''returns unverified ses emails'''
-    if not is_ses(boto_ses_client):
-        logging.error('client passed to get_unverified_ses_emails is not a boto3 ses client.')
-        return []
-    all_emails = get_all_ses_emails(boto_ses_client)
-    verified_emails = get_verified_ses_emails(boto_ses_client)
-    return list(set(all_emails) - set(verified_emails))
+    if method == 'all':
+        logging.info('Getting all ses emails.')
+        return boto_ses_client.list_identities(IdentityType="EmailAddress")['Identities']
+    if method == 'verified':
+        logging.info('Getting all verified ses emails.')
+        return boto_ses_client.list_verified_email_addresses()['VerifiedEmailAddresses']
+    if method == 'unverified':
+        logging.info('Getting all unverified ses emails.')
+        all_emails = boto_ses_client.list_identities(IdentityType="EmailAddress")['Identities']
+        verified_emails = boto_ses_client.list_verified_email_addresses()['VerifiedEmailAddresses']
+        return list(set(all_emails) - set(verified_emails))
+    logging.error('method passed to get_ses_method must be one of the following enumerated values\
+`all`, `verified`, `unverified`, you passed %s of type %s', method, type(method))
+    return []
 
 if __name__ == '__main__':
     logging.basicConfig(level='INFO')
 
     load_dotenv()
     client = get_ses_client(CONFIG)
-    test_all_emails = get_all_ses_emails(client)
-    test_verified_emails = get_verified_ses_emails(client)
-    test_unverified_emails = get_unverified_ses_emails(client)
+    test_all_emails = get_ses_emails(client, 'all')
+    test_verified_emails = get_ses_emails(client, 'verified')
+    test_unverified_emails = get_ses_emails(client, 'unverified')
     print(len(test_all_emails))
     print(len(test_verified_emails))
     print(len(test_unverified_emails))
