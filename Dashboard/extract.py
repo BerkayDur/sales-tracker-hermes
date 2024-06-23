@@ -30,6 +30,11 @@ def get_product_page(url: str, headers: dict) -> str | None:
 
 def get_soup(url: str, headers: dict) -> BeautifulSoup | None:
     """Returns a soup object for a game given the web address."""
+    if not isinstance(url, str):
+        raise TypeError('URL must be of type string.')
+    if not isinstance(headers, dict):
+        raise TypeError('header must be of type dict')
+
     response = get_product_page(url, headers=headers)
 
     if response:
@@ -40,6 +45,9 @@ def get_soup(url: str, headers: dict) -> BeautifulSoup | None:
 
 def scrape_product_information(soup: BeautifulSoup) -> dict | None:
     """Extract product information from a BeautifulSoup object."""
+    if not isinstance(soup, BeautifulSoup):
+        raise TypeError('Soup must be of type BeautifulSoup')
+
     if not soup:
         logging.error("Soup object is None")
         return None
