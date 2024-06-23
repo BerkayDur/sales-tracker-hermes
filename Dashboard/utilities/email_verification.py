@@ -42,16 +42,20 @@ def send_verification_email(boto_ses_client: ses_client, email: str) -> dict[boo
     try:
         response = boto_ses_client.verify_email_identity(EmailAddress=email)
     except ClientError as e:
-        if e.response.get('Error').get('Code') == 'InvalidClientTokenId':
+        if not e.response.get('Error'):
+            logging.error('sending email verification failed due to an unknown reason\
+ (no Error attribute on response object), see field \'error\'!')
+            reason = 'unknown reason, but no Error attribute on response, see field \'error\'!'
+        elif e.response.get('Error').get('Code') == 'InvalidClientTokenId':
             logging.error('sending email verification failed due to bad aws credentials!')
-            return {'success': False, 'reason': 'bad aws credentials!', 'error': e.response}
-        if e.response.get('Error').get('Code') == 'InvalidParameterValue':
+            reason = 'bad aws credentials!'
+        elif e.response.get('Error').get('Code') == 'InvalidParameterValue':
             logging.error('sending email verification failed due to bad email address format!')
-            return {'success': False, 'reason': 'invalid email address format.',
-                    'error': e.response}
-        logging.error('sending email verification failed due to bad aws credentials!')
-        return {'success': False, 'reason': 'failure for unknown reason, see field \'error\'',
-                'error': e.response}
+            reason = 'invalid email address format.'
+        else:
+            logging.error('sending email verification failed due to an unknown reason!')
+            reason = 'failure for unknown reason, see field \'error\''
+        return {'success': False, 'reason': reason, 'error': e.response}
     logging.info('Sending email verification success!')
     return {'success': True, 'request_id': response.get('ResponseMetadata').get('RequestId')}
 

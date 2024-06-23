@@ -124,7 +124,7 @@ def test_email_verification_bad_credentials_error(mock_is_ses):
     assert mock_client.verify_email_identity.call_args[1]['EmailAddress'] == 'fake@mail.com'
 
 @patch('email_verification.is_ses')
-def test_email_verification_unknown_error(mock_is_ses):
+def test_email_verification_unknown_error_1(mock_is_ses):
     '''test email verification with unknown error.'''
     mock_is_ses.return_value = True
 
@@ -137,6 +137,25 @@ def test_email_verification_unknown_error(mock_is_ses):
     out = send_verification_email(mock_client, 'fake@mail.com')
     assert out['success'] == False
     assert out['reason'] == 'failure for unknown reason, see field \'error\''
+    assert mock_is_ses.call_count == 1
+    assert mock_is_ses.call_args[0][0] == mock_client
+    assert mock_client.verify_email_identity.call_count == 1
+    assert mock_client.verify_email_identity.call_args[1]['EmailAddress'] == 'fake@mail.com'
+
+@patch('email_verification.is_ses')
+def test_email_verification_unknown_error_2(mock_is_ses):
+    '''test email verification with unknown error.'''
+    mock_is_ses.return_value = True
+
+    e = {}
+
+    mock_client = MagicMock(spec=BaseClient)
+    mock_client._service_model.service_name = 'ses'
+    mock_client.verify_email_identity = MagicMock()
+    mock_client.verify_email_identity.side_effect = ClientError(e, 'FAKE_ERROR')
+    out = send_verification_email(mock_client, 'fake@mail.com')
+    assert out['success'] == False
+    assert out['reason'] == 'unknown reason, but no Error attribute on response, see field \'error\'!'
     assert mock_is_ses.call_count == 1
     assert mock_is_ses.call_args[0][0] == mock_client
     assert mock_client.verify_email_identity.call_count == 1
