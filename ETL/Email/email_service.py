@@ -131,7 +131,9 @@ def format_email_from_data_frame(
             email_type = 'sale'
 
     message = f"({website_name}) <a href='{row_data['url']}'>{row_data['product_name']}</a> "
-    if isnan(row_data['previous_price']):
+    if not row_data['previous_price'] or ((isinstance(row_data['previous_price'], float) or
+                                           isinstance(row_data['previous_price'], float))
+                                           and isnan(row_data['previous_price'])):
         message += f"now £{row_data['current_price']}"
     else:
         message += f"was £{row_data['previous_price']}, now £{row_data['current_price']}"
