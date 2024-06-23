@@ -28,11 +28,17 @@ def get_cursor(conn: connection) -> cursor:
     return conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 
 
-def insert_product_information_database(conn: connection, extracted_data):
+def insert_product_information(conn: connection, extracted_data: tuple):
     "Inserts product name and code into the database."
     if not isinstance(conn, connection):
         raise TypeError(
             'A cursor can only be constructed from a Psycopg2 connection object')
+    if not isinstance(extracted_data, tuple) or len(extracted_data) != 3:
+        raise TypeError('Extracted data must be a tuple or length 3.')
+
+    if not all(isinstance(detail, str) for detail in extracted_data):
+        raise TypeError('All elements of the extracted data must be strings.')
+
     logging.info("Inserting product data into the database")
     with get_cursor(conn) as cur:
         cur.execute(
@@ -43,16 +49,19 @@ def insert_product_information_database(conn: connection, extracted_data):
 
 
 def load_product_data(config: _Environ) -> None:
-    """Retrieves product information, inserts it into a database."""
+    """Retrieves product information and inserts it into the database."""
     logging.info("Trying to load product information")
     configure_logging()
     conn = get_connection(config)
     extracted_data = extract_product_information()
+
+    if not extracted_data:
+        raise ValueError('Extraction Failed.')
     try:
-        insert_product_information_database(conn, extracted_data)
+        insert_product_information(conn, extracted_data)
         logging.info("Loading successfully completed!")
-    except Exception:
-        print("Unable to load data.")
+    except (TypeError, psycopg2.Error) as e:
+        logging.error("Unable to load data %s", e)
 
 
 if __name__ == '__main__':
