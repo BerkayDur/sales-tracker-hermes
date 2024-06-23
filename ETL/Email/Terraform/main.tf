@@ -22,9 +22,9 @@ resource "aws_iam_role" "iam_for_email_load_lambda" {
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 
-resource "aws_cloudwatch_log_group" "email_load_lambda_cloudwatch" {
-    name = "/aws/lambda/${var.email_load_lambda_name}"
-    retention_in_days = 1
+resource "aws_iam_role" "iam_for_email_load_lambda" {
+  name = "c11-hermes-email-load-lambda-role"
+  assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 
 data "aws_iam_policy_document" "email_load_lambda_logging" {
