@@ -10,7 +10,7 @@ from ses_get_emails import (is_ses, get_all_ses_emails,
                             get_unverified_ses_emails)
 
 def test_is_ses_valid():
-    '''test for valid.'''
+    '''test for a valid ses client.'''
     mock_client = MagicMock(spec=botocore.client.BaseClient)
     mock_client._service_model.service_name = 'ses'
     assert is_ses(mock_client)
