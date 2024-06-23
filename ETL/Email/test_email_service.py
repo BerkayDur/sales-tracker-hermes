@@ -6,7 +6,7 @@ from psycopg2.extensions import connection, cursor
 import pandas as pd
 
 from email_service import (
-    verify_keys, get_customer_information,
+    verify_keys, get_customer_information, filter_merged_table,
     get_merged_customer_and_product_reading_table,
     group_by_email, format_email_from_data_frame,
     get_subject, get_html_unordered_list,
@@ -104,44 +104,37 @@ def test_get_customer_information_type_error_3(mock_create_single_insert_format_
     assert mock_get_cursor.return_value.__enter__.return_value.execute.call_count == 0
     assert mock_create_single_insert_format_string.call_count == 0
 
-def test_get_merged_customer_and_product_reading_table_valid_1():
-    '''test for valid cases'''
+def test_filter_merged_table_valid(fake_merged_data):
+    '''testing filter_merged_table with valid DataFrame values.'''
+    assert filter_merged_table(fake_merged_data).sort_values('price_threshold').reset_index(drop=True).equals(pd.DataFrame([
+        {'price_threshold': None, 'current_price': 18.96, 'previous_price': 19.98, 'is_on_sale': True},
+        {'price_threshold': 19.99, 'current_price': 18.91, 'previous_price': None, 'is_on_sale': False},
+        {'price_threshold': 19.98, 'current_price': 18.90, 'previous_price': None, 'is_on_sale': True},
+        {'price_threshold': 19.96, 'current_price': 18.88, 'previous_price': 20.99, 'is_on_sale': True},
+        {'price_threshold': 19.95, 'current_price': 18.87, 'previous_price': 20.98, 'is_on_sale': False},
+    ]).sort_values('price_threshold').reset_index(drop=True))
+
+@pytest.mark.parametrize('fake_data', [[{'product_id': 1, 'price_threshold': 10.0}],
+                                       {'product_id': 1, 'price_threshold': 10.0},
+                                       pd.Series([{'product_id': 1, 'price_threshold': 10.0}])])
+def test_filter_merged_table_invalid(fake_data):
+    '''testing filter_merged_table with invalid type (I.e., not a DataFrame).'''
+    with pytest.raises(TypeError):
+        filter_merged_table(fake_data)
+
+
+@patch('email_service.filter_merged_table')
+def test_get_merged_customer_and_product_reading_table_valid(mock_filter_merged_table):
+    '''test for a valid case (mostly to check call arguments, etc.)'''
     fake_customer_information = pd.DataFrame([{'product_id': 1, 'price_threshold': 10.0}])
     fake_product_reading = pd.DataFrame(
         [{'product_id': 1, 'current_price': 10.0, 'is_on_sale': True}])
-    combined = get_merged_customer_and_product_reading_table(fake_customer_information,
+    get_merged_customer_and_product_reading_table(fake_customer_information,
                                                              fake_product_reading)
-    assert combined.equals(pd.DataFrame(
+    assert mock_filter_merged_table.call_count == 1
+    assert mock_filter_merged_table.call_args[0][0].equals(pd.DataFrame(
         [{'product_id':1, 'price_threshold': 10.0, 'current_price': 10.0, 'is_on_sale': True}]))
 
-def test_get_merged_customer_and_product_reading_table_valid_2():
-    '''test for valid cases'''
-    fake_customer_information = pd.DataFrame([{'product_id': 1, 'price_threshold': 10.0}])
-    fake_product_reading = pd.DataFrame(
-        [{'product_id': 1, 'current_price': 9.0, 'is_on_sale': False}])
-    combined = get_merged_customer_and_product_reading_table(fake_customer_information,
-                                                             fake_product_reading)
-    assert combined.equals(pd.DataFrame(
-        [{'product_id':1, 'price_threshold': 10.0, 'current_price': 9.0, 'is_on_sale': False}]))
-
-def test_get_merged_customer_and_product_reading_table_valid_3():
-    '''test for valid cases'''
-    fake_customer_information = pd.DataFrame([{'product_id': 1, 'price_threshold': 10.0}])
-    fake_product_reading = pd.DataFrame(
-        [{'product_id': 1, 'current_price': 11.0, 'is_on_sale': True}])
-    combined = get_merged_customer_and_product_reading_table(
-        fake_customer_information, fake_product_reading)
-    assert combined.equals(pd.DataFrame(
-        [{'product_id':1, 'price_threshold': 10.0, 'current_price': 11.0, 'is_on_sale': True}]))
-
-def test_get_merged_customer_and_product_reading_table_valid_4():
-    '''test for valid cases'''
-    fake_customer_information = pd.DataFrame([{'product_id': 1, 'price_threshold': 10.0}])
-    fake_product_reading = pd.DataFrame(
-        [{'product_id': 1, 'current_price': 11.0, 'is_on_sale': False}])
-    combined = get_merged_customer_and_product_reading_table(
-        fake_customer_information, fake_product_reading)
-    assert combined.empty
 
 @pytest.mark.parametrize('fake_data', [[{'product_id': 1, 'price_threshold': 10.0}],
                                        {'product_id': 1, 'price_threshold': 10.0},
@@ -224,6 +217,43 @@ def test_format_email_from_data_frame_valid_4():
                                'current_price': 1.00, 'url': 'TEST2'})
     out = format_email_from_data_frame(fake_row_data)
     assert out['message'] == '(ASOS) <a href=\'TEST2\'>TEST1</a> was £2.0, now £1.0 (ON SALE).'
+    assert out['email_type'] == 'threshold'
+
+
+def test_format_email_from_data_frame_valid_5():
+    '''test for valid'''
+    fake_row_data = pd.Series({'price_threshold': None, 'is_on_sale': False,
+                               'product_name': 'TEST1', 'previous_price': float('nan'),
+                               'current_price': 1.00, 'url': 'TEST2'})
+    out = format_email_from_data_frame(fake_row_data)
+    assert out['message'] == '(ASOS) <a href=\'TEST2\'>TEST1</a> now £1.0.'
+    assert not out['email_type']
+
+def test_format_email_from_data_frame_valid_6():
+    '''test for valid'''
+    fake_row_data = pd.Series({'price_threshold': 2.00, 'is_on_sale': False,
+                               'product_name': 'TEST1', 'previous_price': float('nan'),
+                               'current_price': 1.00, 'url': 'TEST2'})
+    out = format_email_from_data_frame(fake_row_data)
+    assert out['message'] == '(ASOS) <a href=\'TEST2\'>TEST1</a> now £1.0.'
+    assert out['email_type'] == 'threshold'
+
+def test_format_email_from_data_frame_valid_7():
+    '''test for valid'''
+    fake_row_data = pd.Series({'price_threshold': 0.50, 'is_on_sale': True,
+                               'product_name': 'TEST1', 'previous_price': float('nan'),
+                               'current_price': 1.00, 'url': 'TEST2'})
+    out = format_email_from_data_frame(fake_row_data)
+    assert out['message'] == '(ASOS) <a href=\'TEST2\'>TEST1</a> now £1.0.'
+    assert out['email_type'] == 'sale'
+
+def test_format_email_from_data_frame_valid_8():
+    '''test for valid'''
+    fake_row_data = pd.Series({'price_threshold': 1.00, 'is_on_sale': True,
+                               'product_name': 'TEST1', 'previous_price': float('nan'),
+                               'current_price': 1.00, 'url': 'TEST2'})
+    out = format_email_from_data_frame(fake_row_data)
+    assert out['message'] == '(ASOS) <a href=\'TEST2\'>TEST1</a> now £1.0 (ON SALE).'
     assert out['email_type'] == 'threshold'
 
 @pytest.mark.parametrize('fake_data', [[{'product_id': 1, 'price_threshold': 10.0}],
