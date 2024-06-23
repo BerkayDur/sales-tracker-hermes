@@ -2,11 +2,9 @@
 ------------------------------------
 Your code has been rated at 10.00/10
 
-************* Module extract
-Dashboard/extract.py:117:0: C0301: Line too long (166/100) (line-too-long)
 
------------------------------------
-Your code has been rated at 9.89/10
+------------------------------------
+Your code has been rated at 10.00/10
 
 ************* Module conftest
 ETL/Pipeline/conftest.py:24:0: C0301: Line too long (191/100) (line-too-long)
@@ -21,6 +19,6 @@ ETL/Pipeline/conftest.py:37:0: C0116: Missing function or method docstring (miss
 Your code has been rated at 2.22/10
 
 
--------------------------------------------------------------------
-Your code has been rated at 10.00/10 (previous run: 9.89/10, +0.11)
+--------------------------------------------------------------------
+Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
 
