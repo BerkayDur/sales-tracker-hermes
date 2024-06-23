@@ -18,13 +18,38 @@ Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
 ------------------------------------
 Your code has been rated at 10.00/10
 
+************* Module conftest
+ETL/Email/conftest.py:48:0: C0301: Line too long (103/100) (line-too-long)
+ETL/Email/conftest.py:49:0: C0301: Line too long (104/100) (line-too-long)
+ETL/Email/conftest.py:50:0: C0301: Line too long (102/100) (line-too-long)
+ETL/Email/conftest.py:51:0: C0301: Line too long (103/100) (line-too-long)
+ETL/Email/conftest.py:52:0: C0301: Line too long (104/100) (line-too-long)
+ETL/Email/conftest.py:53:0: C0301: Line too long (105/100) (line-too-long)
+ETL/Email/conftest.py:54:0: C0301: Line too long (103/100) (line-too-long)
+ETL/Email/conftest.py:55:0: C0301: Line too long (104/100) (line-too-long)
+ETL/Email/conftest.py:56:0: C0301: Line too long (104/100) (line-too-long)
+ETL/Email/conftest.py:57:0: C0301: Line too long (103/100) (line-too-long)
+ETL/Email/conftest.py:58:0: C0301: Line too long (105/100) (line-too-long)
+ETL/Email/conftest.py:59:0: C0301: Line too long (104/100) (line-too-long)
+ETL/Email/conftest.py:60:0: C0301: Line too long (105/100) (line-too-long)
+ETL/Email/conftest.py:61:0: C0304: Final newline missing (missing-final-newline)
 
 --------------------------------------------------------------------
-Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
+Your code has been rated at 0.00/10 (previous run: 10.00/10, -10.00)
 
+************* Module email_service
+ETL/Email/email_service.py:69:0: C0303: Trailing whitespace (trailing-whitespace)
+ETL/Email/email_service.py:72:0: C0301: Line too long (119/100) (line-too-long)
+ETL/Email/email_service.py:73:0: C0301: Line too long (121/100) (line-too-long)
+ETL/Email/email_service.py:74:0: C0301: Line too long (122/100) (line-too-long)
+ETL/Email/email_service.py:75:0: C0301: Line too long (130/100) (line-too-long)
+ETL/Email/email_service.py:77:0: C0301: Line too long (170/100) (line-too-long)
+ETL/Email/email_service.py:79:0: C0301: Line too long (132/100) (line-too-long)
+ETL/Email/email_service.py:138:0: C0303: Trailing whitespace (trailing-whitespace)
+ETL/Email/email_service.py:140:0: C0303: Trailing whitespace (trailing-whitespace)
 
-------------------------------------
-Your code has been rated at 10.00/10
+-----------------------------------
+Your code has been rated at 9.51/10
 
 
 ------------------------------------
@@ -36,7 +61,7 @@ Your code has been rated at 10.00/10
 
 
 --------------------------------------------------------------------
-Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
+Your code has been rated at 10.00/10 (previous run: 0.00/10, +10.00)
 
 
 ------------------------------------
