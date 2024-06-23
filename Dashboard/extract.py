@@ -114,7 +114,7 @@ def configure_logging() -> None:
 def extract_product_information() -> tuple | None:
     """ Extracts product information from a specific URL."""
     configure_logging()
-    url = "https://www.asos.com/asos-design/asos-design-disney-oversized-unisex-tee-in-off-white-with-mickey-mouse-graphic-prints/prd/205987755#colourWayId-205987756"
+    url = "ADD URL HERE"
     headers = {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)\
         AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'}
