@@ -5,36 +5,34 @@ import pytest
 from psycopg2.extensions import connection
 
 
-def test_group_data_batch_of_2(fake_readings):
+def test_group_data_batch_of_2(fake_readings) -> None:
     "Testing that the batches of data are created in batches of 2 when the batch size is set to 2"
     readings = fake_readings
     assert group_data(readings, 2) == [[{"product_id": 1, "url": "http://example.com/product1", "price": 19.99},
-                                       {"product_id": 2, "url": "http://example.com/product2",
-                                           "price": 24.99}],
-                                       [{"product_id": 3, "url": "http://example.com/product3",
-                                           "price": 12.34},
+                                       {"product_id": 2, "url": "http://example.com/product2", "price": 24.99}],
+                                       [{"product_id": 3, "url": "http://example.com/product3", "price": 12.34},
                                        {"product_id": 4, "url": "http://example.com/product4", "price": 228.99}]]
 
 
-def test_group_data_batch_of_30(fake_readings):
+def test_group_data_batch_of_30(fake_readings) -> None:
     "Testing that the batches of data are created in batches of up to 30 when the batch size is set to 30"
     readings = fake_readings
     assert group_data(readings, 30) == [[{"product_id": 1, "url": "http://example.com/product1", "price": 19.99},
                                          {"product_id": 2, "url": "http://example.com/product2",
-                                          "price": 24.99},
+                                             "price": 24.99},
                                          {"product_id": 3, "url": "http://example.com/product3",
-                                          "price": 12.34},
+                                             "price": 12.34},
                                          {"product_id": 4, "url": "http://example.com/product4", "price": 228.99}]]
 
 
-def test_group_data_invalid_data():
+def test_group_data_invalid_data() -> None:
     "Testing that an error is raised when the data is not in a list"
     with pytest.raises(TypeError):
         group_data(
             {"product_id": 1, "url": "http://example.com/product1", "price": 19.99}, 2)
 
 
-def test_group_data_invalid_product_data():
+def test_group_data_invalid_product_data() -> None:
     "Testing that an error is raised when the data within the list is not stored as a list"
     with pytest.raises(TypeError):
         group_data(
@@ -42,7 +40,7 @@ def test_group_data_invalid_product_data():
              ["product_id", 2, "url", "http://example.com/product2", "price", 24.99]], 2)
 
 
-def test_read_database():
+def test_read_database() -> None:
     "Testing that the correct executions are made when reading from the database"
     mock_conn = MagicMock(spec=connection)
     mock_cursor = MagicMock()
@@ -56,7 +54,7 @@ def test_read_database():
     assert "FROM products" in call_args[0]
 
 
-def test_read_database_raises_error_if_connection_not_given():
+def test_read_database_raises_error_if_connection_not_given() -> None:
     "Testing that an error is raised if the incorrect datatype is given for conn"
     with pytest.raises(TypeError):
         read_database(23)
