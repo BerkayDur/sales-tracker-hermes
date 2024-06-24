@@ -1,32 +1,15 @@
 ************* Module extract_from_asos
-Dashboard/extract_from_asos.py:16:0: C0303: Trailing whitespace (trailing-whitespace)
-Dashboard/extract_from_asos.py:91:0: C0303: Trailing whitespace (trailing-whitespace)
-Dashboard/extract_from_asos.py:116:0: C0301: Line too long (139/100) (line-too-long)
-Dashboard/extract_from_asos.py:117:0: C0301: Line too long (148/100) (line-too-long)
-
------------------------------------
-Your code has been rated at 9.49/10
-
-************* Module load
-Dashboard/load.py:51:0: C0301: Line too long (188/100) (line-too-long)
-Dashboard/load.py:37:4: E1128: Assigning result of a function call, where the function returns None (assignment-from-none)
-Dashboard/load.py:37:21: E1120: No value for argument 'product_url' in function call (no-value-for-parameter)
-
------------------------------------
-Your code has been rated at 6.86/10
-
-************* Module extract_from_asos
 Dashboard/utilities/extract_from_asos.py:108:0: C0301: Line too long (139/100) (line-too-long)
 Dashboard/utilities/extract_from_asos.py:109:0: C0301: Line too long (148/100) (line-too-long)
 
-------------------------------------------------------------------
-Your code has been rated at 9.73/10 (previous run: 9.49/10, +0.23)
+-----------------------------------
+Your code has been rated at 9.73/10
 
 ************* Module load
 Dashboard/utilities/load.py:58:0: C0301: Line too long (163/100) (line-too-long)
 
-------------------------------------------------------------------
-Your code has been rated at 9.72/10 (previous run: 6.86/10, +2.87)
+-----------------------------------
+Your code has been rated at 9.72/10
 
 
 ------------------------------------
@@ -38,26 +21,6 @@ Dashboard/utilities/extract_combined.py:60:0: C0301: Line too long (118/100) (li
 
 -----------------------------------
 Your code has been rated at 9.56/10
-
-************* Module helpers
-Dashboard/helpers.py:2:0: W0611: Unused environ imported from os (unused-import)
-
--------------------------------------------------------------------
-Your code has been rated at 9.76/10 (previous run: 10.00/10, -0.24)
-
-************* Module extract_combined
-Dashboard/extract_combined.py:52:38: C0303: Trailing whitespace (trailing-whitespace)
-Dashboard/extract_combined.py:61:0: C0301: Line too long (166/100) (line-too-long)
-Dashboard/extract_combined.py:62:0: C0301: Line too long (118/100) (line-too-long)
-Dashboard/extract_combined.py:21:22: C0201: Consider iterating the dictionary directly instead of calling .keys() (consider-iterating-dictionary)
-Dashboard/extract_combined.py:28:19: W0621: Redefining name 'conn' from outer scope (line 63) (redefined-outer-name)
-Dashboard/extract_combined.py:36:32: W0621: Redefining name 'conn' from outer scope (line 63) (redefined-outer-name)
-Dashboard/extract_combined.py:36:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
-Dashboard/extract_combined.py:51:8: W0612: Unused variable 'website_data' (unused-variable)
-Dashboard/extract_combined.py:5:0: W0611: Unused cursor imported from psycopg2.extensions (unused-import)
-
-------------------------------------------------------------------
-Your code has been rated at 7.95/10 (previous run: 9.56/10, -1.60)
 
 ************* Module conftest
 ETL/Pipeline/conftest.py:24:0: C0301: Line too long (191/100) (line-too-long)
