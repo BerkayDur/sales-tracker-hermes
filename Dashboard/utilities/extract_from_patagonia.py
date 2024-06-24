@@ -1,4 +1,4 @@
-"Extract Script: Pulls product information from ASOS webspage"
+"Extract Script: Pulls product information from Patagonia webpage"
 import json
 import logging
 from bs4 import BeautifulSoup
