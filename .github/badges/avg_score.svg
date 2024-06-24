@@ -4,6 +4,7 @@
     <stop offset="0" stop-opacity=".1" stop-color="#EEE"/>
     <stop offset="1" stop-opacity=".1"/>
   </linearGradient>
+
   <mask id="m"><rect width="2255" height="200" rx="30" fill="#FFF"/></mask>
   <g mask="url(#m)">
     <rect width="805" height="200" fill="#555"/>
