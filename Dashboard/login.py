@@ -50,7 +50,7 @@ def add_email(conn: connection, email: str) -> tuple | None:
     return data
 
 
-def login_page() -> None:
+def login_page(config: _Environ, email_pattern: str) -> None:
     """Login page"""
     st.title("Login Page")
 
@@ -60,7 +60,7 @@ def login_page() -> None:
     )
     if st.button("Login", type="primary"):
         logging.info("Login button clicked with %s", login_email)
-        conn = get_connection(ENV)
+        conn = get_connection(config)
         if authenticate(conn, login_email):
             login(login_email)
         else:
@@ -77,13 +77,13 @@ def login_page() -> None:
     )
     if st.button("Sign up", type="primary"):
         logging.info("Sign up button clicked with %s", signup_email)
-        conn = get_connection(ENV)
+        conn = get_connection(config)
         if authenticate(conn, signup_email):
             logging.error(
                 "The email %s is already registered. Please log in.", signup_email)
             st.error(
                 f"The email {signup_email} is already registered. Please log in.")
-        elif re.match(EMAIL_PATTERN, signup_email):
+        elif re.match(email_pattern, signup_email):
             add_email(conn, signup_email)
             login(signup_email)
         else:
@@ -107,4 +107,4 @@ if __name__ == "__main__":
     make_sidebar()
     load_dotenv()
 
-    login_page()
+    login_page(ENV, EMAIL_PATTERN)
