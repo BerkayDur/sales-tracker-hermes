@@ -1,3 +1,6 @@
+[![badge](./.github/badges/passed_percentage.svg)](./.util/pytest_scores.json)
+[![badge](./.github/badges/avg_score.svg)](./.util/pylint_scores.json)
+
 # Hermes It's on sale tracker
 
 This project is designed to track products and notify users when they go on sale. By entering the product URL and your email into the dashboard, you can receive notifications whenever the product's price decreases or falls below a specified threshold. Additionally, the dashboard lets you view the price history of tracked products, making sure you always get the best price.
