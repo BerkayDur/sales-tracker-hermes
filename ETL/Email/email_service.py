@@ -309,21 +309,8 @@ def send_emails(
     return all(send_email_to_client(ses, content) for content in mail_list)
 
 if __name__ == '__main__':
-    from datetime import datetime
-
-
     logging.basicConfig(level='INFO')
     load_dotenv('.env')
     connection_obj = get_connection(CONFIG)
     client = get_ses_client(CONFIG)
-    send_emails(connection_obj, client, [{
-    "product_id": 5,
-    "url": "https://www.asos.com/adidas-performance/adidas-running-response-trainers-in-white-and-blue/prd/203474246#colourWayId-203474304",
-    "previous_price": 300,
-    "current_price" : 5,
-    "is_on_sale" : False,
-    "reading_at" : datetime.now(),
-    "website_name": "patagonia",
-    "product_name": "Falcon"
-  }
-    ], PRODUCT_READING_KEYS)
+    send_emails(connection_obj, client, [{}], PRODUCT_READING_KEYS)
