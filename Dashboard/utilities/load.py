@@ -12,11 +12,11 @@ from helpers import get_connection, get_cursor
 PRODUCT_READING_KEYS = set(('url', 'product_name', 'product_code', 'website_id'))
 
 def verify_keys(keys: list, required_keys: set) -> bool:
-    '''Verifies if all required keys are in keys.'''
+    """Verifies if all required keys are in keys."""
     return not required_keys - set(keys)
 
 def insert_product_information(conn: connection, extracted_data: dict):
-    "Inserts product name and code into the database."
+    """Inserts product name and code into the database."""
     if not isinstance(conn, connection):
         raise TypeError(
             'A cursor can only be constructed from a Psycopg2 connection object')
@@ -54,6 +54,5 @@ def load_product_data(config: _Environ, product_url: str) -> None:
 if __name__ == '__main__':
     logging.basicConfig(level='INFO')
     load_dotenv()
-    # load_product_data(CONFIG,
-    # 'https://www.asos.com/asos-design/asos-design-disney-oversized-unisex-tee-in-off-white-with-mickey-mouse-graphic-prints/prd/205987755#colourWayId-205987756')
-    load_product_data(CONFIG, 'https://store.steampowered.com/app/2567870/Chained_Together/')
+    URL = "ENTER URL HERE"
+    load_product_data(CONFIG, URL)

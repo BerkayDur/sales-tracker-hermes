@@ -1,16 +1,17 @@
 """Combined Extract Script: Identifies the store name and executes the relevant extraction"""
 from os import environ as CONFIG
-
 import logging
+
 from psycopg2.extensions import connection
 from dotenv import load_dotenv
 
-from helpers import get_cursor, get_connection
+from helpers import get_cursor, get_connection, configure_logging
 from extract_from_asos import extract_product_information as extract_from_asos
 
 EXTRACT_FUNCTIONS = {
     'asos' : extract_from_asos
 }
+
 
 def identify_store(product_url: str) -> str | None:
     """Returns the store from the given URL."""
@@ -26,7 +27,7 @@ def identify_store(product_url: str) -> str | None:
     return None
 
 def get_website_id(conn: connection, website_name: str) -> int:
-    '''get a website id from the database.'''
+    """get a website id from the database."""
     with get_cursor(conn) as cur:
         cur.execute('SELECT website_id FROM websites WHERE website_name = %s', (website_name,))
         website_id = cur.fetchone()
@@ -55,8 +56,9 @@ def extract_product_information(conn: connection, product_url: str) -> tuple:
 
 if __name__ == '__main__':
     load_dotenv()
-    logging.basicConfig(level='INFO')
-    URL = "https://www.asos.com/asos-design/asos-design-disney-oversized-unisex-tee-in-off-white-with-mickey-mouse-graphic-prints/prd/205987755#colourWayId-205987756"
-    # URL = 'https://www.asos.com/men/sale/cat/?cid=8409&ctaref=hp%7Cmw%7Cpromo%7Chero%7C1%7Cedit%7Csalelaunch&page=5'
+    configure_logging()
+
+    URL = 'ENTER YOUR URL HERE.'
+
     connec = get_connection(CONFIG)
     print(extract_product_information(connec, URL))

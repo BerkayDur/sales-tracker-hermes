@@ -5,8 +5,8 @@ from bs4 import BeautifulSoup
 from helpers import get_soup, configure_logging
 
 
-def validate_is_correct_page(soup: BeautifulSoup) -> bool:
-    '''Returns True if asos product page, else False.'''
+def is_correct_page(soup: BeautifulSoup) -> bool:
+    """Returns True if asos product page, else False."""
     if not isinstance(soup, BeautifulSoup):
         raise TypeError('Soup must be of type BeautifulSoup')
 
@@ -81,7 +81,7 @@ def extract_product_information(url: str) -> dict | None:
         logging.error("Failed to scrape website for unknown reason.")
         raise ValueError('Failed to scrape website for unknown reason.')
 
-    if not validate_is_correct_page(soup):
+    if not is_correct_page(soup):
         logging.error('Website page is invalid, it must be a product page.')
         raise ValueError('Website page is invalid!')
 
@@ -105,5 +105,5 @@ def extract_product_information(url: str) -> dict | None:
 
 
 if __name__ == "__main__":
-    extract_product_information('https://www.asos.com/men/sale/cat/?cid=8409&ctaref=hp%7Cmw%7Cpromo%7Chero%7C1%7Cedit%7Csalelaunch&page=5')
-    # print(extract_product_information('https://www.asos.com/adpt/adpt-oversized-revere-collar-shirt-in-grey/prd/206161808#colourWayId-206161809'))
+    URL = "ENTER YOUR URL HERE"
+    extract_product_information(URL)
