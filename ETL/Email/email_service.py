@@ -66,17 +66,26 @@ def filter_merged_table(merged_table: pd.DataFrame) -> pd.DataFrame:
     a price decreases).'''
     if not isinstance(merged_table, pd.DataFrame):
         raise TypeError('merged_table parameter in filter_merged_table must be of type DataFrame.')
-    
+
     threshold_filter = merged_table['price_threshold'].isnull()
     non_null_threshold_table = merged_table[~threshold_filter]
-    non_null_threshold_table.loc[:,'price_threshold'] = non_null_threshold_table.loc[:,'price_threshold'].astype(float)
-    curr_less_threshold_filter = non_null_threshold_table['current_price'] <= non_null_threshold_table['price_threshold']
-    prev_less_threshold_filter = non_null_threshold_table['previous_price'] <= non_null_threshold_table['price_threshold']
-    threshold_compare_merged_table = merged_table[~threshold_filter][(curr_less_threshold_filter) & (~prev_less_threshold_filter)]
+    non_null_threshold_table.loc[:,'price_threshold'] = (
+        non_null_threshold_table.loc[:,'price_threshold'].astype(float))
+    curr_less_threshold_filter = (non_null_threshold_table['current_price']
+                                  <= non_null_threshold_table['price_threshold'])
+    prev_less_threshold_filter = (non_null_threshold_table['previous_price']
+                                  <= non_null_threshold_table['price_threshold'])
+    threshold_compare_merged_table = (
+        merged_table[~threshold_filter][(curr_less_threshold_filter)
+                                        & (~prev_less_threshold_filter)])
     prev_price_filter = merged_table['previous_price'].isnull()
-    curr_less_prev_filter = merged_table[threshold_filter &  ~prev_price_filter]['current_price'] < merged_table[threshold_filter &  ~prev_price_filter]['previous_price']
+    curr_less_prev_filter = (
+        merged_table[threshold_filter &  ~prev_price_filter]['current_price']
+        < merged_table[threshold_filter &  ~prev_price_filter]['previous_price'])
     product_on_sale_filter = merged_table[threshold_filter &  ~prev_price_filter]['is_on_sale']
-    prev_compare_merged_table = merged_table[threshold_filter &  ~prev_price_filter][curr_less_prev_filter & product_on_sale_filter]
+    prev_compare_merged_table = (
+        merged_table[threshold_filter &  ~prev_price_filter]
+            [curr_less_prev_filter & product_on_sale_filter])
     return pd.concat([threshold_compare_merged_table, prev_compare_merged_table])
 
 def get_merged_customer_and_product_reading_table(
@@ -131,15 +140,14 @@ def format_email_from_data_frame(
             email_type = 'sale'
 
     message = f"({website_name}) <a href='{row_data['url']}'>{row_data['product_name']}</a> "
-    if not row_data['previous_price'] or ((isinstance(row_data['previous_price'], float) or
-                                           isinstance(row_data['previous_price'], float))
+    if not row_data['previous_price'] or (isinstance(row_data['previous_price'], (int, float))
                                            and isnan(row_data['previous_price'])):
         message += f"now £{row_data['current_price']}"
     else:
         message += f"was £{row_data['previous_price']}, now £{row_data['current_price']}"
-        
+
     message += f"{' (ON SALE)' if sale_and_thres else ''}."
-    
+
     return pd.Series([email_type, message], index=['email_type', 'message'])
 
 
