@@ -17,3 +17,8 @@ data
 # pytest
 __pycache__
 .pytest_cache
+.coverage
+
+# streamlit
+.streamlit
+secrets.toml
