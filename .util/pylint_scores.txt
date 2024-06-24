@@ -22,9 +22,11 @@ Your code has been rated at 10.00/10
 --------------------------------------------------------------------
 Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
 
+************* Module email_service
+ETL/Email/email_service.py:5:0: W0611: Unused datetime imported from datetime (unused-import)
 
-------------------------------------
-Your code has been rated at 10.00/10
+-----------------------------------
+Your code has been rated at 9.95/10
 
 
 ------------------------------------
