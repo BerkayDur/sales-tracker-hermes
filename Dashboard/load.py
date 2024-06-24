@@ -5,27 +5,9 @@ import logging
 from dotenv import load_dotenv
 import psycopg2
 import psycopg2.extras
-from psycopg2.extensions import connection, cursor
-from extract import extract_product_information, configure_logging
-
-
-def get_connection(config: _Environ) -> connection:
-    """Establishes a connection with the database."""
-    return psycopg2.connect(
-        user=config["DB_USER"],
-        host=config["DB_HOST"],
-        database=config["DB_NAME"],
-        password=config["DB_PASSWORD"],
-        port=config["DB_PORT"]
-    )
-
-
-def get_cursor(conn: connection) -> cursor:
-    """Returns a cursor for the database."""
-    if not isinstance(conn, connection):
-        raise TypeError(
-            'A cursor can only be constructed from a Psycopg2 connection object')
-    return conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+from psycopg2.extensions import connection
+from extract_combined import extract_product_information
+from helpers import get_connection, get_cursor
 
 
 def insert_product_information(conn: connection, extracted_data: tuple):
@@ -48,12 +30,11 @@ def insert_product_information(conn: connection, extracted_data: tuple):
     logging.info("Product information successfully added into the database")
 
 
-def load_product_data(config: _Environ) -> None:
+def load_product_data(config: _Environ, product_url: str) -> None:
     """Retrieves product information and inserts it into the database."""
     logging.info("Trying to load product information")
-    configure_logging()
     conn = get_connection(config)
-    extracted_data = extract_product_information()
+    extracted_data = extract_product_information(product_url)
 
     if not extracted_data:
         raise ValueError('Extraction Failed.')
@@ -65,5 +46,6 @@ def load_product_data(config: _Environ) -> None:
 
 
 if __name__ == '__main__':
+    logging.basicConfig(level='INFO')
     load_dotenv()
-    load_product_data(environ)
+    load_product_data(environ, 'https://www.asos.com/asos-design/asos-design-disney-oversized-unisex-tee-in-off-white-with-mickey-mouse-graphic-prints/prd/205987755#colourWayId-205987756')

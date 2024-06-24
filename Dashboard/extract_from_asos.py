@@ -5,13 +5,25 @@ from bs4 import BeautifulSoup
 from helpers import get_soup, configure_logging
 
 
+def validate_is_correct_page(soup: BeautifulSoup) -> bool:
+    '''Returns True if product page, else False.'''
+    if not isinstance(soup, BeautifulSoup):
+        raise TypeError('Soup must be of type BeautifulSoup')
+
+    if not soup:
+        logging.error("Soup object is NoneType")
+        return False
+    
+    single_product_identifier = soup.find('div', attrs={'class': 'single-product'})
+    return single_product_identifier is not None
+
 def scrape_product_information(soup: BeautifulSoup) -> dict | None:
     """Extract product information from a BeautifulSoup object."""
     if not isinstance(soup, BeautifulSoup):
         raise TypeError('Soup must be of type BeautifulSoup')
 
     if not soup:
-        logging.error("Soup object is None")
+        logging.error("Soup object is NoneType")
         return None
 
     product_soup = soup.find('script', type="application/ld+json")
@@ -64,8 +76,7 @@ def get_product_name_asos(product_data: dict) -> str | None:
     logging.error("Missing productID in product_data")
     return None
 
-
-def extract_product_information(url) -> tuple | None:
+def extract_product_information(url) -> dict | None:
     """ Extracts product information from a specific URL."""
     configure_logging()
     headers = {
@@ -75,21 +86,32 @@ def extract_product_information(url) -> tuple | None:
     logging.info("Extraction started")
     soup = get_soup(url, headers=headers)
     if not soup:
-        logging.error("Failed to scrape product information")
-        return None
+        logging.error("Failed to scrape website for unknown reason.")
+        raise ValueError('Failed to scrape website for unknown reason.')
+    
+    if not validate_is_correct_page(soup):
+        logging.error('Website page is invalid, it must be a product page.')
+        raise ValueError('Website page is invalid!')
 
     logging.info("Scraping web page")
     data = scrape_product_information(soup)
-    if data:
-        product_code = get_product_code_asos(data)
-        product_name = get_product_name_asos(data)
-        logging.info("Extraction completed successfully!")
-        return (url, product_code, product_name)
+    if not data:
+        logging.error("Unable to extract information from product page!")
+        return None
 
-    logging.error("Extraction failed!")
-    return None
+    product_code = get_product_code_asos(data)
+    product_name = get_product_name_asos(data)
+    if not (product_code and product_name):
+        logging.error('Unable to get correct product code or product name from website!')
+        return None
+    logging.info("Extraction completed successfully!")
+    return {
+        'url': url,
+        'product_code': product_code,
+        'product_name': product_name
+    }
 
 
 if __name__ == "__main__":
-    ...
-    # extract_asos_product_information()
+    extract_product_information('https://www.asos.com/men/sale/cat/?cid=8409&ctaref=hp%7Cmw%7Cpromo%7Chero%7C1%7Cedit%7Csalelaunch&page=5')
+    # print(extract_product_information('https://www.asos.com/adpt/adpt-oversized-revere-collar-shirt-in-grey/prd/206161808#colourWayId-206161809'))
