@@ -61,12 +61,16 @@ def update_db_to_subscribe(config: dict, product_url: str, price_threshold: bool
     conn = get_connection(config)
     user_id = get_user_id(conn, user_email)
     if not user_id:
+        st.warning('User not validated. Please try again!')
         return False
     product_id = get_product_id(conn, product_url)
     if not product_id:
+        st.warning('Unexpected error, please try again later.')
         return False
     if is_subscription_in_table(conn, user_id, product_id):
+        st.warning('You are already subscribed to this product!')
         return False
+    st.success('New subscription added!')
     return insert_subscription_into_db(conn, user_id, product_id, price_threshold)
 
 def subscribe_to_product(config: dict, product_url: str, price_threshold: bool | None) -> bool:
@@ -75,11 +79,10 @@ def subscribe_to_product(config: dict, product_url: str, price_threshold: bool |
     try:
         load_product_data(config, product_url)
     except (TypeError, ValueError):
-        st.warning('Invalid URL, please enter a valid website page!')
+        st.warning('Invalid URL, please enter a URL from one of the supported websites!')
         return False
     try:
-        update_db_to_subscribe(config, product_url, price_threshold, st.session_state['email'])
-        return True
+        return  update_db_to_subscribe(config, product_url, price_threshold, st.session_state['email'])
     except (TypeError, ValueError):
         st.warning('Unable to subscribe to product!')
         return False
@@ -88,42 +91,24 @@ def price_tracker_page(config: dict) -> None:
     """Product Price Tracker Page"""
     conn = get_connection(config)
     st.title("Product Price Tracker")
-    st.write(st.session_state)
     websites = get_supported_websites(conn)
 
     with st.expander("List of Supported websites", expanded=True):
         for website in websites:
             st.write(website)
-    with st.form('subscribe_to_product', clear_on_submit=True):
-        product_url = st.text_input("Enter the product URL:")
-        price_threshold = st.text_input("Enter a threshold", placeholder="Can be left empty")
-        st.write(price_threshold == '')
-        st.write(can_parse_as_float(price_threshold))
-        if st.form_submit_button("Track Price", type="primary"):
-            if not product_url:
-                st.error("You must enter a URL.")
-            elif price_threshold != '' and not can_parse_as_float(price_threshold):
-                st.warning('Threshold must be a number (or empty).')
-            elif product_url:
-                product_added = subscribe_to_product(config, product_url, price_threshold)
-                if product_added:
-                    st.success('Tracking new product!')
-                else:
-                    st.error('You must enter a valid URL for one of the support websites.')
-                
+    with st.expander("Subscribe to new product", expanded=True):
+        with st.form('subscribe_to_product', clear_on_submit=True, border=False):
+            product_url = st.text_input("Enter the product URL:")
+            price_threshold = st.text_input("Enter a threshold", placeholder="Can be left empty")
+            if st.form_submit_button("Track Price", type="primary"):
+                if not product_url:
+                    st.error("You must enter a URL.")
+                elif price_threshold != '' and not can_parse_as_float(price_threshold):
+                    st.warning('Threshold must be a number (or empty).')
+                elif product_url:
+                    subscribe_to_product(config, product_url, price_threshold)
+    
 
-
-
-def check_url_exists(product_url: str) -> bool:
-    """Check if the url exists"""
-    product_url += "url"
-    return False
-
-
-def get_price(product_url: str) -> str:
-    """Gets the price from the product_url"""
-    product_url += "url"
-    return "£20"
 
 
 if __name__ == "__main__":
