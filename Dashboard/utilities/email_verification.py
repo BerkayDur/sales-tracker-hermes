@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 from boto3 import client as boto_client
 from botocore.client import BaseClient
 from botocore.exceptions import ClientError
-import mypy_boto3_ses.client as ses_client
+from mypy_boto3_ses.client import SESClient as ses_client
 
 def get_ses_client(config: dict) -> ses_client:
     '''Returns an ses client from a configuration.'''
