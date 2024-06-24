@@ -16,7 +16,7 @@ def get_ses_client(config: _Environ) -> ses_client:
         'ses',
         aws_access_key_id = config["ACCESS_KEY"],
         aws_secret_access_key = config['SECRET_ACCESS_KEY'],
-        region_name='eu-west-2'
+        region_name = config['AWS_REGION_NAME']
     )
 
 def is_ses(boto_ses_client: ses_client) -> bool:
