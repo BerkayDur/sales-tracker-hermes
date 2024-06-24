@@ -1,6 +1,6 @@
 '''utility functions to add unverified email to ses and send verification emails.'''
 
-from os import environ as CONFIG
+from os import _Environ, environ as CONFIG
 import logging
 
 from dotenv import load_dotenv
@@ -8,15 +8,15 @@ from dotenv import load_dotenv
 from boto3 import client as boto_client
 from botocore.client import BaseClient
 from botocore.exceptions import ClientError
-import mypy_boto3_ses.client as ses_client
+from mypy_boto3_ses.client import SESClient as ses_client
 
-def get_ses_client(config: dict) -> ses_client:
+def get_ses_client(config: _Environ) -> ses_client:
     '''Returns an ses client from a configuration.'''
     return boto_client(
         'ses',
         aws_access_key_id = config["ACCESS_KEY"],
         aws_secret_access_key = config['SECRET_ACCESS_KEY'],
-        region_name='eu-west-2'
+        region_name = config['AWS_REGION_NAME']
     )
 
 def is_ses(boto_ses_client: ses_client) -> bool:
@@ -46,10 +46,10 @@ def send_verification_email(boto_ses_client: ses_client, email: str) -> dict[boo
             logging.error('sending email verification failed due to an unknown reason\
  (no Error attribute on response object), see field \'error\'!')
             reason = 'unknown reason, but no Error attribute on response, see field \'error\'!'
-        elif e.response.get('Error').get('Code') == 'InvalidClientTokenId':
+        elif e.response['Error'].get('Code') == 'InvalidClientTokenId':
             logging.error('sending email verification failed due to bad aws credentials!')
             reason = 'bad aws credentials!'
-        elif e.response.get('Error').get('Code') == 'InvalidParameterValue':
+        elif e.response['Error'].get('Code') == 'InvalidParameterValue':
             logging.error('sending email verification failed due to bad email address format!')
             reason = 'invalid email address format.'
         else:
@@ -57,7 +57,7 @@ def send_verification_email(boto_ses_client: ses_client, email: str) -> dict[boo
             reason = 'failure for unknown reason, see field \'error\''
         return {'success': False, 'reason': reason, 'error': e.response}
     logging.info('Sending email verification success!')
-    return {'success': True, 'request_id': response.get('ResponseMetadata').get('RequestId')}
+    return {'success': True, 'request_id': response['ResponseMetadata'].get('RequestId')}
 
 if __name__ == '__main__':
     load_dotenv()
