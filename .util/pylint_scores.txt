@@ -18,24 +18,9 @@ Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
 ------------------------------------
 Your code has been rated at 10.00/10
 
-************* Module conftest
-ETL/Email/conftest.py:48:0: C0301: Line too long (103/100) (line-too-long)
-ETL/Email/conftest.py:49:0: C0301: Line too long (104/100) (line-too-long)
-ETL/Email/conftest.py:50:0: C0301: Line too long (102/100) (line-too-long)
-ETL/Email/conftest.py:51:0: C0301: Line too long (103/100) (line-too-long)
-ETL/Email/conftest.py:52:0: C0301: Line too long (104/100) (line-too-long)
-ETL/Email/conftest.py:53:0: C0301: Line too long (105/100) (line-too-long)
-ETL/Email/conftest.py:54:0: C0301: Line too long (103/100) (line-too-long)
-ETL/Email/conftest.py:55:0: C0301: Line too long (104/100) (line-too-long)
-ETL/Email/conftest.py:56:0: C0301: Line too long (104/100) (line-too-long)
-ETL/Email/conftest.py:57:0: C0301: Line too long (103/100) (line-too-long)
-ETL/Email/conftest.py:58:0: C0301: Line too long (105/100) (line-too-long)
-ETL/Email/conftest.py:59:0: C0301: Line too long (104/100) (line-too-long)
-ETL/Email/conftest.py:60:0: C0301: Line too long (105/100) (line-too-long)
-ETL/Email/conftest.py:61:0: C0304: Final newline missing (missing-final-newline)
 
 --------------------------------------------------------------------
-Your code has been rated at 0.00/10 (previous run: 10.00/10, -10.00)
+Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
 
 
 ------------------------------------
@@ -51,7 +36,7 @@ Your code has been rated at 10.00/10
 
 
 --------------------------------------------------------------------
-Your code has been rated at 10.00/10 (previous run: 0.00/10, +10.00)
+Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
 
 
 ------------------------------------
