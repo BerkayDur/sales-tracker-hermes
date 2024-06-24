@@ -1,26 +1,18 @@
-************* Module extract_from_asos
-Dashboard/utilities/extract_from_asos.py:108:0: C0301: Line too long (139/100) (line-too-long)
-Dashboard/utilities/extract_from_asos.py:109:0: C0301: Line too long (148/100) (line-too-long)
 
------------------------------------
-Your code has been rated at 9.73/10
-
-************* Module load
-Dashboard/utilities/load.py:58:0: C0301: Line too long (163/100) (line-too-long)
-
------------------------------------
-Your code has been rated at 9.72/10
+------------------------------------
+Your code has been rated at 10.00/10
 
 
 ------------------------------------
 Your code has been rated at 10.00/10
 
-************* Module extract_combined
-Dashboard/utilities/extract_combined.py:59:0: C0301: Line too long (166/100) (line-too-long)
-Dashboard/utilities/extract_combined.py:60:0: C0301: Line too long (118/100) (line-too-long)
 
------------------------------------
-Your code has been rated at 9.56/10
+------------------------------------
+Your code has been rated at 10.00/10
+
+
+------------------------------------
+Your code has been rated at 10.00/10
 
 ************* Module conftest
 ETL/Pipeline/conftest.py:24:0: C0301: Line too long (191/100) (line-too-long)
