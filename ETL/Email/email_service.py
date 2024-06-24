@@ -2,7 +2,6 @@
 customers on a price decrease / sale of their tracked items.'''
 
 from os import environ as CONFIG
-from datetime import datetime
 import logging
 from math import isnan
 
