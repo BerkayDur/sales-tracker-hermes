@@ -1,15 +1,15 @@
 '''utility functions to get all/verified/unverified emails from ses.'''
 
-from os import environ as CONFIG
+from os import _Environ, environ as CONFIG
 import logging
 
 from dotenv import load_dotenv
 
 from boto3 import client as boto_client
 from botocore.client import BaseClient
-import mypy_boto3_ses.client as ses_client
+from mypy_boto3_ses.client import SESClient as ses_client
 
-def get_ses_client(config: dict) -> ses_client:
+def get_ses_client(config: _Environ) -> ses_client:
     '''Returns an ses client from a configuration.'''
     return boto_client(
         'ses',

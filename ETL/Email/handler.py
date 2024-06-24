@@ -6,7 +6,9 @@ import logging
 from datetime import datetime
 from itertools import chain
 
-from helpers import get_connection, get_ses_client
+
+from helpers import (get_connection, get_ses_client,
+                     filter_on_current_price_less_than_previous_price)
 from combined_load import write_new_price_entries_to_db
 from email_service import PRODUCT_READING_KEYS, verify_keys, send_emails
 
@@ -24,6 +26,7 @@ def handler(_event: list[list[dict]], _context) -> None:
         return {
             'status': 'Product entries are not a list of lists.'
         }
+
     _event = list(chain.from_iterable(_event))
 
     if not isinstance(_event, list):
@@ -33,7 +36,9 @@ def handler(_event: list[list[dict]], _context) -> None:
         }
 
     _event = list(
-        filter(lambda x: isinstance(x, dict) and verify_keys(x.keys(), PRODUCT_READING_KEYS),
+        filter(lambda x: (isinstance(x, dict)
+                          and verify_keys(x.keys(), PRODUCT_READING_KEYS)
+                          and filter_on_current_price_less_than_previous_price(x)),
                _event))
     if len(_event) == 0:
         logging.error('No product entries after cleaning!')
