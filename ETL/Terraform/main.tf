@@ -27,7 +27,7 @@ data "aws_iam_policy_document" "lambda_logging_doc" {
         actions = [
             "logs:CreateLogGroup",
             "logs:CreateLogStream",
-            "logs:PutLogEvents",
+            "logs:PutLogEvents"
         ]
 
         resources = ["arn:aws:logs:*:*:*"]
@@ -316,7 +316,7 @@ resource "aws_iam_role_policy" "scheduler_role_policy" {
 }
 
 resource "aws_scheduler_schedule" "etl_pipeline_state_machine_schedule" {
-    name = "c11-hermes-etl-schedule-2"
+    name = var.etl_scheduler_name
     flexible_time_window {
       mode = "OFF"
     }

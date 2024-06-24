@@ -6,19 +6,28 @@ variable "max_concurrency" {
 }
 
 variable "email_load_lambda_name" {
-  default = "c11-hermes-email-load-lambda-2"
+    type = string
+    default = "c11-hermes-email-load-lambda-2"
 }
 
 variable "provision_lambda_name" {
+    type = string
     default = "c11-hermes-provisioning-lambda-2"
 }
 
 variable "etl_lambda_name" {
+    type = string
     default = "c11-hermes-etl-lambda-2"
 }
 
 variable "etl_step_function_name" {
+    type = string
     default = "c11-hermes-sale-tracker-state-machine-2"
+}
+
+variable "etl_scheduler_name" {
+    type = string
+    default = "c11-hermes-etl-schedule-2"
 }
 
 variable "ACCESS_KEY" {
