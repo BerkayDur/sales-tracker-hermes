@@ -4,12 +4,12 @@ INSERT INTO websites (website_name) VALUES
 ('store.steampowered.com');
 
 -- Inserting example data into the products table
-INSERT INTO products (product_id, url, product_code, product_name, website_id) OVERRIDING SYSTEM VALUE VALUES
-(1, 'https://www.asos.com/adidas-performance/adidas-running-response-trainers-in-white-and-blue/prd/203474246#colourWayId-203474304', '203474246', 'adidas Running Response trainers in white and blue', 1),
-(2, 'https://www.asos.com/new-balance/new-balance-hierro-mid-trail-running-trainers-in-black/prd/202421541#colourWayId-202421546', '202421541', 'New Balance Hierro Mid trail running trainers in black', 1);
+INSERT INTO products (url, product_code, product_name, website_id) VALUES
+('https://www.asos.com/adidas-performance/adidas-running-response-trainers-in-white-and-blue/prd/203474246#colourWayId-203474304', '203474246', 'adidas Running Response trainers in white and blue', 1),
+('https://www.asos.com/new-balance/new-balance-hierro-mid-trail-running-trainers-in-black/prd/202421541#colourWayId-202421546', '202421541', 'New Balance Hierro Mid trail running trainers in black', 1);
 
 -- Inserting example data into the users table
-INSERT INTO users (email) OVERRIDING SYSTEM VALUE VALUES
+INSERT INTO users (email) VALUES
 ('trainee.berkay.dur@sigmalabs.co.uk'),
 ('trainee.daniel.hudson@sigmalabs.co.uk');
 

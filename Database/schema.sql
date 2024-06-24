@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS websites, price_readings, subscriptions, users, products;
 
 CREATE TABLE websites (
-    website_id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    website_id SMALLINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     website_name TEXT UNIQUE NOT NULL
 );
 
