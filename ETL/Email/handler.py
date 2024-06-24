@@ -7,7 +7,6 @@ from datetime import datetime
 from itertools import chain
 
 
-from dotenv import load_dotenv
 from helpers import (get_connection, get_ses_client,
                      filter_on_current_price_less_than_previous_price)
 from combined_load import write_new_price_entries_to_db
@@ -27,7 +26,7 @@ def handler(_event: list[list[dict]], _context) -> None:
         return {
             'status': 'Product entries are not a list of lists.'
         }
-    
+
     _event = list(chain.from_iterable(_event))
 
     if not isinstance(_event, list):
@@ -67,28 +66,3 @@ def handler(_event: list[list[dict]], _context) -> None:
     return {
         'status': 'success. Data successfully inserted into database and customer notified!'
     }
-
-if __name__ == '__main__':
-    load_dotenv()
-    handler([[
-    {
-      "product_id": 1,
-      "product_code": 206262254,
-      "product_name": "ASOS DESIGN cotton cami top with front ties in white",
-      "url": "https://www.asos.com/asos-design/asos-design-cotton-cami-top-with-front-ties-in-white/prd/206262254#ctaref-complementary%20items_1&featureref1-complementary%20items",
-      "previous_price": 28,
-      "current_price": 28,
-      "is_on_sale": False,
-      "reading_at": "2024-06-23.18:01:08"
-    },
-    {
-      "product_id": 3,
-      "product_code": 205186757,
-      "product_name": "ASOS DESIGN laptop compartment canvas tote bag in natural  - NUDE",
-      "url": "https://www.asos.com/asos-design/asos-design-laptop-compartment-canvas-tote-bag-in-natural-nude/prd/205186757#colourWayId-205186759",
-      "previous_price": 9.6,
-      "current_price": 9.6,
-      "is_on_sale": True,
-      "reading_at": "2024-06-23.18:01:08"
-    }
-  ]], None)
