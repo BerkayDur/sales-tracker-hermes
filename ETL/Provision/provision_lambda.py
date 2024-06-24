@@ -33,7 +33,8 @@ def read_database(conn: connection):
         raise TypeError(
             'A cursor can only be constructed from a Psycopg2 connection object')
     with get_cursor(conn) as cur:
-        cur.execute("""SELECT DISTINCT ON (product_id) product_id, product_code, url, price, website_name
+        cur.execute("""SELECT DISTINCT ON (product_id) product_id, product_code,
+                    url, price, website_name
                     FROM products
                     LEFT JOIN price_readings USING (product_id)
                     LEFT JOIN websites USING (website_id)
