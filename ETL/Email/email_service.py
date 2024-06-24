@@ -16,7 +16,7 @@ from combined_load import create_single_insert_format_string
 
 PRODUCT_READING_KEYS = set(('product_id', 'url', 'current_price',
                             'previous_price', 'is_on_sale',
-                            'reading_at', 'product_name'))
+                            'reading_at', 'product_name', 'website_name'))
 
 
 def verify_keys(keys: list, required_keys: set) -> bool:
@@ -121,8 +121,6 @@ def format_email_from_data_frame(
         row_data: pd.Series) -> pd.Series:
     '''Map a row of combined product reading and customer data into a
     row containing an email_type and message.'''
-    website_name = 'ASOS'    ##### To be changed when we have more websites!!!
-
 
     if not isinstance(row_data, pd.Series):
         logging.error('row_data must be a pandas Series.')
@@ -138,7 +136,7 @@ def format_email_from_data_frame(
         if not email_type:
             email_type = 'sale'
 
-    message = f"({website_name}) <a href='{row_data['url']}'>{row_data['product_name']}</a> "
+    message = f"({row_data['website_name']}) <a href='{row_data['url']}'>{row_data['product_name']}</a> "
     if not row_data['previous_price'] or (isinstance(row_data['previous_price'], (int, float))
                                            and isnan(row_data['previous_price'])):
         message += f"now £{row_data['current_price']}"
@@ -311,8 +309,21 @@ def send_emails(
     return all(send_email_to_client(ses, content) for content in mail_list)
 
 if __name__ == '__main__':
+    from datetime import datetime
+
+
     logging.basicConfig(level='INFO')
     load_dotenv('.env')
     connection_obj = get_connection(CONFIG)
     client = get_ses_client(CONFIG)
-    send_emails(connection_obj, client, [[{}, {}]], PRODUCT_READING_KEYS)
+    send_emails(connection_obj, client, [{
+    "product_id": 5,
+    "url": "https://www.asos.com/adidas-performance/adidas-running-response-trainers-in-white-and-blue/prd/203474246#colourWayId-203474304",
+    "previous_price": 300,
+    "current_price" : 5,
+    "is_on_sale" : False,
+    "reading_at" : datetime.now(),
+    "website_name": "patagonia",
+    "product_name": "Falcon"
+  }
+    ], PRODUCT_READING_KEYS)
