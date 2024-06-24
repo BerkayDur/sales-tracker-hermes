@@ -10,7 +10,7 @@ CREATE TABLE products(
     url TEXT UNIQUE NOT NULL,
     product_code TEXT NOT NULL,
     product_name TEXT NOT NULL,
-    website_id INTEGER NOT NULL REFERENCES websites (website_id)
+    website_id SMALLINT NOT NULL REFERENCES websites (website_id)
 );
 
 CREATE TABLE users (
