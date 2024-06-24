@@ -14,11 +14,9 @@ Your code has been rated at 10.00/10
 --------------------------------------------------------------------
 Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
 
-************* Module helpers
-ETL/Email/helpers.py:48:0: C0304: Final newline missing (missing-final-newline)
 
------------------------------------
-Your code has been rated at 9.50/10
+------------------------------------
+Your code has been rated at 10.00/10
 
 ************* Module conftest
 ETL/Email/conftest.py:48:0: C0301: Line too long (103/100) (line-too-long)
@@ -39,33 +37,17 @@ ETL/Email/conftest.py:61:0: C0304: Final newline missing (missing-final-newline)
 --------------------------------------------------------------------
 Your code has been rated at 0.00/10 (previous run: 10.00/10, -10.00)
 
-************* Module email_service
-ETL/Email/email_service.py:69:0: C0303: Trailing whitespace (trailing-whitespace)
-ETL/Email/email_service.py:72:0: C0301: Line too long (119/100) (line-too-long)
-ETL/Email/email_service.py:73:0: C0301: Line too long (121/100) (line-too-long)
-ETL/Email/email_service.py:74:0: C0301: Line too long (122/100) (line-too-long)
-ETL/Email/email_service.py:75:0: C0301: Line too long (130/100) (line-too-long)
-ETL/Email/email_service.py:77:0: C0301: Line too long (170/100) (line-too-long)
-ETL/Email/email_service.py:79:0: C0301: Line too long (132/100) (line-too-long)
-ETL/Email/email_service.py:140:0: C0303: Trailing whitespace (trailing-whitespace)
-ETL/Email/email_service.py:142:0: C0303: Trailing whitespace (trailing-whitespace)
-ETL/Email/email_service.py:134:43: R1701: Consider merging these isinstance calls to isinstance(row_data['previous_price'], (float)) (consider-merging-isinstance)
 
------------------------------------
-Your code has been rated at 9.45/10
+------------------------------------
+Your code has been rated at 10.00/10
 
 
 ------------------------------------
 Your code has been rated at 10.00/10
 
-************* Module handler
-ETL/Email/handler.py:30:0: C0303: Trailing whitespace (trailing-whitespace)
-ETL/Email/handler.py:78:0: C0301: Line too long (180/100) (line-too-long)
-ETL/Email/handler.py:88:0: C0301: Line too long (147/100) (line-too-long)
-ETL/Email/handler.py:94:0: C0304: Final newline missing (missing-final-newline)
 
------------------------------------
-Your code has been rated at 9.02/10
+------------------------------------
+Your code has been rated at 10.00/10
 
 
 --------------------------------------------------------------------
