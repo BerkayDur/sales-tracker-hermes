@@ -20,14 +20,16 @@ def insert_product_information(conn: connection, extracted_data: dict):
     if not isinstance(conn, connection):
         raise TypeError(
             'A cursor can only be constructed from a Psycopg2 connection object')
-    if not isinstance(extracted_data, dict) or not verify_keys(extracted_data, PRODUCT_READING_KEYS):
+    if (not isinstance(extracted_data, dict)
+        or not verify_keys(extracted_data, PRODUCT_READING_KEYS)):
         raise TypeError('Extracted data must be a dict with keys\
 `url`, `product_name`, `product_code`, `website_id`.')
 
     logging.info("Inserting product data into the database")
     with get_cursor(conn) as cur:
         cur.execute(
-            """INSERT INTO PRODUCTS (website_id, url, product_code, product_name) VALUES (%s, %s, %s, %s)""",
+            """INSERT INTO PRODUCTS (website_id, url, product_code, product_name)
+            VALUES (%s, %s, %s, %s)""",
             (extracted_data['website_id'], extracted_data['url'],
              extracted_data['product_code'], extracted_data['product_name']))
         conn.commit()
@@ -52,5 +54,6 @@ def load_product_data(config: _Environ, product_url: str) -> None:
 if __name__ == '__main__':
     logging.basicConfig(level='INFO')
     load_dotenv()
-    # load_product_data(CONFIG, 'https://www.asos.com/asos-design/asos-design-disney-oversized-unisex-tee-in-off-white-with-mickey-mouse-graphic-prints/prd/205987755#colourWayId-205987756')
+    # load_product_data(CONFIG,
+    # 'https://www.asos.com/asos-design/asos-design-disney-oversized-unisex-tee-in-off-white-with-mickey-mouse-graphic-prints/prd/205987755#colourWayId-205987756')
     load_product_data(CONFIG, 'https://store.steampowered.com/app/2567870/Chained_Together/')

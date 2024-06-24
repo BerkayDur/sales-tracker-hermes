@@ -18,7 +18,7 @@ def identify_store(product_url: str) -> str | None:
         logging.error('product_url passed to identify_store must be of type str')
         raise TypeError('product_url passed to identify_store must be of type str')
     product_url = product_url.lower()
-    for store_name in EXTRACT_FUNCTIONS.keys():
+    for store_name in EXTRACT_FUNCTIONS:
         if store_name in product_url:
             logging.info('store name found in product url.')
             return store_name
@@ -58,5 +58,5 @@ if __name__ == '__main__':
     logging.basicConfig(level='INFO')
     URL = "https://www.asos.com/asos-design/asos-design-disney-oversized-unisex-tee-in-off-white-with-mickey-mouse-graphic-prints/prd/205987755#colourWayId-205987756"
     # URL = 'https://www.asos.com/men/sale/cat/?cid=8409&ctaref=hp%7Cmw%7Cpromo%7Chero%7C1%7Cedit%7Csalelaunch&page=5'
-    conn = get_connection(CONFIG)
-    print(extract_product_information(conn, URL))
+    connec = get_connection(CONFIG)
+    print(extract_product_information(connec, URL))

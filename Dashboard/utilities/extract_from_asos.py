@@ -9,7 +9,7 @@ def validate_is_correct_page(soup: BeautifulSoup) -> bool:
     '''Returns True if asos product page, else False.'''
     if not isinstance(soup, BeautifulSoup):
         raise TypeError('Soup must be of type BeautifulSoup')
-    
+
     single_product_identifier = soup.find('div', attrs={'class': 'single-product'})
     return single_product_identifier is not None
 
@@ -80,7 +80,7 @@ def extract_product_information(url: str) -> dict | None:
     if not soup:
         logging.error("Failed to scrape website for unknown reason.")
         raise ValueError('Failed to scrape website for unknown reason.')
-    
+
     if not validate_is_correct_page(soup):
         logging.error('Website page is invalid, it must be a product page.')
         raise ValueError('Website page is invalid!')
