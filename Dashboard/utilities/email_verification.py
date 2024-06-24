@@ -10,6 +10,7 @@ from botocore.client import BaseClient
 from botocore.exceptions import ClientError
 from mypy_boto3_ses.client import SESClient as ses_client
 
+
 def get_ses_client(config: _Environ) -> ses_client:
     '''Returns an ses client from a configuration.'''
     return boto_client(
@@ -19,10 +20,12 @@ def get_ses_client(config: _Environ) -> ses_client:
         region_name = config['AWS_REGION_NAME']
     )
 
+
 def is_ses(boto_ses_client: ses_client) -> bool:
     '''Returns true if ses client else false.'''
     return (isinstance(boto_ses_client, BaseClient)
-            and boto_ses_client._service_model.service_name == 'ses') #pylint: disable=protected-access
+            and boto_ses_client._service_model.service_name == 'ses')  # pylint: disable=protected-access
+
 
 def send_verification_email(boto_ses_client: ses_client, email: str) -> dict[bool, str]:
     '''adds email as unverified email to ses and send a verification email.
@@ -33,10 +36,12 @@ def send_verification_email(boto_ses_client: ses_client, email: str) -> dict[boo
             request_id : If success is True, return a request id for that email verification.
     '''
     if not isinstance(email, str):
-        logging.error('send_verification_email passed `email` argument not of type str.')
+        logging.error(
+            'send_verification_email passed `email` argument not of type str.')
         return {'success': False, 'reason': 'bad email type, email must be of type str.'}
     if not is_ses(boto_ses_client):
-        logging.error('send_verification_email client is not a boto3 ses client.')
+        logging.error(
+            'send_verification_email client is not a boto3 ses client.')
         return {'success': False, 'reason': 'client is not a boto3 ses client.'}
     logging.info('Sending email verification...')
     try:
@@ -53,11 +58,13 @@ def send_verification_email(boto_ses_client: ses_client, email: str) -> dict[boo
             logging.error('sending email verification failed due to bad email address format!')
             reason = 'invalid email address format.'
         else:
-            logging.error('sending email verification failed due to an unknown reason!')
+            logging.error(
+                'sending email verification failed due to an unknown reason!')
             reason = 'failure for unknown reason, see field \'error\''
         return {'success': False, 'reason': reason, 'error': e.response}
     logging.info('Sending email verification success!')
     return {'success': True, 'request_id': response['ResponseMetadata'].get('RequestId')}
+
 
 if __name__ == '__main__':
     load_dotenv()
