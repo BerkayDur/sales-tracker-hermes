@@ -62,12 +62,7 @@ def get_product_name_patagonia(product_data: dict) -> str | None:
         print(product_name)
         return product_name
 
-    # graph = product_data.get("@graph")
-    # if graph:
-    #     product_name = graph[0]['name']
-    #     return product_name
-
-    logging.error("Missing productID in product_data")
+    logging.error("Missing name in product_data")
     return None
 
 
