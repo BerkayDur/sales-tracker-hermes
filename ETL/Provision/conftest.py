@@ -4,7 +4,7 @@ import pytest
 
 
 @pytest.fixture(name="fake_readings")
-def fixture_fake_readings():
+def fixture_fake_readings() -> list[dict]:
     "Fake data for the database reading"
     return [{"product_id": 1, "url": "http://example.com/product1", "price": 19.99},
             {"product_id": 2, "url": "http://example.com/product2", "price": 24.99},
