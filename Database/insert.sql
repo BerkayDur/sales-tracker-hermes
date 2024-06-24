@@ -1,7 +1,7 @@
 -- Inserting example data into the websites table
 INSERT INTO websites (website_name) VALUES
-('www.asos.com'),
-('store.steampowered.com');
+('asos'),
+('steam');
 
 -- Inserting example data into the products table
 INSERT INTO products (url, product_code, product_name, website_id) VALUES
