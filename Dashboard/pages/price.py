@@ -1,15 +1,22 @@
 """Price tracker page for streamlit"""
 
+from os import _Environ, environ as ENV
 import logging
 
 import streamlit as st
 from streamlit.delta_generator import DeltaGenerator
 
 from navigation import make_sidebar
+from utilities.ses_get_emails import get_ses_emails, get_ses_client
 
 
-def price_tracker_page() -> None:
+def price_tracker_page(config: _Environ) -> None:
     """Product Price Tracker Page"""
+    client = get_ses_client(config)
+    if st.session_state.email in get_ses_emails(client, "unverified"):
+        logging.warning("Check your inbox to confirm your email address")
+        st.warning("Check your inbox to confirm your email address")
+
     st.title("Product Price Tracker")
 
     with st.expander("List of Compatible websites", expanded=True):
@@ -19,12 +26,12 @@ def price_tracker_page() -> None:
 
     if st.button("Track Price", type="primary"):
         if product_url:
-            subscribe(product_url)
+            track_price(product_url)
         else:
             st.error("Please enter a valid product URL.")
 
 
-def subscribe(product_url: str) -> DeltaGenerator:
+def track_price(product_url: str) -> DeltaGenerator:
     """Tracks product"""
     exist = check_url_exists(product_url)
     if exist:
@@ -54,4 +61,4 @@ if __name__ == "__main__":
     st.query_params["page"] = "price"
     make_sidebar()
 
-    price_tracker_page()
+    price_tracker_page(ENV)
