@@ -86,11 +86,12 @@ def login_page(config: _Environ, email_pattern: str) -> None:
             st.error(
                 f"The email {signup_email} is already registered. Please log in.")
         elif re.match(email_pattern, signup_email):
-            add_email(conn, signup_email)
             client = get_ses_client(config)
             send_verification_email(client, signup_email)
+            logging.warning("Check your inbox to confirm your email address")
             st.warning("Check your inbox to confirm your email address")
-            if signup_email in get_ses_emails(client, signup_email):
+            if signup_email in get_ses_emails(client, "verified"):
+                add_email(conn, signup_email)
                 login(signup_email)
         else:
             logging.error("Invalid email address. Please try again.")
