@@ -2,21 +2,18 @@
 ------------------------------------
 Your code has been rated at 10.00/10
 
+************* Module extract_from_asos
+Dashboard/utilities/extract_from_asos.py:5:0: E0401: Unable to import 'utilities.helpers' (import-error)
 
-------------------------------------
-Your code has been rated at 10.00/10
+-----------------------------------
+Your code has been rated at 9.32/10
 
+************* Module load
+Dashboard/utilities/load.py:9:0: E0401: Unable to import 'utilities.extract_combined' (import-error)
+Dashboard/utilities/load.py:10:0: E0401: Unable to import 'utilities.helpers' (import-error)
 
-------------------------------------
-Your code has been rated at 10.00/10
-
-
-------------------------------------
-Your code has been rated at 10.00/10
-
-
-------------------------------------
-Your code has been rated at 10.00/10
+-----------------------------------
+Your code has been rated at 7.30/10
 
 
 ------------------------------------
@@ -25,6 +22,19 @@ Your code has been rated at 10.00/10
 
 ------------------------------------
 Your code has been rated at 10.00/10
+
+************* Module helpers
+Dashboard/utilities/helpers.py:2:0: W0611: Unused environ imported from os (unused-import)
+
+-----------------------------------
+Your code has been rated at 9.76/10
+
+************* Module extract_combined
+Dashboard/utilities/extract_combined.py:8:0: E0401: Unable to import 'utilities.helpers' (import-error)
+Dashboard/utilities/extract_combined.py:9:0: E0401: Unable to import 'utilities.extract_from_asos' (import-error)
+
+-----------------------------------
+Your code has been rated at 7.78/10
 
 ************* Module login
 Dashboard/login.py:17:0: C0301: Line too long (471/100) (line-too-long)
@@ -33,10 +43,23 @@ Dashboard/login.py:17:0: C0301: Line too long (471/100) (line-too-long)
 Your code has been rated at 9.86/10
 
 ************* Module price
-Dashboard/pages/price.py:8:0: E0401: Unable to import 'navigation' (import-error)
+Dashboard/pages/price.py:49:0: C0301: Line too long (113/100) (line-too-long)
+Dashboard/pages/price.py:60:0: C0301: Line too long (114/100) (line-too-long)
+Dashboard/pages/price.py:113:0: C0303: Trailing whitespace (trailing-whitespace)
+Dashboard/pages/price.py:10:0: E0401: Unable to import 'navigation' (import-error)
+Dashboard/pages/price.py:12:0: E0401: Unable to import 'utilities.helpers' (import-error)
+Dashboard/pages/price.py:13:0: E0401: Unable to import 'utilities.load' (import-error)
+Dashboard/pages/price.py:15:0: C0116: Missing function or method docstring (missing-function-docstring)
+Dashboard/pages/price.py:29:0: C0116: Missing function or method docstring (missing-function-docstring)
+Dashboard/pages/price.py:35:0: C0116: Missing function or method docstring (missing-function-docstring)
+Dashboard/pages/price.py:41:0: C0116: Missing function or method docstring (missing-function-docstring)
+Dashboard/pages/price.py:49:0: C0116: Missing function or method docstring (missing-function-docstring)
+Dashboard/pages/price.py:57:11: W0718: Catching too general exception Exception (broad-exception-caught)
+Dashboard/pages/price.py:60:0: C0116: Missing function or method docstring (missing-function-docstring)
+Dashboard/pages/price.py:8:0: W0611: Unused DeltaGenerator imported from streamlit.delta_generator (unused-import)
 
 -----------------------------------
-Your code has been rated at 8.44/10
+Your code has been rated at 7.40/10
 
 
 ------------------------------------
@@ -55,8 +78,8 @@ Your code has been rated at 10.00/10
 Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
 
 
---------------------------------------------------------------------
-Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
+-------------------------------------------------------------------
+Your code has been rated at 10.00/10 (previous run: 9.76/10, +0.24)
 
 
 --------------------------------------------------------------------
