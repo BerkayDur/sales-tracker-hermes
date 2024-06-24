@@ -1,11 +1,16 @@
-DROP TABLE IF EXISTS price_readings, subscriptions, users, products;
+DROP TABLE IF EXISTS websites, price_readings, subscriptions, users, products;
 
+CREATE TABLE websites (
+    website_id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    website_name TEXT UNIQUE NOT NULL
+);
 
 CREATE TABLE products(
     product_id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     url TEXT UNIQUE NOT NULL,
     product_code TEXT NOT NULL,
-    product_name TEXT NOT NULL
+    product_name TEXT NOT NULL,
+    website_id INTEGER NOT NULL REFERENCES websites (website_id)
 );
 
 CREATE TABLE users (
