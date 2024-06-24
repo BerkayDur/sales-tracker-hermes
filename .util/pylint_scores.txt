@@ -45,7 +45,8 @@ Your code has been rated at 9.86/10
 ************* Module price
 Dashboard/pages/price.py:49:0: C0301: Line too long (113/100) (line-too-long)
 Dashboard/pages/price.py:60:0: C0301: Line too long (114/100) (line-too-long)
-Dashboard/pages/price.py:113:0: C0303: Trailing whitespace (trailing-whitespace)
+Dashboard/pages/price.py:85:0: C0301: Line too long (103/100) (line-too-long)
+Dashboard/pages/price.py:110:0: C0303: Trailing whitespace (trailing-whitespace)
 Dashboard/pages/price.py:10:0: E0401: Unable to import 'navigation' (import-error)
 Dashboard/pages/price.py:12:0: E0401: Unable to import 'utilities.helpers' (import-error)
 Dashboard/pages/price.py:13:0: E0401: Unable to import 'utilities.load' (import-error)
@@ -59,7 +60,7 @@ Dashboard/pages/price.py:60:0: C0116: Missing function or method docstring (miss
 Dashboard/pages/price.py:8:0: W0611: Unused DeltaGenerator imported from streamlit.delta_generator (unused-import)
 
 -----------------------------------
-Your code has been rated at 7.40/10
+Your code has been rated at 7.07/10
 
 
 ------------------------------------
