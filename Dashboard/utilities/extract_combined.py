@@ -2,7 +2,7 @@
 from os import environ as CONFIG
 
 import logging
-from psycopg2.extensions import connection, cursor
+from psycopg2.extensions import connection
 from dotenv import load_dotenv
 
 from helpers import get_cursor, get_connection

@@ -6,13 +6,9 @@ from helpers import get_soup, configure_logging
 
 
 def validate_is_correct_page(soup: BeautifulSoup) -> bool:
-    '''Returns True if product page, else False.'''
+    '''Returns True if asos product page, else False.'''
     if not isinstance(soup, BeautifulSoup):
         raise TypeError('Soup must be of type BeautifulSoup')
-
-    if not soup:
-        logging.error("Soup object is NoneType")
-        return False
     
     single_product_identifier = soup.find('div', attrs={'class': 'single-product'})
     return single_product_identifier is not None
@@ -21,10 +17,6 @@ def scrape_product_information(soup: BeautifulSoup) -> dict | None:
     """Extract product information from a BeautifulSoup object."""
     if not isinstance(soup, BeautifulSoup):
         raise TypeError('Soup must be of type BeautifulSoup')
-
-    if not soup:
-        logging.error("Soup object is NoneType")
-        return None
 
     product_soup = soup.find('script', type="application/ld+json")
     if product_soup:
@@ -76,7 +68,7 @@ def get_product_name_asos(product_data: dict) -> str | None:
     logging.error("Missing productID in product_data")
     return None
 
-def extract_product_information(url) -> dict | None:
+def extract_product_information(url: str) -> dict | None:
     """ Extracts product information from a specific URL."""
     configure_logging()
     headers = {
