@@ -1,5 +1,5 @@
 """This file contains functions that are used throughout this directory'''"""
-from os import _Environ
+from os import _Environ, environ
 
 
 import logging
