@@ -2,8 +2,8 @@
 customers on a price decrease / sale of their tracked items.'''
 
 from os import environ as CONFIG
-from datetime import datetime
 import logging
+from math import isnan
 
 from dotenv import load_dotenv
 from psycopg2.extensions import connection
@@ -53,6 +53,40 @@ def get_customer_information(
 
     return pd.DataFrame(data)
 
+
+def filter_merged_table(merged_table: pd.DataFrame) -> pd.DataFrame:
+    '''filters the merged customer and product reading dataframe for a few cases:
+        1. The current price is less than the previous price (if threshold doesn't exist)
+                and only if the product is on sale.
+        2. The current price is less than a threshold (if exists).
+    
+    NOTE that the customer this filtering doesn't care too much about an explicit sale if
+    the current previous hasn't decreased (I.e., product may change to being on sale without
+    a price decreases).'''
+    if not isinstance(merged_table, pd.DataFrame):
+        raise TypeError('merged_table parameter in filter_merged_table must be of type DataFrame.')
+
+    threshold_filter = merged_table['price_threshold'].isnull()
+    non_null_threshold_table = merged_table[~threshold_filter]
+    non_null_threshold_table.loc[:,'price_threshold'] = (
+        non_null_threshold_table.loc[:,'price_threshold'].astype(float))
+    curr_less_threshold_filter = (non_null_threshold_table['current_price']
+                                  <= non_null_threshold_table['price_threshold'])
+    prev_less_threshold_filter = (non_null_threshold_table['previous_price']
+                                  <= non_null_threshold_table['price_threshold'])
+    threshold_compare_merged_table = (
+        merged_table[~threshold_filter][(curr_less_threshold_filter)
+                                        & (~prev_less_threshold_filter)])
+    prev_price_filter = merged_table['previous_price'].isnull()
+    curr_less_prev_filter = (
+        merged_table[threshold_filter &  ~prev_price_filter]['current_price']
+        < merged_table[threshold_filter &  ~prev_price_filter]['previous_price'])
+    product_on_sale_filter = merged_table[threshold_filter &  ~prev_price_filter]['is_on_sale']
+    prev_compare_merged_table = (
+        merged_table[threshold_filter &  ~prev_price_filter]
+            [curr_less_prev_filter & product_on_sale_filter])
+    return pd.concat([threshold_compare_merged_table, prev_compare_merged_table])
+
 def get_merged_customer_and_product_reading_table(
         customer_information: pd.DataFrame,
         product_reading: pd.DataFrame) -> pd.DataFrame:
@@ -66,7 +100,9 @@ def get_merged_customer_and_product_reading_table(
         logging.error('product_reading must be a pandas DataFrame.')
         raise TypeError('product_reading must be a pandas DataFrame.')
     merged = customer_information.merge(product_reading, on=['product_id'], how='left')
-    return merged[(merged['current_price'] <= merged['price_threshold']) | (merged['is_on_sale'])]
+    merged = filter_merged_table(merged)
+    return merged
+
 
 def group_by_email(
         data: pd.DataFrame,
@@ -102,11 +138,15 @@ def format_email_from_data_frame(
         if not email_type:
             email_type = 'sale'
 
+    message = f"({website_name}) <a href='{row_data['url']}'>{row_data['product_name']}</a> "
+    if not row_data['previous_price'] or (isinstance(row_data['previous_price'], (int, float))
+                                           and isnan(row_data['previous_price'])):
+        message += f"now £{row_data['current_price']}"
+    else:
+        message += f"was £{row_data['previous_price']}, now £{row_data['current_price']}"
 
+    message += f"{' (ON SALE)' if sale_and_thres else ''}."
 
-    message = (f"({website_name}) <a href='{row_data['url']}'>{row_data['product_name']}</a> " +
-               f"was £{row_data['previous_price']}, now £{row_data['current_price']}" +
-               f"{' (ON SALE)' if sale_and_thres else ''}.")
     return pd.Series([email_type, message], index=['email_type', 'message'])
 
 
@@ -275,37 +315,4 @@ if __name__ == '__main__':
     load_dotenv('.env')
     connection_obj = get_connection(CONFIG)
     client = get_ses_client(CONFIG)
-
-    sample_data = [
-    {
-        'product_id' : 1,
-        'url' : 'https://www.asos.com/nike-running/nike-running-juniper-trail\
--2-gtx-trainers-in-grey/prd/205300355#colourWayId-205300357',
-        'current_price' : 83.99,
-        'previous_price' : 104.99,
-        'is_on_sale' : True,
-        'reading_at' : datetime.now(),
-        'product_name' : 'Nike Running Juniper Trail 2 GTX Trainers in Grey'
-    },
-    {
-        'product_id' : 2,
-        'url' : 'https://www.asos.com/nike-training/nike-training-everyday-lightweight-\
-6-pack-no-show-socks-in-black/prd/205607655#colourWayId-205607656',
-        'current_price' : 340.99,
-        'previous_price' : 350.99,
-        'is_on_sale' : True, 
-        'reading_at' : datetime.now(),
-        'product_name' : 'Nike training everyday lightweight 6 pack no show socks in black'
-    },
-    {
-        'product_id' : 3,
-        'url' : 'https://www.asos.com/nike-training/nike-training-everyday-lightweight-6-pack\
--no-show-socks-in-black/prd/205607655#colourWayId-205607656',
-        'current_price' : 18.99,
-        'previous_price' : 19.99,
-        'is_on_sale' : True,
-        'reading_at' : datetime.now(),
-        'product_name' : 'Falcon'
-    }
-    ]
-    send_emails(connection_obj, client, sample_data, PRODUCT_READING_KEYS)
+    send_emails(connection_obj, client, [[{}, {}]], PRODUCT_READING_KEYS)
