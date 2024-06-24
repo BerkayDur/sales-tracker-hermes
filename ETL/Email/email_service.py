@@ -316,37 +316,4 @@ if __name__ == '__main__':
     load_dotenv('.env')
     connection_obj = get_connection(CONFIG)
     client = get_ses_client(CONFIG)
-
-    sample_data = [
-    {
-        'product_id' : 1,
-        'url' : 'https://www.asos.com/nike-running/nike-running-juniper-trail\
--2-gtx-trainers-in-grey/prd/205300355#colourWayId-205300357',
-        'current_price' : 89.99,
-        'previous_price' : 89.99,
-        'is_on_sale' : True,
-        'reading_at' : datetime.now(),
-        'product_name' : 'Nike Running Juniper Trail 2 GTX Trainers in Grey'
-    },
-    {
-        'product_id' : 2,
-        'url' : 'https://www.asos.com/nike-training/nike-training-everyday-lightweight-\
-6-pack-no-show-socks-in-black/prd/205607655#colourWayId-205607656',
-        'current_price' : 340.99,
-        'previous_price' : 350.99,
-        'is_on_sale' : True, 
-        'reading_at' : datetime.now(),
-        'product_name' : 'Nike training everyday lightweight 6 pack no show socks in black'
-    },
-    {
-        'product_id' : 3,
-        'url' : 'https://www.asos.com/nike-training/nike-training-everyday-lightweight-6-pack\
--no-show-socks-in-black/prd/205607655#colourWayId-205607656',
-        'current_price' : 15.97,
-        'previous_price' : None,
-        'is_on_sale' : True,
-        'reading_at' : datetime.now(),
-        'product_name' : 'Falcon'
-    }
-    ]
-    send_emails(connection_obj, client, sample_data, PRODUCT_READING_KEYS)
+    send_emails(connection_obj, client, [[{}, {}]], PRODUCT_READING_KEYS)
