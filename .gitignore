@@ -20,5 +20,4 @@ __pycache__
 .coverage
 
 # streamlit
-.streamlit
 secrets.toml
