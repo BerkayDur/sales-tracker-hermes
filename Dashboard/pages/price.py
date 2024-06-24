@@ -2,10 +2,13 @@
 
 from os import environ as CONFIG
 import logging
-from dotenv import load_dotenv
+from datetime import datetime
 
+from dotenv import load_dotenv
 import streamlit as st
 from streamlit.delta_generator import DeltaGenerator
+import pandas as pd
+import altair as alt
 
 from navigation import make_sidebar
 
@@ -54,7 +57,8 @@ def insert_subscription_into_db(conn, user_id: int, product_id: int, price_thres
                         VALUES (%s, %s, %s);''', (user_id, product_id, price_threshold))
             conn.commit()
         return True
-    except Exception:
+    except Exception as e:
+        st.write(e)
         return False
 
 def update_db_to_subscribe(config: dict, product_url: str, price_threshold: bool | None, user_email: str) -> bool:
@@ -69,7 +73,7 @@ def update_db_to_subscribe(config: dict, product_url: str, price_threshold: bool
         return False
     if is_subscription_in_table(conn, user_id, product_id):
         st.warning('You are already subscribed to this product!')
-        return False
+        return True
     st.success('New subscription added!')
     return insert_subscription_into_db(conn, user_id, product_id, price_threshold)
 
@@ -82,10 +86,73 @@ def subscribe_to_product(config: dict, product_url: str, price_threshold: bool |
         st.warning('Invalid URL, please enter a URL from one of the supported websites!')
         return False
     try:
+        if price_threshold == '':
+            price_threshold = None
         return  update_db_to_subscribe(config, product_url, price_threshold, st.session_state['email'])
     except (TypeError, ValueError):
         st.warning('Unable to subscribe to product!')
         return False
+
+
+def get_subscribed_products(config: dict, email: str) -> None:
+    conn = get_connection(config)
+    with get_cursor(conn) as cur:
+        cur.execute('''SELECT product_id, website_name, url, product_name, price_threshold
+                    FROM websites
+                    JOIN products USING (website_id)
+                    JOIN subscriptions USING (product_id)
+                    JOIN users USING (user_id)
+                    WHERE email = %s''', (email,))
+        subscribed_products = cur.fetchall()
+    return subscribed_products
+
+def get_price_readings(config, product_id: int) -> pd.DataFrame | None:
+    conn = get_connection(config)
+    with get_cursor(conn) as cur:
+        cur.execute('''SELECT * FROM price_readings WHERE product_id = %s;''', (product_id,))
+        price_readings = cur.fetchall()
+    if not price_readings:
+        return None
+    price_readings = pd.DataFrame(price_readings)
+    price_readings['price'] = price_readings['price'].apply(float)
+    return price_readings
+
+def get_encode_price_reading(price_readings: pd.DataFrame, price_threshold: float | None) -> alt.ChartDataType:
+    price_reading_at = price_readings[['price', 'reading_at']].sort_values(by='reading_at')
+    fake_new_data = price_reading_at.iloc[[-1]]
+    fake_new_data['reading_at'] = datetime.now()
+    price_reading_at = pd.concat([price_reading_at, fake_new_data])
+    chart = alt.Chart(price_reading_at).encode(
+        x = 'reading_at:T',
+        y = 'price'
+    )
+    if price_threshold is not None:
+        max_reading = price_reading_at['reading_at'].max()
+        min_reading = price_reading_at['reading_at'].min()
+        price_threshold_df = pd.DataFrame([{'reading_at': min_reading, 'price': price_threshold},
+                                           {'reading_at': max_reading, 'price': price_threshold}])
+        chart_2 = alt.Chart(price_threshold_df).encode(
+            x = 'reading_at:T',
+            y = 'price',
+            color = alt.value('#FF0000')
+        )
+        return chart_2.mark_line() + chart.mark_point() + chart.mark_line()
+    return chart.mark_point() + chart.mark_line()
+
+
+def display_subscribed_product(config, product_information: dict) -> None:
+    price_readings = get_price_readings(config, product_information['product_id'])
+
+    with st.container(border=True):
+        st.write('**%s** - **[%s](%s)**'% (product_information['website_name'], product_information['product_name'], product_information['url']), )
+        if price_readings is not None:
+            encoded_price_readings = get_encode_price_reading(price_readings, float(product_information['price_threshold']))
+            st.altair_chart(encoded_price_readings)
+
+        else:
+            st.write('No data to display')
+        st.write(price_readings)
+
 
 def price_tracker_page(config: dict) -> None:
     """Product Price Tracker Page"""
@@ -107,7 +174,10 @@ def price_tracker_page(config: dict) -> None:
                     st.warning('Threshold must be a number (or empty).')
                 elif product_url:
                     subscribe_to_product(config, product_url, price_threshold)
-    
+    subscribed_to_products = get_subscribed_products(config, st.session_state['email'])
+    st.write(subscribed_to_products)
+    for product in subscribed_to_products:
+        display_subscribed_product(config, product)
 
 
 
