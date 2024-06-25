@@ -1,3 +1,9 @@
+************* Module navigation
+Dashboard/navigation.py:43:13: E0602: Undefined variable 'page_name' (undefined-variable)
+
+-----------------------------------
+Your code has been rated at 8.28/10
+
 
 ------------------------------------
 Your code has been rated at 10.00/10
@@ -33,10 +39,6 @@ Dashboard/utilities/extract_combined.py:9:0: E0401: Unable to import 'utilities.
 
 -----------------------------------
 Your code has been rated at 7.78/10
-
-
-------------------------------------
-Your code has been rated at 10.00/10
 
 ************* Module login
 Dashboard/login.py:16:0: C0301: Line too long (471/100) (line-too-long)
