@@ -5,7 +5,7 @@ import requests
 
 import pytest
 
-from extract_from_asos import (get_product_info, get_asos_api_url, get_current_price,
+from extract_asos import (get_product_info, get_asos_api_url, get_current_price,
                                get_sale_status, process_product)
 
 
@@ -22,7 +22,7 @@ def test_get_asos_api_url_non_integer_product_code(product_code):
     assert get_asos_api_url(product_code) is None
 
 
-@patch('extract_from_asos.requests.get')
+@patch('extract_asos.requests.get')
 def test_get_product_info_success(mock_get, fake_product_data, fake_headers,
                                   fake_product_response_info):
     """Tests the get_product_info function passes with valid data"""
@@ -35,7 +35,7 @@ def test_get_product_info_success(mock_get, fake_product_data, fake_headers,
     assert mock_get.call_args[1] == {'timeout': 40}
 
 
-@patch('extract_from_asos.requests.get')
+@patch('extract_asos.requests.get')
 def test_get_product_info_timeout_exception(mock_get, fake_product_data, fake_headers):
     """Tests the get_product_info function raises a Timeout error"""
 
@@ -45,7 +45,7 @@ def test_get_product_info_timeout_exception(mock_get, fake_product_data, fake_he
     assert product_info is None
 
 
-@patch('extract_from_asos.requests.get')
+@patch('extract_asos.requests.get')
 def test_get_product_info_request_exception(mock_get, fake_product_data, fake_headers):
     """Tests the get_product_info function raises a RequestsException error"""
 
@@ -116,7 +116,7 @@ def test_get_sale_status_invalid_product_info_type(product_info):
         get_sale_status(product_info)
 
 
-@patch('extract_from_asos.requests.get')
+@patch('extract_asos.requests.get')
 def test_process_product(mock_get, fake_product_data, fake_product_response_info):
     """Tests the process_product function"""
     mock_get.return_value.json.return_value = [fake_product_response_info]

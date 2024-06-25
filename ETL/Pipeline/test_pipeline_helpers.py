@@ -1,6 +1,6 @@
 """This file tests whether the helpers file works as expected"""
 
-from helpers import has_required_keys, has_correct_types, validate_input
+from pipeline_helpers import has_required_keys, has_correct_types, validate_input
 
 
 def test_has_required_keys_all_keys_present(required_keys, fake_product_data):

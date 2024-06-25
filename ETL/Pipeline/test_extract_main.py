@@ -1,7 +1,7 @@
 """This file tests whether the extract_combined file works as expected"""
 from unittest.mock import patch
 import pytest
-from extract_combined import (get_website_name, remove_stale_products,
+from extract_main import (get_website_name, remove_stale_products,
                               extract_price_and_sales_data, process)
 
 
@@ -63,8 +63,8 @@ def test_remove_stale_products_valid_3():
     ]
 
 
-@patch('extract_combined.process')
-@patch('extract_combined.Pool')
+@patch('extract_main.process')
+@patch('extract_main.Pool')
 def test_extract_price_and_sales_data_success(mock_Pool, mock_process, fake_product_list):
     """Tests the populate function"""
     extract_price_and_sales_data(fake_product_list)
@@ -75,7 +75,7 @@ def test_extract_price_and_sales_data_success(mock_Pool, mock_process, fake_prod
         0][1] == fake_product_list
 
 
-@patch('extract_combined.validate_input')
+@patch('extract_main.validate_input')
 def test_process_invalid_validate_input(mock_validate_input, fake_product_data):
     """Tests the process function returns None on invalid input"""
     mock_validate_input.return_value = None
@@ -83,8 +83,8 @@ def test_process_invalid_validate_input(mock_validate_input, fake_product_data):
     assert result is None
 
 
-@patch('extract_combined.get_website_name')
-@patch('extract_combined.validate_input')
+@patch('extract_main.get_website_name')
+@patch('extract_main.validate_input')
 def test_process_invalid_get_website_name(mock_validate_input,
                                           mock_get_website_name, fake_product_data):
     """Tests the process function returns None on no website name"""
