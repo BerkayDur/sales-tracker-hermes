@@ -191,14 +191,16 @@ def change_threshold_in_db(config: _Environ, new_threshold: float | None, produc
         conn.commit()
     
 
-def change_threshold(config: _Environ, product_information: dict):
-    st.write(product_information)
-    with st.form(f'price_threshold_{product_information['product_id']}'):
-        text_input_placeholder = None
-        if product_information['price_threshold'] is not None:
-            text_input_placeholder = float(product_information['price_threshold'])
-        new_threshold = st.text_input('Enter a new Threshold:', placeholder=text_input_placeholder, help='Can be left empty to remove threshold!')
-        if st.form_submit_button('Update Threshold'):
+def change_threshold(config: _Environ, product_information: dict, column) -> None:
+    text_input_placeholder = None
+    if product_information['price_threshold'] is not None:
+        text_input_placeholder = f"£{float(product_information['price_threshold']):.2f}"
+    new_threshold = st.text_input('Enter a new Threshold:',
+                                    placeholder=text_input_placeholder,
+                                    help='Can be left empty to remove threshold!',
+                                    key=f'new_threshold_value_{product_information['product_id']}')
+    with column:
+        if st.button('Update Threshold', key=f'new_threshold_submit_{product_information['product_id']}'):
             valid_threshold = False
             if new_threshold == '':
                 new_threshold = None
@@ -211,10 +213,26 @@ def change_threshold(config: _Environ, product_information: dict):
                 st.warning('New threshold is the same as the old threshold.')
             elif valid_threshold:
                 change_threshold_in_db(config, new_threshold, product_information['product_id'], st.session_state['email'])
+                st.rerun()
             elif not valid_threshold and type(new_threshold, float):
                 st.warning('Threshold must be a positive number!')
             else:
                 st.warning('Invalid threshold, please try again!')
+
+def unsubscribe_from_product_in_db(config: _Environ, product_id: int, email: str) -> None:
+    conn = get_connection(config)
+    user_id = get_user_id(conn, email)
+    with get_cursor(conn) as cur:
+        cur.execute('''DELETE FROM subscriptions
+                        WHERE product_id = %s
+                        AND user_id = %s''', (product_id, user_id))
+        conn.commit()
+
+def unsubscribe_from_product(config: _Environ, product_information: int, column) -> None:
+    with column:
+        if st.button('Unsubscribe', key=f'unsubscribe_button_{product_information['product_id']}'):
+            unsubscribe_from_product_in_db(config, product_information['product_id'], st.session_state['email'])
+            st.rerun()
 
 def display_subscribed_product(config: _Environ, product_information: dict) -> None:
     """For a particular product, get the price readings and display a container
@@ -227,16 +245,21 @@ def display_subscribed_product(config: _Environ, product_information: dict) -> N
                                             product_information["product_name"].title(),
                                             product_information["url"]))
         if price_readings is not None:
-            col1, col2 = st.columns([6, 10])
+            col1, col2 = st.columns(2)
+            
             if can_parse_as_float(product_information['price_threshold']):
                 product_information['price_threshold'] = float(product_information["price_threshold"])
             encoded_price_readings = get_encode_price_reading(
                 price_readings, product_information["price_threshold"])
             with col1:
+                
                 current_price = price_readings[
                     price_readings['reading_at'] == price_readings['reading_at'].max()]['price']
                 st.write(f'Current Price: £{float(current_price):.2f}')
-                change_threshold(config, product_information)
+                with st.container(border=True):
+                    inner_col1, inner_col2 = st.columns(2)
+                    change_threshold(config, product_information, inner_col1)
+                    unsubscribe_from_product(config, product_information, inner_col2)
             with col2:
                 st.altair_chart(encoded_price_readings)
         else:
@@ -274,14 +297,9 @@ def price_tracker_page(config: _Environ) -> None:
 
     subscribed_to_products = get_subscribed_products(
         config, st.session_state["email"])
-    col1, col2 = st.columns(2, gap="large")
-    for i in range(0, len(subscribed_to_products),2):
-        with col1:
-            display_subscribed_product(config, subscribed_to_products[i])
-    for i in range(1, len(subscribed_to_products),2):
-        with col2:
-            display_subscribed_product(config, subscribed_to_products[i])
-    
+    subscribed_to_products.sort(key=lambda x:x['product_id'])
+    for product in subscribed_to_products:
+            display_subscribed_product(config, product)    
 
 
 if __name__ == "__main__":
