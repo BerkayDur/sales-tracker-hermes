@@ -43,31 +43,14 @@ Dashboard/login.py:17:0: C0301: Line too long (471/100) (line-too-long)
 Your code has been rated at 9.86/10
 
 ************* Module price
-Dashboard/pages/price.py:52:0: C0301: Line too long (113/100) (line-too-long)
-Dashboard/pages/price.py:64:0: C0301: Line too long (114/100) (line-too-long)
-Dashboard/pages/price.py:91:0: C0301: Line too long (103/100) (line-too-long)
-Dashboard/pages/price.py:120:0: C0301: Line too long (111/100) (line-too-long)
-Dashboard/pages/price.py:147:0: C0301: Line too long (147/100) (line-too-long)
-Dashboard/pages/price.py:149:0: C0301: Line too long (124/100) (line-too-long)
-Dashboard/pages/price.py:13:0: E0401: Unable to import 'navigation' (import-error)
+Dashboard/pages/price.py:14:0: E0401: Unable to import 'navigation' (import-error)
 Dashboard/pages/price.py:15:0: E0401: Unable to import 'utilities.helpers' (import-error)
 Dashboard/pages/price.py:16:0: E0401: Unable to import 'utilities.load' (import-error)
-Dashboard/pages/price.py:18:0: C0116: Missing function or method docstring (missing-function-docstring)
-Dashboard/pages/price.py:32:0: C0116: Missing function or method docstring (missing-function-docstring)
-Dashboard/pages/price.py:38:0: C0116: Missing function or method docstring (missing-function-docstring)
-Dashboard/pages/price.py:44:0: C0116: Missing function or method docstring (missing-function-docstring)
-Dashboard/pages/price.py:52:0: C0116: Missing function or method docstring (missing-function-docstring)
-Dashboard/pages/price.py:60:11: W0718: Catching too general exception Exception (broad-exception-caught)
-Dashboard/pages/price.py:64:0: C0116: Missing function or method docstring (missing-function-docstring)
-Dashboard/pages/price.py:97:0: C0116: Missing function or method docstring (missing-function-docstring)
-Dashboard/pages/price.py:109:0: C0116: Missing function or method docstring (missing-function-docstring)
-Dashboard/pages/price.py:120:0: C0116: Missing function or method docstring (missing-function-docstring)
-Dashboard/pages/price.py:143:0: C0116: Missing function or method docstring (missing-function-docstring)
-Dashboard/pages/price.py:147:17: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
-Dashboard/pages/price.py:9:0: W0611: Unused DeltaGenerator imported from streamlit.delta_generator (unused-import)
+Dashboard/pages/price.py:69:11: W0718: Catching too general exception Exception (broad-exception-caught)
+Dashboard/pages/price.py:166:17: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
 
 -----------------------------------
-Your code has been rated at 7.57/10
+Your code has been rated at 8.79/10
 
 
 ------------------------------------
