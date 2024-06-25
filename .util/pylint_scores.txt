@@ -1,12 +1,14 @@
 ************* Module navigation
-Dashboard/navigation.py:43:13: E0602: Undefined variable 'page_name' (undefined-variable)
+Dashboard/navigation.py:26:0: C0303: Trailing whitespace (trailing-whitespace)
 
 -----------------------------------
-Your code has been rated at 8.28/10
+Your code has been rated at 9.66/10
 
+************* Module extract_from_patagonia
+Dashboard/utilities/extract_from_patagonia.py:5:0: E0401: Unable to import 'utilities.helpers' (import-error)
 
-------------------------------------
-Your code has been rated at 10.00/10
+-----------------------------------
+Your code has been rated at 9.30/10
 
 ************* Module extract_from_asos
 Dashboard/utilities/extract_from_asos.py:5:0: E0401: Unable to import 'utilities.helpers' (import-error)
@@ -36,9 +38,10 @@ Your code has been rated at 10.00/10
 ************* Module extract_combined
 Dashboard/utilities/extract_combined.py:8:0: E0401: Unable to import 'utilities.helpers' (import-error)
 Dashboard/utilities/extract_combined.py:9:0: E0401: Unable to import 'utilities.extract_from_asos' (import-error)
+Dashboard/utilities/extract_combined.py:10:0: E0401: Unable to import 'utilities.extract_from_patagonia' (import-error)
 
 -----------------------------------
-Your code has been rated at 7.78/10
+Your code has been rated at 6.74/10
 
 ************* Module login
 Dashboard/login.py:16:0: C0301: Line too long (471/100) (line-too-long)
@@ -100,8 +103,8 @@ ETL/Pipeline/extract_from_patagonia.py:8:0: C0411: standard import "json" should
 ETL/Pipeline/extract_from_patagonia.py:7:0: W0611: Unused import requests (unused-import)
 ETL/Pipeline/extract_from_patagonia.py:8:0: W0611: Unused import json (unused-import)
 
--------------------------------------------------------------------
-Your code has been rated at 8.89/10 (previous run: 10.00/10, -1.11)
+------------------------------------------------------------------
+Your code has been rated at 8.89/10 (previous run: 9.30/10, -0.41)
 
 
 ------------------------------------
