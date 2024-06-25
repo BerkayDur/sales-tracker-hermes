@@ -6,6 +6,7 @@ COPY requirements.txt .
 
 RUN pip install -r requirements.txt
 
-COPY extract.py .
+COPY extract_from_asos.py .
+COPY extract_combined.py .
 
-CMD [ "extract.handler" ]
+CMD [ "extract_combined.handler" ]
