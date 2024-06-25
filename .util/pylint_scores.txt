@@ -84,16 +84,17 @@ ETL/Pipeline/extract_from_patagonia.py:8:0: C0411: standard import "json" should
 ETL/Pipeline/extract_from_patagonia.py:7:0: W0611: Unused import requests (unused-import)
 ETL/Pipeline/extract_from_patagonia.py:8:0: W0611: Unused import json (unused-import)
 
+<<<<<<< HEAD
 -------------------------------------------------------------------
 Your code has been rated at 9.58/10 (previous run: 10.00/10, -0.42)
+=======
+------------------------------------
+Your code has been rated at 10.00/10
+>>>>>>> e7dd734f5ef67cb1d0e8b990f5efa698aa00d068
 
 
---------------------------------------------------------------------
-Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
-
-
---------------------------------------------------------------------
-Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
+------------------------------------
+Your code has been rated at 10.00/10
 
 ************* Module extract_combined
 ETL/Pipeline/extract_combined.py:69:4: W0621: Redefining name 'cleaned_data' from outer scope (line 76) (redefined-outer-name)

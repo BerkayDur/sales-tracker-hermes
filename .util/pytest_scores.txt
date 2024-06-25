@@ -1,19 +1,24 @@
 ============================= test session starts ==============================
 platform linux -- Python 3.12.4, pytest-8.2.2, pluggy-1.5.0
 rootdir: /home/runner/work/sales-tracker-hermes/sales-tracker-hermes
-collected 277 items
+collected 276 items
 
 Clean-up/test_clean_lambda.py .............                              [  4%]
-Dashboard/utilities/test_email_verification.py .......................   [ 12%]
+Dashboard/utilities/test_email_verification.py .......................   [ 13%]
 Dashboard/utilities/test_extract_combined.py .......                     [ 15%]
 Dashboard/utilities/test_ses_get_emails.py ....................          [ 22%]
 ETL/Email/test_combined_load.py ........................................ [ 37%]
 .................                                                        [ 43%]
 ETL/Email/test_email_helpers.py ..............                           [ 48%]
-ETL/Email/test_email_service.py ........................................ [ 62%]
+ETL/Email/test_email_service.py ........................................ [ 63%]
 ...........................................                              [ 78%]
-ETL/Pipeline/test_extract.py ........................................... [ 93%]
-...........                                                              [ 97%]
+ETL/Pipeline/test_extract_asos.py ...................................    [ 91%]
+ETL/Pipeline/test_extract_main.py ..........                             [ 94%]
+ETL/Pipeline/test_pipeline_helpers.py ........                           [ 97%]
 ETL/Provision/test_provision_lambda.py ......                            [100%]
 
+<<<<<<< HEAD
 ============================= 277 passed in 1.03s ==============================
+=======
+============================= 276 passed in 1.01s ==============================
+>>>>>>> e7dd734f5ef67cb1d0e8b990f5efa698aa00d068

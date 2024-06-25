@@ -38,6 +38,7 @@ resource "aws_db_instance" "database" {
 # terraform import aws_security_group.c11_hermes_sg sg-0599fe57129262ed0
 resource "aws_security_group" "c11_hermes_sg" {
     name        = var.SG_NAME
+    vpc_id = var.AWS_VPC
     description = "Allows access to port ${var.DB_PORT}"
     egress      = [
         {

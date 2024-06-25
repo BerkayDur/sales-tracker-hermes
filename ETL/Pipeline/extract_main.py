@@ -3,6 +3,7 @@ import logging
 
 from lambda_multiprocessing import Pool
 
+<<<<<<< HEAD:ETL/Pipeline/extract_combined.py
 from helpers import configure_log, validate_input, remove_stale_products
 from extract_from_asos import process_product as extract_from_asos
 from extract_from_patagonia import process_product as extract_from_patagonia
@@ -11,6 +12,14 @@ from extract_from_patagonia import process_product as extract_from_patagonia
 EXTRACT_FUNCTIONS = {
     'asos': extract_from_asos,
     'patagonia': extract_from_patagonia
+=======
+from pipeline_helpers import configure_log, validate_input, remove_stale_products
+from extract_asos import process_product as extract_asos
+
+
+EXTRACT_FUNCTIONS = {
+    'asos': extract_asos
+>>>>>>> e7dd734f5ef67cb1d0e8b990f5efa698aa00d068:ETL/Pipeline/extract_main.py
 }
 
 
@@ -66,8 +75,7 @@ def extract_price_and_sales_data(product_list: list[dict]) -> list[dict]:
 def handler(_event, _context=None) -> list:
     """Main function which lambda will call"""
     configure_log()
-    cleaned_data = validate_input(_event)
-    product_readings = extract_price_and_sales_data(cleaned_data)
+    product_readings = extract_price_and_sales_data(_event)
     return remove_stale_products(product_readings)
 
 
