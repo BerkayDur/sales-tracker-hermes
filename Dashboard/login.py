@@ -65,8 +65,8 @@ def login_page(config: _Environ, email_pattern: str) -> None:
         if authenticate(conn, login_email):
             login(login_email)
         else:
-            logging.error("Invalid email address. Please try again.")
-            st.error("Invalid email address. Please try again.")
+            logging.error("Invalid email address. Please sign up.")
+            st.error("Invalid email address. Please sign up.")
 
     st.write("---")
 

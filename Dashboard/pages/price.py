@@ -14,6 +14,7 @@ from psycopg2.extensions import connection
 from navigation import make_sidebar
 from utilities.helpers import get_cursor, get_connection
 from utilities.load import load_product_data
+from utilities.ses_get_emails import get_ses_client, get_ses_emails
 
 
 def can_parse_as_float(to_check: any) -> bool:
@@ -22,7 +23,7 @@ def can_parse_as_float(to_check: any) -> bool:
     try:
         float(to_check)
         return True
-    except ValueError:
+    except (ValueError, TypeError):
         logging.error("Input can't be parsed as a float")
         return False
 
@@ -188,14 +189,12 @@ def display_subscribed_product(config: _Environ, product_information: dict) -> N
         st.write("**%s** - **[%s](%s)**" % (product_information["website_name"],
                                             product_information["product_name"],
                                             product_information["website_name"]))
-#         st.write(f"**{product_information["website_name"]}** -\
-# **[{product_information["product_name"]}]\
-# ({product_information["url"]})**"(product_information["website_name"]))
         if price_readings is not None:
+            if can_parse_as_float(product_information['price_threshold']):
+                product_information['price_threshold'] = float(product_information["price_threshold"])
             encoded_price_readings = get_encode_price_reading(
-                price_readings, float(product_information["price_threshold"]))
+                price_readings, product_information["price_threshold"])
             st.altair_chart(encoded_price_readings)
-
         else:
             st.write("No data to display")
         st.write(price_readings)
@@ -225,6 +224,12 @@ def price_tracker_page(config: _Environ) -> None:
                     st.warning("Threshold must be a number (or empty).")
                 else:
                     subscribe_to_product(config, product_url, price_threshold)
+        ses_client = get_ses_client(config)
+    with st.expander(label="Email Alerts!"):
+        if st.session_state['email'] not in get_ses_emails(ses_client, method='verified'):
+            if st.button('Click here to sign up to email alerts.'):
+                st.warning('Sending verification, please check your inbox.')
+
 
     subscribed_to_products = get_subscribed_products(
         config, st.session_state["email"])
