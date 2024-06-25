@@ -64,6 +64,5 @@ def extract_price_and_sales_data(product_list: list[dict]) -> list[dict]:
 def handler(_event, _context=None) -> list:
     """Main function which lambda will call"""
     configure_log()
-    cleaned_data = validate_input(_event)
-    product_readings = extract_price_and_sales_data(cleaned_data)
+    product_readings = extract_price_and_sales_data(_event)
     return remove_stale_products(product_readings)

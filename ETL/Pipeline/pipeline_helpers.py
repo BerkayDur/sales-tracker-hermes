@@ -38,9 +38,9 @@ def validate_input(entry):
         'product_id': int,
         'url': str,
         'product_code': int,
-        'product_name': str
+        'product_name': str,
+        'website_name': str
     }
-
     if (isinstance(entry, dict) and has_required_keys(entry, required_keys) and
             convert_product_code(entry) and has_correct_types(entry, required_keys)):
         return entry
