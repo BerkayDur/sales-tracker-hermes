@@ -1,6 +1,4 @@
-variable "dashboard_name" {
-  default = "c11-hermes-dashboard-tf-1"
-}
+
 
 variable "ACCESS_KEY" {
     type = string
@@ -8,11 +6,6 @@ variable "ACCESS_KEY" {
 
 variable "SECRET_ACCESS_KEY" {
     type = string
-}
-
-variable "AWS_REGION" {
-    type = string
-    default = "eu-west-2" 
 }
 
 variable "DB_HOST" {
@@ -50,9 +43,19 @@ variable "AWS_VPC" {
 
 variable "DASHBAORD_SG" {
     type = string
+    
 }
 
 variable "PORT_TO_EXPOSE" {
+    type = number
+    default = 8501
+}
+
+variable "AWS_REGION" {
     type = string
-    default = "8501"
+    default = "eu-west-2"
+}
+
+variable "dashboard_name" {
+  default = "c11-hermes-dashboard-tf-1"
 }
