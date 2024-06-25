@@ -10,7 +10,7 @@ from psycopg2.extensions import connection
 import pandas as pd
 import mypy_boto3_ses.client as ses_client
 
-from helpers import get_connection, get_cursor, get_ses_client, is_ses
+from email_helpers import get_connection, get_cursor, get_ses_client, is_ses
 from combined_load import create_single_insert_format_string
 
 
