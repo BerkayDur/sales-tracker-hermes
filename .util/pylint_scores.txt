@@ -31,16 +31,17 @@ Your code has been rated at 10.00/10
 Your code has been rated at 10.00/10
 
 ************* Module login
-Dashboard/login.py:17:0: C0301: Line too long (471/100) (line-too-long)
+Dashboard/login.py:16:0: C0301: Line too long (471/100) (line-too-long)
 
 -----------------------------------
-Your code has been rated at 9.86/10
+Your code has been rated at 9.85/10
 
 ************* Module price
-Dashboard/pages/price.py:8:0: E0401: Unable to import 'navigation' (import-error)
+Dashboard/pages/price.py:9:0: E0401: Unable to import 'navigation' (import-error)
+Dashboard/pages/price.py:10:0: E0401: Unable to import 'utilities.ses_get_emails' (import-error)
 
 -----------------------------------
-Your code has been rated at 8.44/10
+Your code has been rated at 7.37/10
 
 
 ------------------------------------
@@ -77,6 +78,18 @@ Your code has been rated at 10.00/10
 
 ------------------------------------
 Your code has been rated at 10.00/10
+
+
+--------------------------------------------------------------------
+Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
+
+
+--------------------------------------------------------------------
+Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
+
+
+--------------------------------------------------------------------
+Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
 
 
 --------------------------------------------------------------------
