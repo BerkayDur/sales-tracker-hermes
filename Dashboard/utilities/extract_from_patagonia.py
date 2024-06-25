@@ -59,7 +59,6 @@ def get_product_name_patagonia(product_data: dict) -> str | None:
 
     product_name = product_data.get("name")
     if product_name:
-        print(product_name)
         return product_name
 
     logging.error("Missing name in product_data")
@@ -96,6 +95,7 @@ def extract_product_information(url: str) -> dict | None:
             'Unable to get correct product code or product name from website!')
         return None
     logging.info("Extraction completed successfully!")
+
     return {
         'url': url,
         'product_code': product_code,
