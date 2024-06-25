@@ -1,4 +1,5 @@
 """Extract Script: Pulls current price and sale status from ASOS API"""
+
 from datetime import datetime
 import logging
 
@@ -18,13 +19,17 @@ def get_asos_api_url(product_code: int) -> str | None:
 def get_product_info(product_data: dict, headers: dict) -> dict | None:
     """Gets the price information for a specified product from the ASOS API."""
     if not isinstance(product_data, dict):
+        logging.error('product_info must be of type dict')
         raise TypeError('product_info must be of type dict')
+
     if not isinstance(headers, dict):
+        logging.error('header must be of type dict')
         raise TypeError('header must be of type dict')
 
     price_endpoint = get_asos_api_url(product_data['product_code'])
 
     if not price_endpoint:
+        logging.error('No API found for %s', product_data['product_code'])
         return None
 
     try:
@@ -50,6 +55,7 @@ def get_product_info(product_data: dict, headers: dict) -> dict | None:
 def get_current_price(product_info: dict) -> int | None:
     """Extracts the current price of the product from the product information."""
     if not isinstance(product_info, dict):
+        logging.error('product_info must be of type dict')
         raise TypeError('product_info must be of type dict')
 
     try:
@@ -62,6 +68,7 @@ def get_current_price(product_info: dict) -> int | None:
 def get_sale_status(product_info: dict) -> bool | None:
     """Determines if the product is on sale based on its discount percentage."""
     if not isinstance(product_info, dict):
+        logging.error('product_info must be of type dict')
         raise TypeError('product_info must be of type dict')
 
     try:
@@ -94,5 +101,5 @@ def process_product(product: dict) -> dict | None:
     return None
 
 
-# if __name__ == '__main__':
-#     print(handler(None, None))
+if __name__ == '__main__':
+    ...

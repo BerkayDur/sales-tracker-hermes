@@ -36,14 +36,15 @@ def process(product_data: dict):
     website_name = get_website_name(clean_data)
 
     if not website_name:
+        logging.error('No API found for %s', product_data['product_code'])
         return None
     logging.info('Starting to run %s extract script.', website_name)
     try:
         website_data = EXTRACT_FUNCTIONS[website_name](product_data)
         return website_data
     except ValueError:
-        logging.info('extract from product %s failed! for %s ',
-                     website_name, product_data['product_code'])
+        logging.error('extract from product %s failed! for %s ',
+                      website_name, product_data['product_code'])
         return None
 
 
@@ -54,8 +55,7 @@ def extract_price_and_sales_data(product_list: list[dict]) -> list[dict]:
     with Pool(processes=4) as pool:
         logging.info("Adding the current price and sale status")
         results = list(pool.map(process, product_list))
-        logging.info("Finished Extraction")
-        logging.info("Removing erroneous / missing data")
+        logging.info("Finished Extraction. Removing erroneous / missing data")
         results = [i for i in results if i is not None]
     return results
 
