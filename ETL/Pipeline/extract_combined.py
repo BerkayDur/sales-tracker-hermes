@@ -32,6 +32,7 @@ def process(product_data: dict):
 
     clean_data = validate_input(product_data)
     if not clean_data:
+        logging.error("Data did not pass validation")
         return None
     website_name = get_website_name(clean_data)
 
