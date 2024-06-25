@@ -23,11 +23,9 @@ Your code has been rated at 10.00/10
 ------------------------------------
 Your code has been rated at 10.00/10
 
-************* Module helpers
-Dashboard/utilities/helpers.py:2:0: W0611: Unused environ imported from os (unused-import)
 
------------------------------------
-Your code has been rated at 9.76/10
+------------------------------------
+Your code has been rated at 10.00/10
 
 ************* Module extract_combined
 Dashboard/utilities/extract_combined.py:8:0: E0401: Unable to import 'utilities.helpers' (import-error)
@@ -40,14 +38,17 @@ Your code has been rated at 7.78/10
 Dashboard/login.py:16:0: C0301: Line too long (471/100) (line-too-long)
 
 -----------------------------------
-Your code has been rated at 9.85/10
+Your code has been rated at 9.84/10
 
 ************* Module price
-Dashboard/pages/price.py:9:0: E0401: Unable to import 'navigation' (import-error)
-Dashboard/pages/price.py:10:0: E0401: Unable to import 'utilities.ses_get_emails' (import-error)
+Dashboard/pages/price.py:14:0: E0401: Unable to import 'navigation' (import-error)
+Dashboard/pages/price.py:15:0: E0401: Unable to import 'utilities.helpers' (import-error)
+Dashboard/pages/price.py:16:0: E0401: Unable to import 'utilities.load' (import-error)
+Dashboard/pages/price.py:76:11: W0718: Catching too general exception Exception (broad-exception-caught)
+Dashboard/pages/price.py:188:17: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
 
 -----------------------------------
-Your code has been rated at 7.37/10
+Your code has been rated at 8.84/10
 
 
 ------------------------------------
@@ -66,8 +67,8 @@ Your code has been rated at 10.00/10
 Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
 
 
--------------------------------------------------------------------
-Your code has been rated at 10.00/10 (previous run: 9.76/10, +0.24)
+--------------------------------------------------------------------
+Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
 
 
 --------------------------------------------------------------------
