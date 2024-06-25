@@ -1,2 +1,3 @@
 requests
 lambda_multiprocessing
+requests
