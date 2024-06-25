@@ -56,28 +56,17 @@ resource "aws_ecs_task_definition" "dashboard_task_def" {
                     containerPort = 8501
                 }
             ]
-            environment = [
-                {
-                    "name": "DB_HOST",
-                    "value": var.DB_HOST
-                },
-                {
-                    "name": "DB_NAME",
-                    "value": var.DB_NAME
-                },
-                {
-                    "name": "DB_PASSWORD",
-                    "value": var.DB_PASSWORD
-                },
-                {
-                    "name": "DB_PORT",
-                    "value": var.DB_PORT
-                },
-                {
-                    "name": "DB_USER",
-                    "value": var.DB_USER
-                }
-            ]
+        environment = {
+            variables = {
+            DB_HOST = var.DB_HOST,
+            DB_PORT = var.DB_PORT,
+            DB_NAME = var.DB_NAME,
+            DB_USER = var.DB_USER,
+            DB_PASSWORD = var.DB_PASSWORD,
+            ACCESS_KEY = var.ACCESS_KEY,
+            SECRET_ACCESS_KEY = var.SECRET_ACCESS_KEY,
+            }
+        }
         }
     ]))
     runtime_platform {
