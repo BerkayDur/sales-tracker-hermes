@@ -2,17 +2,3 @@
 platform linux -- Python 3.12.4, pytest-8.2.2, pluggy-1.5.0
 rootdir: /home/runner/work/sales-tracker-hermes/sales-tracker-hermes
 collected 270 items
-
-Clean-up/test_clean_lambda.py .............                              [  4%]
-Dashboard/utilities/test_email_verification.py .......................   [ 13%]
-Dashboard/utilities/test_ses_get_emails.py ....................          [ 20%]
-ETL/Email/test_combined_load.py ........................................ [ 35%]
-.................                                                        [ 41%]
-ETL/Email/test_email_service.py ........................................ [ 56%]
-...........................................                              [ 72%]
-ETL/Email/test_helpers_email.py ..............                           [ 77%]
-ETL/Pipeline/test_extract.py ........................................... [ 93%]
-...........                                                              [ 97%]
-ETL/Provision/test_provision_lambda.py ......                            [100%]
-
-============================= 270 passed in 0.98s ==============================
