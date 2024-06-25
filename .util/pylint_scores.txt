@@ -8,11 +8,9 @@ Your code has been rated at 8.28/10
 ------------------------------------
 Your code has been rated at 10.00/10
 
-************* Module extract_from_asos
-Dashboard/utilities/extract_from_asos.py:5:0: E0401: Unable to import 'utilities.helpers' (import-error)
 
------------------------------------
-Your code has been rated at 9.32/10
+------------------------------------
+Your code has been rated at 10.00/10
 
 ************* Module load
 Dashboard/utilities/load.py:9:0: E0401: Unable to import 'utilities.extract_combined' (import-error)
@@ -33,8 +31,10 @@ Your code has been rated at 10.00/10
 ------------------------------------
 Your code has been rated at 10.00/10
 
-************* Module extract_combined
-Dashboard/utilities/extract_combined.py:15:10: E0001: Parsing failed: 'invalid decimal literal (extract_combined, line 15)' (syntax-error)
+
+------------------------------------
+Your code has been rated at 10.00/10
+
 ************* Module login
 Dashboard/login.py:16:0: C0301: Line too long (471/100) (line-too-long)
 
@@ -105,13 +105,9 @@ Your code has been rated at 10.00/10
 --------------------------------------------------------------------
 Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
 
-************* Module extract_main
-ETL/Pipeline/extract_main.py:82:0: C0301: Line too long (161/100) (line-too-long)
-ETL/Pipeline/extract_main.py:88:0: C0304: Final newline missing (missing-final-newline)
-ETL/Pipeline/extract_main.py:8:0: W0404: Reimport 'process_product' (imported line 7) (reimported)
 
------------------------------------
-Your code has been rated at 9.36/10
+------------------------------------
+Your code has been rated at 10.00/10
 
 
 ------------------------------------
