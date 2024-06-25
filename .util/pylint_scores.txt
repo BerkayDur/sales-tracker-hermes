@@ -41,14 +41,16 @@ Dashboard/login.py:16:0: C0301: Line too long (471/100) (line-too-long)
 Your code has been rated at 9.84/10
 
 ************* Module price
+Dashboard/pages/price.py:194:0: C0301: Line too long (102/100) (line-too-long)
 Dashboard/pages/price.py:14:0: E0401: Unable to import 'navigation' (import-error)
 Dashboard/pages/price.py:15:0: E0401: Unable to import 'utilities.helpers' (import-error)
 Dashboard/pages/price.py:16:0: E0401: Unable to import 'utilities.load' (import-error)
-Dashboard/pages/price.py:76:11: W0718: Catching too general exception Exception (broad-exception-caught)
-Dashboard/pages/price.py:188:17: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
+Dashboard/pages/price.py:17:0: E0401: Unable to import 'utilities.ses_get_emails' (import-error)
+Dashboard/pages/price.py:77:11: W0718: Catching too general exception Exception (broad-exception-caught)
+Dashboard/pages/price.py:189:17: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
 
 -----------------------------------
-Your code has been rated at 8.84/10
+Your code has been rated at 8.52/10
 
 
 ------------------------------------
