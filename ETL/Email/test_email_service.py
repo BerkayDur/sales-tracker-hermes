@@ -187,36 +187,36 @@ def test_format_email_from_data_frame_valid_1():
     '''test for valid'''
     fake_row_data = pd.Series({'price_threshold': None, 'is_on_sale': False,
                                'product_name': 'TEST1', 'previous_price': 2.00,
-                               'current_price': 1.00, 'url': 'TEST2'})
+                               'current_price': 1.00, 'url': 'TEST2', 'website_name': 'asos'})
     out = format_email_from_data_frame(fake_row_data)
-    assert out['message'] == '(ASOS) <a href=\'TEST2\'>TEST1</a> was £2.0, now £1.0.'
+    assert out['message'] == '(asos) <a href=\'TEST2\'>TEST1</a> was £2.0, now £1.0.'
     assert not out['email_type']
 
 def test_format_email_from_data_frame_valid_2():
     '''test for valid'''
     fake_row_data = pd.Series({'price_threshold': 2.00, 'is_on_sale': False,
                                'product_name': 'TEST1', 'previous_price': 2.00,
-                               'current_price': 1.00, 'url': 'TEST2'})
+                               'current_price': 1.00, 'url': 'TEST2', 'website_name': 'test'})
     out = format_email_from_data_frame(fake_row_data)
-    assert out['message'] == '(ASOS) <a href=\'TEST2\'>TEST1</a> was £2.0, now £1.0.'
+    assert out['message'] == '(test) <a href=\'TEST2\'>TEST1</a> was £2.0, now £1.0.'
     assert out['email_type'] == 'threshold'
 
 def test_format_email_from_data_frame_valid_3():
     '''test for valid'''
     fake_row_data = pd.Series({'price_threshold': 0.50, 'is_on_sale': True,
                                'product_name': 'TEST1', 'previous_price': 2.00,
-                               'current_price': 1.00, 'url': 'TEST2'})
+                               'current_price': 1.00, 'url': 'TEST2', 'website_name': 'martin'})
     out = format_email_from_data_frame(fake_row_data)
-    assert out['message'] == '(ASOS) <a href=\'TEST2\'>TEST1</a> was £2.0, now £1.0.'
+    assert out['message'] == '(martin) <a href=\'TEST2\'>TEST1</a> was £2.0, now £1.0.'
     assert out['email_type'] == 'sale'
 
 def test_format_email_from_data_frame_valid_4():
     '''test for valid'''
     fake_row_data = pd.Series({'price_threshold': 1.00, 'is_on_sale': True,
                                'product_name': 'TEST1', 'previous_price': 2.00,
-                               'current_price': 1.00, 'url': 'TEST2'})
+                               'current_price': 1.00, 'url': 'TEST2', 'website_name': 'asos'})
     out = format_email_from_data_frame(fake_row_data)
-    assert out['message'] == '(ASOS) <a href=\'TEST2\'>TEST1</a> was £2.0, now £1.0 (ON SALE).'
+    assert out['message'] == '(asos) <a href=\'TEST2\'>TEST1</a> was £2.0, now £1.0 (ON SALE).'
     assert out['email_type'] == 'threshold'
 
 
@@ -224,36 +224,36 @@ def test_format_email_from_data_frame_valid_5():
     '''test for valid'''
     fake_row_data = pd.Series({'price_threshold': None, 'is_on_sale': False,
                                'product_name': 'TEST1', 'previous_price': float('nan'),
-                               'current_price': 1.00, 'url': 'TEST2'})
+                               'current_price': 1.00, 'url': 'TEST2', 'website_name': 'diff'})
     out = format_email_from_data_frame(fake_row_data)
-    assert out['message'] == '(ASOS) <a href=\'TEST2\'>TEST1</a> now £1.0.'
+    assert out['message'] == '(diff) <a href=\'TEST2\'>TEST1</a> now £1.0.'
     assert not out['email_type']
 
 def test_format_email_from_data_frame_valid_6():
     '''test for valid'''
     fake_row_data = pd.Series({'price_threshold': 2.00, 'is_on_sale': False,
                                'product_name': 'TEST1', 'previous_price': float('nan'),
-                               'current_price': 1.00, 'url': 'TEST2'})
+                               'current_price': 1.00, 'url': 'TEST2', 'website_name': 'rand'})
     out = format_email_from_data_frame(fake_row_data)
-    assert out['message'] == '(ASOS) <a href=\'TEST2\'>TEST1</a> now £1.0.'
+    assert out['message'] == '(rand) <a href=\'TEST2\'>TEST1</a> now £1.0.'
     assert out['email_type'] == 'threshold'
 
 def test_format_email_from_data_frame_valid_7():
     '''test for valid'''
     fake_row_data = pd.Series({'price_threshold': 0.50, 'is_on_sale': True,
                                'product_name': 'TEST1', 'previous_price': float('nan'),
-                               'current_price': 1.00, 'url': 'TEST2'})
+                               'current_price': 1.00, 'url': 'TEST2', 'website_name': 'asos'})
     out = format_email_from_data_frame(fake_row_data)
-    assert out['message'] == '(ASOS) <a href=\'TEST2\'>TEST1</a> now £1.0.'
+    assert out['message'] == '(asos) <a href=\'TEST2\'>TEST1</a> now £1.0.'
     assert out['email_type'] == 'sale'
 
 def test_format_email_from_data_frame_valid_8():
     '''test for valid'''
     fake_row_data = pd.Series({'price_threshold': 1.00, 'is_on_sale': True,
                                'product_name': 'TEST1', 'previous_price': float('nan'),
-                               'current_price': 1.00, 'url': 'TEST2'})
+                               'current_price': 1.00, 'url': 'TEST2', 'website_name': 'asos'})
     out = format_email_from_data_frame(fake_row_data)
-    assert out['message'] == '(ASOS) <a href=\'TEST2\'>TEST1</a> now £1.0 (ON SALE).'
+    assert out['message'] == '(asos) <a href=\'TEST2\'>TEST1</a> now £1.0 (ON SALE).'
     assert out['email_type'] == 'threshold'
 
 @pytest.mark.parametrize('fake_data', [[{'product_id': 1, 'price_threshold': 10.0}],
