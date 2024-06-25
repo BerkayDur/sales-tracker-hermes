@@ -1,8 +1,9 @@
 ************* Module navigation
-Dashboard/navigation.py:26:0: C0303: Trailing whitespace (trailing-whitespace)
+Dashboard/navigation.py:25:0: C0303: Trailing whitespace (trailing-whitespace)
+Dashboard/navigation.py:39:0: C0303: Trailing whitespace (trailing-whitespace)
 
 -----------------------------------
-Your code has been rated at 9.66/10
+Your code has been rated at 9.38/10
 
 ************* Module extract_from_patagonia
 Dashboard/utilities/extract_from_patagonia.py:5:0: E0401: Unable to import 'utilities.helpers' (import-error)
@@ -49,17 +50,38 @@ Dashboard/login.py:16:0: C0301: Line too long (471/100) (line-too-long)
 -----------------------------------
 Your code has been rated at 9.84/10
 
+************* Module email_alerts
+Dashboard/pages/email_alerts.py:26:0: C0304: Final newline missing (missing-final-newline)
+Dashboard/pages/email_alerts.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+Dashboard/pages/email_alerts.py:5:0: E0401: Unable to import 'navigation' (import-error)
+Dashboard/pages/email_alerts.py:6:0: E0401: Unable to import 'utilities.ses_get_emails' (import-error)
+Dashboard/pages/email_alerts.py:7:0: E0401: Unable to import 'utilities.email_verification' (import-error)
+Dashboard/pages/email_alerts.py:9:0: C0116: Missing function or method docstring (missing-function-docstring)
+Dashboard/pages/email_alerts.py:12:0: C0116: Missing function or method docstring (missing-function-docstring)
+
+-----------------------------------
+Your code has been rated at 0.00/10
+
 ************* Module price
-Dashboard/pages/price.py:194:0: C0301: Line too long (102/100) (line-too-long)
+Dashboard/pages/price.py:183:0: C0301: Line too long (111/100) (line-too-long)
+Dashboard/pages/price.py:192:0: C0303: Trailing whitespace (trailing-whitespace)
+Dashboard/pages/price.py:200:0: C0301: Line too long (146/100) (line-too-long)
+Dashboard/pages/price.py:213:0: C0301: Line too long (123/100) (line-too-long)
+Dashboard/pages/price.py:232:0: C0301: Line too long (102/100) (line-too-long)
+Dashboard/pages/price.py:284:0: C0303: Trailing whitespace (trailing-whitespace)
 Dashboard/pages/price.py:14:0: E0401: Unable to import 'navigation' (import-error)
 Dashboard/pages/price.py:15:0: E0401: Unable to import 'utilities.helpers' (import-error)
 Dashboard/pages/price.py:16:0: E0401: Unable to import 'utilities.load' (import-error)
 Dashboard/pages/price.py:17:0: E0401: Unable to import 'utilities.ses_get_emails' (import-error)
 Dashboard/pages/price.py:77:11: W0718: Catching too general exception Exception (broad-exception-caught)
-Dashboard/pages/price.py:189:17: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
+Dashboard/pages/price.py:183:0: C0116: Missing function or method docstring (missing-function-docstring)
+Dashboard/pages/price.py:194:0: C0116: Missing function or method docstring (missing-function-docstring)
+Dashboard/pages/price.py:226:17: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
+Dashboard/pages/price.py:17:0: W0611: Unused get_ses_client imported from utilities.ses_get_emails (unused-import)
+Dashboard/pages/price.py:17:0: W0611: Unused get_ses_emails imported from utilities.ses_get_emails (unused-import)
 
 -----------------------------------
-Your code has been rated at 8.52/10
+Your code has been rated at 8.34/10
 
 
 ------------------------------------
