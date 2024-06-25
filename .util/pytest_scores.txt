@@ -5,6 +5,7 @@ rootdir: /home/runner/work/sales-tracker-hermes/sales-tracker-hermes
 collected 126 items / 2 errors
 
 !!!!!!!!!!!!!!!!!!! Interrupted: 2 errors during collection !!!!!!!!!!!!!!!!!!!!
+<<<<<<< HEAD
 ============================== 2 errors in 0.77s ===============================
 =======
 collected 276 items
@@ -25,3 +26,6 @@ ETL/Provision/test_provision_lambda.py ......                            [100%]
 
 ============================= 276 passed in 1.03s ==============================
 >>>>>>> main
+=======
+============================== 2 errors in 0.75s ===============================
+>>>>>>> b224c35fe3917da0e6f3a0850cbb2d7a5273c450
