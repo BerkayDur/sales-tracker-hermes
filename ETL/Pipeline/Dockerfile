@@ -7,7 +7,7 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 COPY helpers.py .
-COPY extractfrom_asos.py .
+COPY extract_from_asos.py .
 COPY extract_combined.py .
 
 CMD [ "extract_combined.handler" ]

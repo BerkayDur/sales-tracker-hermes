@@ -107,11 +107,11 @@ def test_get_customer_information_type_error_3(mock_create_single_insert_format_
 def test_filter_merged_table_valid(fake_merged_data):
     '''testing filter_merged_table with valid DataFrame values.'''
     assert filter_merged_table(fake_merged_data).sort_values('price_threshold').reset_index(drop=True).equals(pd.DataFrame([
-        {'price_threshold': None, 'current_price': 18.96, 'previous_price': 19.98, 'is_on_sale': True},
-        {'price_threshold': 19.99, 'current_price': 18.91, 'previous_price': None, 'is_on_sale': False},
-        {'price_threshold': 19.98, 'current_price': 18.90, 'previous_price': None, 'is_on_sale': True},
-        {'price_threshold': 19.96, 'current_price': 18.88, 'previous_price': 20.99, 'is_on_sale': True},
-        {'price_threshold': 19.95, 'current_price': 18.87, 'previous_price': 20.98, 'is_on_sale': False},
+        {'price_threshold': None, 'current_price': 18.96, 'price': 19.98, 'is_on_sale': True},
+        {'price_threshold': 19.99, 'current_price': 18.91, 'price': None, 'is_on_sale': False},
+        {'price_threshold': 19.98, 'current_price': 18.90, 'price': None, 'is_on_sale': True},
+        {'price_threshold': 19.96, 'current_price': 18.88, 'price': 20.99, 'is_on_sale': True},
+        {'price_threshold': 19.95, 'current_price': 18.87, 'price': 20.98, 'is_on_sale': False},
     ]).sort_values('price_threshold').reset_index(drop=True))
 
 @pytest.mark.parametrize('fake_data', [[{'product_id': 1, 'price_threshold': 10.0}],
@@ -186,7 +186,7 @@ def test_group_by_email_type_error_2(fake_email):
 def test_format_email_from_data_frame_valid_1():
     '''test for valid'''
     fake_row_data = pd.Series({'price_threshold': None, 'is_on_sale': False,
-                               'product_name': 'TEST1', 'previous_price': 2.00,
+                               'product_name': 'TEST1', 'price': 2.00,
                                'current_price': 1.00, 'url': 'TEST2', 'website_name': 'asos'})
     out = format_email_from_data_frame(fake_row_data)
     assert out['message'] == '(asos) <a href=\'TEST2\'>TEST1</a> was £2.0, now £1.0.'
@@ -195,7 +195,7 @@ def test_format_email_from_data_frame_valid_1():
 def test_format_email_from_data_frame_valid_2():
     '''test for valid'''
     fake_row_data = pd.Series({'price_threshold': 2.00, 'is_on_sale': False,
-                               'product_name': 'TEST1', 'previous_price': 2.00,
+                               'product_name': 'TEST1', 'price': 2.00,
                                'current_price': 1.00, 'url': 'TEST2', 'website_name': 'test'})
     out = format_email_from_data_frame(fake_row_data)
     assert out['message'] == '(test) <a href=\'TEST2\'>TEST1</a> was £2.0, now £1.0.'
@@ -204,7 +204,7 @@ def test_format_email_from_data_frame_valid_2():
 def test_format_email_from_data_frame_valid_3():
     '''test for valid'''
     fake_row_data = pd.Series({'price_threshold': 0.50, 'is_on_sale': True,
-                               'product_name': 'TEST1', 'previous_price': 2.00,
+                               'product_name': 'TEST1', 'price': 2.00,
                                'current_price': 1.00, 'url': 'TEST2', 'website_name': 'martin'})
     out = format_email_from_data_frame(fake_row_data)
     assert out['message'] == '(martin) <a href=\'TEST2\'>TEST1</a> was £2.0, now £1.0.'
@@ -213,7 +213,7 @@ def test_format_email_from_data_frame_valid_3():
 def test_format_email_from_data_frame_valid_4():
     '''test for valid'''
     fake_row_data = pd.Series({'price_threshold': 1.00, 'is_on_sale': True,
-                               'product_name': 'TEST1', 'previous_price': 2.00,
+                               'product_name': 'TEST1', 'price': 2.00,
                                'current_price': 1.00, 'url': 'TEST2', 'website_name': 'asos'})
     out = format_email_from_data_frame(fake_row_data)
     assert out['message'] == '(asos) <a href=\'TEST2\'>TEST1</a> was £2.0, now £1.0 (ON SALE).'
@@ -223,7 +223,7 @@ def test_format_email_from_data_frame_valid_4():
 def test_format_email_from_data_frame_valid_5():
     '''test for valid'''
     fake_row_data = pd.Series({'price_threshold': None, 'is_on_sale': False,
-                               'product_name': 'TEST1', 'previous_price': float('nan'),
+                               'product_name': 'TEST1', 'price': float('nan'),
                                'current_price': 1.00, 'url': 'TEST2', 'website_name': 'diff'})
     out = format_email_from_data_frame(fake_row_data)
     assert out['message'] == '(diff) <a href=\'TEST2\'>TEST1</a> now £1.0.'
@@ -232,7 +232,7 @@ def test_format_email_from_data_frame_valid_5():
 def test_format_email_from_data_frame_valid_6():
     '''test for valid'''
     fake_row_data = pd.Series({'price_threshold': 2.00, 'is_on_sale': False,
-                               'product_name': 'TEST1', 'previous_price': float('nan'),
+                               'product_name': 'TEST1', 'price': float('nan'),
                                'current_price': 1.00, 'url': 'TEST2', 'website_name': 'rand'})
     out = format_email_from_data_frame(fake_row_data)
     assert out['message'] == '(rand) <a href=\'TEST2\'>TEST1</a> now £1.0.'
@@ -241,7 +241,7 @@ def test_format_email_from_data_frame_valid_6():
 def test_format_email_from_data_frame_valid_7():
     '''test for valid'''
     fake_row_data = pd.Series({'price_threshold': 0.50, 'is_on_sale': True,
-                               'product_name': 'TEST1', 'previous_price': float('nan'),
+                               'product_name': 'TEST1', 'price': float('nan'),
                                'current_price': 1.00, 'url': 'TEST2', 'website_name': 'asos'})
     out = format_email_from_data_frame(fake_row_data)
     assert out['message'] == '(asos) <a href=\'TEST2\'>TEST1</a> now £1.0.'
@@ -250,7 +250,7 @@ def test_format_email_from_data_frame_valid_7():
 def test_format_email_from_data_frame_valid_8():
     '''test for valid'''
     fake_row_data = pd.Series({'price_threshold': 1.00, 'is_on_sale': True,
-                               'product_name': 'TEST1', 'previous_price': float('nan'),
+                               'product_name': 'TEST1', 'price': float('nan'),
                                'current_price': 1.00, 'url': 'TEST2', 'website_name': 'asos'})
     out = format_email_from_data_frame(fake_row_data)
     assert out['message'] == '(asos) <a href=\'TEST2\'>TEST1</a> now £1.0 (ON SALE).'
