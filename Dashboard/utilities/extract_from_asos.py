@@ -10,8 +10,10 @@ def is_correct_page(soup: BeautifulSoup) -> bool:
     if not isinstance(soup, BeautifulSoup):
         raise TypeError('Soup must be of type BeautifulSoup')
 
-    single_product_identifier = soup.find('div', attrs={'class': 'single-product'})
+    single_product_identifier = soup.find(
+        'div', attrs={'class': 'single-product'})
     return single_product_identifier is not None
+
 
 def scrape_product_information(soup: BeautifulSoup) -> dict | None:
     """Extract product information from a BeautifulSoup object."""
@@ -68,6 +70,7 @@ def get_product_name_asos(product_data: dict) -> str | None:
     logging.error("Missing productID in product_data")
     return None
 
+
 def extract_product_information(url: str) -> dict | None:
     """ Extracts product information from a specific URL."""
     configure_logging()
@@ -94,7 +97,8 @@ def extract_product_information(url: str) -> dict | None:
     product_code = get_product_code_asos(data)
     product_name = get_product_name_asos(data)
     if not (product_code and product_name):
-        logging.error('Unable to get correct product code or product name from website!')
+        logging.error(
+            'Unable to get correct product code or product name from website!')
         return None
     logging.info("Extraction completed successfully!")
     return {

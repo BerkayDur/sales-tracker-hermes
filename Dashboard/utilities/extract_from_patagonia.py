@@ -8,6 +8,7 @@ from helpers import get_soup, configure_logging
 def is_correct_page(soup: BeautifulSoup) -> bool:
     """Returns True if patagonia product page, else False."""
     if not isinstance(soup, BeautifulSoup):
+        logging.error("Soup must be of type BeautifulSoup")
         raise TypeError('Soup must be of type BeautifulSoup')
 
     single_product_identifier = soup.find(
@@ -18,6 +19,7 @@ def is_correct_page(soup: BeautifulSoup) -> bool:
 def scrape_product_information(soup: BeautifulSoup) -> dict | None:
     """Extract product information from a BeautifulSoup object."""
     if not isinstance(soup, BeautifulSoup):
+        logging.error("Soup must be of type BeautifulSoup")
         raise TypeError('Soup must be of type BeautifulSoup')
 
     product_soup = soup.find('script', type="application/ld+json")
