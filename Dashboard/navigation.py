@@ -20,6 +20,10 @@ def get_current_page_name() -> str | None:
 
 def make_sidebar() -> None:
     """Creates sidebar"""
+    page_name = get_current_page_name()
+    if page_name:
+        st.query_params["page"] = page_name
+
     with st.sidebar:
         st.title("💎 Sales tracker")
         st.write("")
@@ -35,7 +39,7 @@ def make_sidebar() -> None:
             if st.button("Log out"):
                 logout()
 
-        elif get_current_page_name() != "login":
+        elif page_name != "login":
             st.switch_page("login.py")
 
 

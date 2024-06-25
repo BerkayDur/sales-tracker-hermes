@@ -106,7 +106,6 @@ def login(email: str) -> None:
 
 if __name__ == "__main__":
     logging.basicConfig(level="INFO")
-    st.query_params["page"] = "login"
     make_sidebar()
     load_dotenv()
 

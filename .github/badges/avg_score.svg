@@ -10,6 +10,8 @@
     <rect width="805" height="200" fill="#555"/>
     <rect width="1450" height="200" fill="#08C" x="805"/>
     <rect width="2255" height="200" fill="url(#a)"/>
+    <rect width="1450" height="200" fill="#08C" x="805"/>
+    <rect width="2255" height="200" fill="url(#a)"/>
   </g>
   <g aria-hidden="true" fill="#fff" text-anchor="start" font-family="Verdana,DejaVu Sans,sans-serif" font-size="110">
     <text x="60" y="148" textLength="705" fill="#000" opacity="0.25">Pylint Score:</text>

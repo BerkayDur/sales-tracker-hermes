@@ -32,6 +32,7 @@ def get_cursor(conn: connection) -> cursor:
             'A cursor can only be constructed from a Psycopg2 connection object')
     return conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 
+
 def configure_logging() -> None:
     """Sets up basic logger"""
     return logging.basicConfig(
