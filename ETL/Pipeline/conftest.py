@@ -15,7 +15,8 @@ def fixture_fake_product_data() -> dict:
         'product_id': 1,
         'url': "https://www.asos.com/adidas",
         'product_code': 12345,
-        'product_name': 'adidas  trainers'
+        'product_name': 'adidas  trainers',
+        'website_name' : 'asos'
     }
 
 

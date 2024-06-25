@@ -3,12 +3,12 @@ import logging
 
 from lambda_multiprocessing import Pool
 
-from helpers import configure_log, validate_input, remove_stale_products
-from extract_from_asos import process_product as extract_from_asos
+from pipeline_helpers import configure_log, validate_input, remove_stale_products
+from extract_asos import process_product as extract_asos
 
 
 EXTRACT_FUNCTIONS = {
-    'asos': extract_from_asos
+    'asos': extract_asos
 }
 
 
