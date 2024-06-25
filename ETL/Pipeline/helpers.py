@@ -41,7 +41,6 @@ def validate_input(entry):
         'product_name': str,
         'website_name': str
     }
-    print(has_required_keys(entry, required_keys))
     if (isinstance(entry, dict) and has_required_keys(entry, required_keys) and
             convert_product_code(entry) and has_correct_types(entry, required_keys)):
         return entry
