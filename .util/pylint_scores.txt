@@ -101,7 +101,13 @@ Your code has been rated at 10.00/10
 Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
 
 ************* Module extract_main
-ETL/Pipeline/extract_main.py:6:1: E0001: Parsing failed: 'invalid syntax (extract_main, line 6)' (syntax-error)
+ETL/Pipeline/extract_main.py:7:0: E0401: Unable to import 'extract_from_asos' (import-error)
+ETL/Pipeline/extract_main.py:69:4: W0621: Redefining name 'product_readings' from outer scope (line 76) (redefined-outer-name)
+ETL/Pipeline/extract_main.py:75:19: E0602: Undefined variable '_event' (undefined-variable)
+
+-----------------------------------
+Your code has been rated at 7.71/10
+
 
 ------------------------------------
 Your code has been rated at 10.00/10
