@@ -4,4 +4,4 @@ rootdir: /home/runner/work/sales-tracker-hermes/sales-tracker-hermes
 collected 126 items / 2 errors
 
 !!!!!!!!!!!!!!!!!!! Interrupted: 2 errors during collection !!!!!!!!!!!!!!!!!!!!
-============================== 2 errors in 0.77s ===============================
+============================== 2 errors in 0.75s ===============================
