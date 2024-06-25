@@ -2,7 +2,7 @@
 import json
 import logging
 from bs4 import BeautifulSoup
-from utilities.helpers import get_soup, configure_logging
+from helpers import get_soup, configure_logging
 
 
 def is_correct_page(soup: BeautifulSoup) -> bool:
