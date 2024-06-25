@@ -26,7 +26,7 @@ variable "DB_NAME" {
 
 variable "RDS_NAME" {
   type = string
-  default = "c11-hermes-db"
+  default = "c11-hermes-db-tf-1"
 }
 
 variable "DB_SUBNET" {
@@ -36,10 +36,14 @@ variable "DB_SUBNET" {
 
 variable "SG_NAME" {
   type = string
-  default = "c11-hermes-sg"
+  default = "c11-hermes-sg-tf-1"
 }
 
 variable "AWS_AZ" {
   type = string
   default = "eu-west-2a"
+}
+
+variable "AWS_VPC" {
+  type = string
 }
