@@ -4,7 +4,7 @@ import logging
 from lambda_multiprocessing import Pool
 
 from pipeline_helpers import configure_log, validate_input, remove_stale_products
-from extract_patagonia import process_product as extract_from_asos
+from extract_asos import process_product as extract_from_asos
 from extract_patagonia import process_product as extract_from_patagonia
 
 
@@ -72,17 +72,4 @@ def handler(_event, _context=None) -> list:
 
 if __name__ == "__main__":
     configure_log()
-    # cleaned_data = _event
-    # product_readings = extract_price_and_sales_data(cleaned_data)
-    # print(remove_stale_products(product_readings))
-    for i in handler([
-              {
-        "product_id": 1,
-        "product_code": "23725",
-        "url": "https://eu.patagonia.com/gb/en/product/womens-capilene-cool-trail-graphic-shirt/23725.html?dwvar_23725_color=FMWI&cgid=collections-new-arrivals",
-        "price": None,
-        "website_name": "patagonia",
-        "product_name": "W's Capilene® Cool Trail Graphic Shirt"
-      }
-    ]):
-        print(i)
+    print(handler([{}]))
