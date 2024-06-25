@@ -20,11 +20,9 @@ def get_current_page_name() -> str | None:
 
 def make_sidebar() -> None:
     """Creates sidebar"""
+    st.set_page_config(layout='wide')
     page_name = get_current_page_name()
-    # if page_name:
-    #    st.query_params["page"] = page_name
     
-
     with st.sidebar:
         st.logo("logo/hermes_logo_full.png")
         st.write("")
@@ -33,13 +31,13 @@ def make_sidebar() -> None:
         if st.session_state.get("logged_in", False):
             st.page_link("pages/price.py",
                          label="Price Tracker", icon="💵")
-
+            st.write("")
+            st.page_link('pages/email_alerts.py', label="Email Alerts", icon="📧")
             st.write("")
             st.write("")
-
             if st.button("Log out"):
+                
                 logout()
-
         elif page_name != "login":
             st.switch_page("login.py")
 

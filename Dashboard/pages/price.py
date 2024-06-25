@@ -161,7 +161,8 @@ def get_encode_price_reading(
     fake_new_data = price_reading_at.iloc[[-1]]
     fake_new_data["reading_at"] = datetime.now()
     price_reading_at = pd.concat([price_reading_at, fake_new_data])
-    chart = alt.Chart(price_reading_at).encode(
+    title = alt.TitleParams('Price over Time', anchor='middle')
+    chart = alt.Chart(price_reading_at, title=title).encode(
         x="reading_at:T",
         y="price"
     )
@@ -170,14 +171,50 @@ def get_encode_price_reading(
         min_reading = price_reading_at["reading_at"].min()
         price_threshold_df = pd.DataFrame([{"reading_at": min_reading, "price": price_threshold},
                                            {"reading_at": max_reading, "price": price_threshold}])
-        chart_2 = alt.Chart(price_threshold_df).encode(
+        threshold_chart = alt.Chart(price_threshold_df)
+        threshold_line_enc = threshold_chart.encode(
             x="reading_at:T",
             y="price",
-            color=alt.value("#FF0000")
+            color=alt.value("#FF0000"),
         )
-        return chart_2.mark_line() + chart.mark_point() + chart.mark_line()
+        return threshold_line_enc.mark_line() + chart.mark_point() + chart.mark_line()
     return chart.mark_point() + chart.mark_line()
 
+def change_threshold_in_db(config: _Environ, new_threshold: float | None, product_id: int, email: str) -> None:
+    conn = get_connection(config)
+    user_id = get_user_id(conn, email)
+    with get_cursor(conn) as cur:
+        cur.execute('''UPDATE subscriptions
+                        SET price_threshold = %s
+                        WHERE user_id = %s
+                        AND product_id = %s''', (new_threshold, user_id, product_id))
+        conn.commit()
+    
+
+def change_threshold(config: _Environ, product_information: dict):
+    st.write(product_information)
+    with st.form(f'price_threshold_{product_information['product_id']}'):
+        text_input_placeholder = None
+        if product_information['price_threshold'] is not None:
+            text_input_placeholder = float(product_information['price_threshold'])
+        new_threshold = st.text_input('Enter a new Threshold:', placeholder=text_input_placeholder, help='Can be left empty to remove threshold!')
+        if st.form_submit_button('Update Threshold'):
+            valid_threshold = False
+            if new_threshold == '':
+                new_threshold = None
+                valid_threshold = True
+            elif can_parse_as_float(new_threshold):
+                new_threshold = float(new_threshold)
+                if new_threshold > 0:
+                    valid_threshold = True
+            if not valid_threshold and new_threshold == product_information['price_threshold']:
+                st.warning('New threshold is the same as the old threshold.')
+            elif valid_threshold:
+                change_threshold_in_db(config, new_threshold, product_information['product_id'], st.session_state['email'])
+            elif not valid_threshold and type(new_threshold, float):
+                st.warning('Threshold must be a positive number!')
+            else:
+                st.warning('Invalid threshold, please try again!')
 
 def display_subscribed_product(config: _Environ, product_information: dict) -> None:
     """For a particular product, get the price readings and display a container
@@ -186,18 +223,24 @@ def display_subscribed_product(config: _Environ, product_information: dict) -> N
         config, product_information["product_id"])
 
     with st.container(border=True):
-        st.write("**%s** - **[%s](%s)**" % (product_information["website_name"],
-                                            product_information["product_name"],
-                                            product_information["website_name"]))
+        st.write("**%s** - **[%s](%s)**" % (product_information["website_name"].title(),
+                                            product_information["product_name"].title(),
+                                            product_information["url"]))
         if price_readings is not None:
+            col1, col2 = st.columns([6, 10])
             if can_parse_as_float(product_information['price_threshold']):
                 product_information['price_threshold'] = float(product_information["price_threshold"])
             encoded_price_readings = get_encode_price_reading(
                 price_readings, product_information["price_threshold"])
-            st.altair_chart(encoded_price_readings)
+            with col1:
+                current_price = price_readings[
+                    price_readings['reading_at'] == price_readings['reading_at'].max()]['price']
+                st.write(f'Current Price: £{float(current_price):.2f}')
+                change_threshold(config, product_information)
+            with col2:
+                st.altair_chart(encoded_price_readings)
         else:
-            st.write("No data to display")
-        st.write(price_readings)
+            st.write("Fetching data... Please wait.")
 
 
 def price_tracker_page(config: _Environ) -> None:
@@ -208,13 +251,13 @@ def price_tracker_page(config: _Environ) -> None:
 
     with st.expander("List of Supported websites", expanded=True):
         for website in websites:
-            st.write(website)
+            st.write(website.title())
 
     with st.expander("Subscribe to new product", expanded=True):
         with st.form("subscribe_to_product", clear_on_submit=True, border=False):
             product_url = st.text_input("Enter the product URL:")
             price_threshold = st.text_input(
-                "Enter a threshold", placeholder="Can be left empty")
+                "Enter a threshold:", placeholder="Can be left empty")
             if st.form_submit_button("Track Price", type="primary"):
                 if not product_url:
                     logging.error("You must enter a URL.")
@@ -222,20 +265,23 @@ def price_tracker_page(config: _Environ) -> None:
                 elif price_threshold != "" and not can_parse_as_float(price_threshold):
                     logging.error("Threshold must be a number (or empty).")
                     st.warning("Threshold must be a number (or empty).")
+                elif can_parse_as_float(price_threshold) and float(price_threshold) <= 0:
+                    st.warning('Price Threshold must be positive!')
                 else:
                     subscribe_to_product(config, product_url, price_threshold)
-        ses_client = get_ses_client(config)
-    with st.expander(label="Email Alerts!"):
-        if st.session_state['email'] not in get_ses_emails(ses_client, method='verified'):
-            if st.button('Click here to sign up to email alerts.'):
-                st.warning('Sending verification, please check your inbox.')
 
+    st.header('Tracking products:')
 
     subscribed_to_products = get_subscribed_products(
         config, st.session_state["email"])
-    st.write(subscribed_to_products)
-    for product in subscribed_to_products:
-        display_subscribed_product(config, product)
+    col1, col2 = st.columns(2, gap="large")
+    for i in range(0, len(subscribed_to_products),2):
+        with col1:
+            display_subscribed_product(config, subscribed_to_products[i])
+    for i in range(1, len(subscribed_to_products),2):
+        with col2:
+            display_subscribed_product(config, subscribed_to_products[i])
+    
 
 
 if __name__ == "__main__":

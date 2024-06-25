@@ -100,7 +100,7 @@ def login(email: str) -> None:
     st.session_state.email = email
     logging.info("Welcome! You are logged in with email: %s", email)
     st.success(f"Welcome! You are logged in with email: {email}")
-    sleep(1)
+    sleep(0.5)
     st.switch_page("pages/price.py")
 
 
