@@ -4,10 +4,8 @@ from datetime import datetime
 import logging
 from bs4 import BeautifulSoup
 from bs4.element import Tag
-import requests
-import json
 
-from helpers import get_soup
+from pipeline_helpers import get_soup
 
 
 def get_asos_api_url(product_code: int) -> str | None:

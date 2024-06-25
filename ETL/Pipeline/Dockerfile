@@ -6,8 +6,9 @@ COPY requirements.txt .
 
 RUN pip install -r requirements.txt
 
-COPY helpers.py .
-COPY extract_from_asos.py .
-COPY extract_combined.py .
+COPY pipeline_helpers.py .
+COPY extract_asos.py .
+COPY extract_patagonia.py .
+COPY extract_main.py .
 
-CMD [ "extract_combined.handler" ]
+CMD [ "extract_main.handler" ]
