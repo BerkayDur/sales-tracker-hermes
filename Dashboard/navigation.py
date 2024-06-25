@@ -20,9 +20,10 @@ def get_current_page_name() -> str | None:
 
 def make_sidebar() -> None:
     """Creates sidebar"""
-    page_name = get_current_page_name()
-    if page_name:
-        st.query_params["page"] = page_name
+    #page_name = get_current_page_name()
+    #if page_name:
+    #    st.query_params["page"] = page_name
+    st.logo("logo/hermes_logo_full.png")
 
     with st.sidebar:
         st.title("💎 Sales tracker")
