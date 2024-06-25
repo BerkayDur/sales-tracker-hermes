@@ -67,35 +67,3 @@ def handler(_event, _context=None) -> list:
     cleaned_data = validate_input(_event)
     product_readings = extract_price_and_sales_data(cleaned_data)
     return remove_stale_products(product_readings)
-
-
-if __name__ == '__main__':
-    configure_log()
-    inputs = [
-        {
-            'product_id': 1,
-            'url': "https://www.asos.com/bershka/bershka-high-waisted-bootcut-jeans\
--in-black/prd/203832070#colourWayId-203832078",
-            'product_code': 203832070,
-            'product_name': 'Bershka high waisted bootcut jeans in black',
-            'website_name': 'asos'
-        },
-        {
-            'product_id': 2,
-            'product_code': 206107351,
-            'url': "https://www.asos.com/new-balance/new-balance-fresh-foam-arishi-v4\
-        -running-trainers-in-white-and-orange/prd/206107351#colourWayId-206107353",
-            'product_name': 'New Balance Fresh Foam Arishi v4 running trainers in white and orange',
-            'website_name': 'asos'
-        },
-        {
-            'product_id': 3,
-            'product_code': 205918844,
-            'url': "https://www.asos.com/pasq/pasq-two-pocket-tote-bag-\
-        with-removable-pouch-in-black/prd/205928631#colourWayId-205928635",
-            'product_name': 'PASQ two pocket tote bag with removable pouch in black',
-            'website_name': 'asos'
-        }
-    ]
-
-    print(extract_price_and_sales_data(inputs))

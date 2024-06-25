@@ -99,7 +99,3 @@ def process_product(product: dict) -> dict | None:
             return product
     logging.error("Error processing product %s", product['product_code'])
     return None
-
-
-if __name__ == '__main__':
-    ...
