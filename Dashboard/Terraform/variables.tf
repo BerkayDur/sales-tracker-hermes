@@ -35,3 +35,24 @@ variable "DB_USER" {
 variable "DB_NAME" {
     type = string
 }
+
+variable "CLUSTER_ARN" {
+    type = string
+}
+
+variable "SUBNETS" {
+    type=list(string)
+}
+
+variable "AWS_VPC" {
+    type = string
+}
+
+variable "DASHBAORD_SG" {
+    type = string
+}
+
+variable "PORT_TO_EXPOSE" {
+    type = string
+    default = "8501"
+}

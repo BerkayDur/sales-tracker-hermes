@@ -1,6 +1,39 @@
+resource "aws_security_group" "c11_hermes_dashboard_sg" {
+    name        = var.DASHBAORD_SG
+    vpc_id = var.AWS_VPC
+    description = "Allows access to streamlit dashboard"
+    egress = [
+        {
+            cidr_blocks      = ["0.0.0.0/0"]
+            description      = ""
+            from_port        = 0
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "-1"
+            security_groups  = []
+            self             = false
+            to_port          = 0
+        },
+    ]
+    ingress = [
+        {
+            cidr_blocks      = ["0.0.0.0/0"]
+            description      = ""
+            from_port        = var.PORT_TO_EXPOSE
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = []
+            self             = false
+            to_port          = var.PORT_TO_EXPOSE
+        },
+    ]
+}
+
+
 
 resource "aws_ecs_task_definition" "dashboard_task_def" {
-    family = var.dashboard_name
+    family = "${var.dashboard_name}_task_def"
     requires_compatibilities = ["FARGATE"]
     network_mode = "awsvpc"
     cpu = 1024
@@ -55,14 +88,19 @@ resource "aws_ecs_task_definition" "dashboard_task_def" {
 }
 
 resource "aws_ecs_service" "dashboard_service" {
-    name = "c11-berkay-terraform-dashboard-service"
-    cluster = var.cluster_arn
+    name = "${var.dashboard_name}_service"
+    cluster = var.CLUSTER_ARN
     task_definition = aws_ecs_task_definition.dashboard_task_def.arn
     desired_count = 1
     launch_type = "FARGATE"
     network_configuration {
-      subnets = ["subnet-04ec64625db90bc59", "subnet-0680e82f872693b78", "subnet-0af173a8d980c9354"]
+      subnets = var.SUBNETS
       security_groups = ["sg-02e2c7112e97629d3"]
       assign_public_ip = true
     }
+}
+
+
+resource "" "name" {
+  
 }
