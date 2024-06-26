@@ -5,21 +5,27 @@ Dashboard/navigation.py:39:0: C0303: Trailing whitespace (trailing-whitespace)
 -----------------------------------
 Your code has been rated at 9.38/10
 
+************* Module login
+Dashboard/login.py:16:0: C0301: Line too long (471/100) (line-too-long)
+
+-----------------------------------
+Your code has been rated at 9.84/10
+
 ************* Module extract_from_patagonia
-Dashboard/utilities/extract_from_patagonia.py:5:0: E0401: Unable to import 'utilities.helpers' (import-error)
+Dashboard/utils/extract_from_patagonia.py:5:0: E0401: Unable to import 'utils.helpers' (import-error)
 
 -----------------------------------
 Your code has been rated at 9.30/10
 
 ************* Module extract_from_asos
-Dashboard/utilities/extract_from_asos.py:5:0: E0401: Unable to import 'utilities.helpers' (import-error)
+Dashboard/utils/extract_from_asos.py:5:0: E0401: Unable to import 'utils.helpers' (import-error)
 
 -----------------------------------
 Your code has been rated at 9.32/10
 
 ************* Module load
-Dashboard/utilities/load.py:9:0: E0401: Unable to import 'utilities.extract_combined' (import-error)
-Dashboard/utilities/load.py:10:0: E0401: Unable to import 'utilities.helpers' (import-error)
+Dashboard/utils/load.py:9:0: E0401: Unable to import 'utils.extract_combined' (import-error)
+Dashboard/utils/load.py:10:0: E0401: Unable to import 'utils.helpers' (import-error)
 
 -----------------------------------
 Your code has been rated at 7.30/10
@@ -37,27 +43,28 @@ Your code has been rated at 10.00/10
 Your code has been rated at 10.00/10
 
 ************* Module extract_combined
-Dashboard/utilities/extract_combined.py:8:0: E0401: Unable to import 'utilities.helpers' (import-error)
-Dashboard/utilities/extract_combined.py:9:0: E0401: Unable to import 'utilities.extract_from_asos' (import-error)
-Dashboard/utilities/extract_combined.py:10:0: E0401: Unable to import 'utilities.extract_from_patagonia' (import-error)
+Dashboard/utils/extract_combined.py:8:0: E0401: Unable to import 'utils.helpers' (import-error)
+Dashboard/utils/extract_combined.py:9:0: E0401: Unable to import 'utils.extract_from_asos' (import-error)
+Dashboard/utils/extract_combined.py:10:0: E0401: Unable to import 'utils.extract_from_patagonia' (import-error)
 
 -----------------------------------
 Your code has been rated at 6.74/10
 
-************* Module login
-Dashboard/login.py:16:0: C0301: Line too long (471/100) (line-too-long)
+************* Module add_product
+Dashboard/pages/add_product.py:4:0: C0304: Final newline missing (missing-final-newline)
+Dashboard/pages/add_product.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 
 -----------------------------------
-Your code has been rated at 9.84/10
+Your code has been rated at 3.33/10
 
 ************* Module email_alerts
-Dashboard/pages/email_alerts.py:30:0: C0304: Final newline missing (missing-final-newline)
-Dashboard/pages/email_alerts.py:7:0: E0401: Unable to import 'navigation' (import-error)
-Dashboard/pages/email_alerts.py:8:0: E0401: Unable to import 'utilities.ses_get_emails' (import-error)
-Dashboard/pages/email_alerts.py:9:0: E0401: Unable to import 'utilities.email_verification' (import-error)
+Dashboard/pages/email_alerts.py:56:0: C0304: Final newline missing (missing-final-newline)
+Dashboard/pages/email_alerts.py:8:0: E0401: Unable to import 'navigation' (import-error)
+Dashboard/pages/email_alerts.py:9:0: E0401: Unable to import 'utils.ses_get_emails' (import-error)
+Dashboard/pages/email_alerts.py:10:0: E0401: Unable to import 'utils.email_verification' (import-error)
 
 -----------------------------------
-Your code has been rated at 1.58/10
+Your code has been rated at 3.04/10
 
 ************* Module price
 Dashboard/pages/price.py:183:0: C0301: Line too long (111/100) (line-too-long)
@@ -65,26 +72,24 @@ Dashboard/pages/price.py:192:0: C0303: Trailing whitespace (trailing-whitespace)
 Dashboard/pages/price.py:203:0: C0301: Line too long (106/100) (line-too-long)
 Dashboard/pages/price.py:215:0: C0301: Line too long (123/100) (line-too-long)
 Dashboard/pages/price.py:234:0: C0301: Line too long (112/100) (line-too-long)
-Dashboard/pages/price.py:249:0: C0303: Trailing whitespace (trailing-whitespace)
-Dashboard/pages/price.py:251:0: C0301: Line too long (102/100) (line-too-long)
-Dashboard/pages/price.py:255:0: C0303: Trailing whitespace (trailing-whitespace)
-Dashboard/pages/price.py:302:55: C0303: Trailing whitespace (trailing-whitespace)
-Dashboard/pages/price.py:302:0: W0311: Bad indentation. Found 12 spaces, expected 8 (bad-indentation)
-Dashboard/pages/price.py:14:0: E0401: Unable to import 'navigation' (import-error)
-Dashboard/pages/price.py:15:0: E0401: Unable to import 'utilities.helpers' (import-error)
-Dashboard/pages/price.py:16:0: E0401: Unable to import 'utilities.load' (import-error)
-Dashboard/pages/price.py:17:0: E0401: Unable to import 'utilities.ses_get_emails' (import-error)
+Dashboard/pages/price.py:254:0: C0303: Trailing whitespace (trailing-whitespace)
+Dashboard/pages/price.py:256:0: C0301: Line too long (102/100) (line-too-long)
+Dashboard/pages/price.py:260:0: C0303: Trailing whitespace (trailing-whitespace)
+Dashboard/pages/price.py:13:0: E0401: Unable to import 'navigation' (import-error)
+Dashboard/pages/price.py:15:0: E0401: Unable to import 'utils.helpers' (import-error)
+Dashboard/pages/price.py:16:0: E0401: Unable to import 'utils.load' (import-error)
+Dashboard/pages/price.py:17:0: E0401: Unable to import 'utils.ses_get_emails' (import-error)
 Dashboard/pages/price.py:77:11: W0718: Catching too general exception Exception (broad-exception-caught)
 Dashboard/pages/price.py:183:0: C0116: Missing function or method docstring (missing-function-docstring)
 Dashboard/pages/price.py:194:0: C0116: Missing function or method docstring (missing-function-docstring)
 Dashboard/pages/price.py:222:0: C0116: Missing function or method docstring (missing-function-docstring)
 Dashboard/pages/price.py:231:0: C0116: Missing function or method docstring (missing-function-docstring)
-Dashboard/pages/price.py:244:17: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
-Dashboard/pages/price.py:17:0: W0611: Unused get_ses_client imported from utilities.ses_get_emails (unused-import)
-Dashboard/pages/price.py:17:0: W0611: Unused get_ses_emails imported from utilities.ses_get_emails (unused-import)
+Dashboard/pages/price.py:249:21: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
+Dashboard/pages/price.py:17:0: W0611: Unused get_ses_client imported from utils.ses_get_emails (unused-import)
+Dashboard/pages/price.py:17:0: W0611: Unused get_ses_emails imported from utils.ses_get_emails (unused-import)
 
 -----------------------------------
-Your code has been rated at 8.13/10
+Your code has been rated at 8.33/10
 
 
 ------------------------------------
