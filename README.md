@@ -87,6 +87,32 @@ A cleanup script runs daily to remove the RDS entries that no longer have any us
 Each component of the architecture is provisioned and managed using Terraform scripts, ensuring consistency, scalability.
 Continuous Integration and Continuous Deployment (CI/CD) practices are followed, allowing for seamless deployment and updates.
 
+## Key Technology Choices
+
+### Amazon Web Services (AWS)
+
+AWS was chosen for this project because it is the most widely used cloud platform and offers a wide range of tools and services that allow for scalability, and ease of use.
+
+- **AWS Lambda**: Serverless compute service that runs code in response to events. Lambda functions are used in the ETL pipeline for data extraction, transformation, and loading processes, ensuring efficient and scalable data handling.
+
+- **Amazon RDS (Relational Database Service)**: Managed relational database service that provides scalable and reliable database solutions. RDS is used to store the core data for the application, including user information, subscriptions, product details, and price readings.
+
+- **Amazon ECS (Elastic Container Service)**: Highly scalable container orchestration service. ECS is used to run the Streamlit dashboard, allowing for containerized application management and deployment.
+
+- **Amazon ECR (Elastic Container Registry)**: Managed Docker container registry that makes it easy to store, manage, and deploy Docker container images. ECR is used to store the Docker images for the Streamlit dashboard and other containerized components.
+
+- **Amazon SES (Simple Email Service)**: Scalable and cost-effective email service. SES is used to send email notifications to users when product prices drop below specified thresholds, ensuring timely alerts.
+
+- **Amazon EventBridge**: Serverless event bus that makes it easy to connect applications using data from your own applications, integrated AWS services, and SaaS applications. EventBridge is used to trigger the cleanup script and other scheduled tasks within the system.
+
+### Streamlit
+
+- **Streamlit**: An open-source app framework for Machine Learning and Data Science projects. Streamlit is used to build the user-facing dashboard, providing an interactive interface for users to manage product subscriptions, view price history, and add new products.
+
+### Terraform
+
+- **Terraform**: An open-source infrastructure as code (IaC) software tool. Terraform is used to define and provision the infrastructure for the project, ensuring consistent and reproducible deployment of AWS resources. It allows for automated setup and management of the entire cloud environment.
+
 ## Entity Relationship Diagram
 The database structure can be seen in the following diagram:
 
