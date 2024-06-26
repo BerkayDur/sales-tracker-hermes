@@ -1,30 +1,12 @@
 '''utility functions to add unverified email to ses and send verification emails.'''
 
-from os import _Environ, environ as CONFIG
 import logging
 
 from dotenv import load_dotenv
-
-from boto3 import client as boto_client
-from botocore.client import BaseClient
 from botocore.exceptions import ClientError
 from mypy_boto3_ses.client import SESClient as ses_client
 
-
-def get_ses_client(config: _Environ) -> ses_client:
-    '''Returns an ses client from a configuration.'''
-    return boto_client(
-        'ses',
-        aws_access_key_id = config["ACCESS_KEY"],
-        aws_secret_access_key = config['SECRET_ACCESS_KEY'],
-        region_name = config['AWS_REGION_NAME']
-    )
-
-
-def is_ses(boto_ses_client: ses_client) -> bool:
-    '''Returns true if ses client else false.'''
-    return (isinstance(boto_ses_client, BaseClient)
-            and boto_ses_client._service_model.service_name == 'ses')  # pylint: disable=protected-access
+from helpers import is_ses
 
 
 def send_verification_email(boto_ses_client: ses_client, email: str) -> dict[bool, str]:
@@ -66,46 +48,27 @@ def send_verification_email(boto_ses_client: ses_client, email: str) -> dict[boo
     return {'success': True, 'request_id': response['ResponseMetadata'].get('RequestId')}
 
 
-def unverify_email(boto_ses_client: ses_client, email: str) -> dict:
-    '''Remove a verified email from ses.'''
+def unverify_email(boto_ses_client: ses_client, email: str) -> None:
+    '''Remove a verified email from ses. Upon failure, return None.
+    This is functionality to be seen and used on the frontend, thus
+    failing is unacceptable.'''
     if not isinstance(email, str):
         logging.error(
             'unverify_email passed `email` argument not of type str.')
-        return {'success': False, 'reason': 'bad email type, email must be of type str.'}
+        return None
     if not is_ses(boto_ses_client):
         logging.error(
             'unverify_email client is not a boto3 ses client.')
-        return {'success': False, 'reason': 'client is not a boto3 ses client.'}
+        return None
     logging.info('Removing verified email...')
-    return boto_ses_client.delete_verified_email_address(
-        EmailAddress=email
-    )
-#     try:
-#         response = boto_ses_client.verify_email_identity(EmailAddress=email)
-#     except ClientError as e:
-#         if not e.response.get('Error'):
-#             logging.error('sending email verification failed due to an unknown reason\
-#  (no Error attribute on response object), see field \'error\'!')
-#             reason = 'unknown reason, but no Error attribute on response, see field \'error\'!'
-#         elif e.response['Error'].get('Code') == 'InvalidClientTokenId':
-#             logging.error('sending email verification failed due to bad aws credentials!')
-#             reason = 'bad aws credentials!'
-#         elif e.response['Error'].get('Code') == 'InvalidParameterValue':
-#             logging.error('sending email verification failed due to bad email address format!')
-#             reason = 'invalid email address format.'
-#         else:
-#             logging.error(
-#                 'sending email verification failed due to an unknown reason!')
-#             reason = 'failure for unknown reason, see field \'error\''
-#         return {'success': False, 'reason': reason, 'error': e.response}
-#     logging.info('Sending email verification success!')
-    # return {'success': True, 'request_id': response['ResponseMetadata'].get('RequestId')}
-
+    try:
+        boto_ses_client.delete_verified_email_address(
+            EmailAddress=email
+        )
+        logging.info('unverity_email completed successfully, removing email.')
+    except Exception:
+        logging.error('unverify_email client failed unexpectedly.')
 
 if __name__ == '__main__':
     load_dotenv()
     logging.basicConfig(level='INFO')
-
-    client = get_ses_client(CONFIG)
-
-    print(send_verification_email(client, 'fake@mail.com'))

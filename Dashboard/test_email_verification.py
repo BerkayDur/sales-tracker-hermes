@@ -5,27 +5,9 @@ import pytest
 from botocore.client import BaseClient
 from botocore.exceptions import ClientError
 
-from email_verification import (is_ses, send_verification_email)
+from email_verification import (send_verification_email,
+                                unverify_email)
 
-def test_is_ses_valid():
-    '''test for valid.'''
-    mock_client = MagicMock(spec=BaseClient)
-    mock_client._service_model.service_name = 'ses'
-    assert is_ses(mock_client)
-
-@pytest.mark.parametrize('invalid_types', [
-    [BaseClient, 's3'],
-    [BaseClient, 'sns'],
-    [BaseClient, 'ec2'],
-    [float, 's3'],
-    [dict, 'ses'],
-])
-def test_is_ses_invalid(invalid_types):
-    '''test for invalid types for ses client.'''
-    mock_client = MagicMock(spec=invalid_types[0])
-    mock_client._service_model = MagicMock()
-    mock_client._service_model.service_name = invalid_types[1]
-    assert not is_ses(mock_client)
 
 @patch('email_verification.is_ses')
 def test_email_verification_valid(mock_is_ses):
@@ -160,3 +142,52 @@ def test_email_verification_unknown_error_2(mock_is_ses):
     assert mock_is_ses.call_args[0][0] == mock_client
     assert mock_client.verify_email_identity.call_count == 1
     assert mock_client.verify_email_identity.call_args[1]['EmailAddress'] == 'fake@mail.com'
+
+
+@patch('email_verification.is_ses')
+def test_unverify_email_valid(mock_is_ses):
+    mock_is_ses.return_value = True
+
+    mock_client = MagicMock(spec=BaseClient)
+    mock_client._service_model.service_name = 'ses'
+    mock_client.delete_verified_email_address = MagicMock()
+
+    fake_email = 'FAKE_EMAIL'
+    unverify_email(mock_client, fake_email)
+
+    assert mock_client.delete_verified_email_address.call_count == 1
+    assert mock_client.delete_verified_email_address.call_args[1]['EmailAddress'] == fake_email
+
+@pytest.mark.parametrize('fake_email', [234.0, 23, [], {}])
+@patch('email_verification.is_ses')
+def test_unverify_email_invalid_email_type(mock_is_ses, fake_email):
+    mock_is_ses.return_value = True
+
+    mock_client = MagicMock(spec=BaseClient)
+    mock_client._service_model.service_name = 'ses'
+    mock_client.delete_verified_email_address = MagicMock()
+    unverify_email(mock_client, fake_email)
+
+    assert mock_client.delete_verified_email_address.call_count == 0
+
+@pytest.mark.parametrize('invalid_types', [
+    [BaseClient, 's3'],
+    [BaseClient, 'sns'],
+    [BaseClient, 'ec2'],
+    [float, 's3'],
+    [dict, 'ses'],
+])
+@patch('email_verification.is_ses')
+def test_unverify_email_invalid_email_type(mock_is_ses, invalid_types):
+    mock_is_ses.return_value = False
+
+    mock_client = MagicMock(spec=invalid_types[0])
+    mock_client._service_model = MagicMock()
+    mock_client._service_model.service_name = invalid_types[1]
+    mock_client.delete_verified_email_address = MagicMock()
+
+    fake_email = 'FAKE_EMAIL'
+
+    unverify_email(mock_client, fake_email)
+
+    assert mock_client.delete_verified_email_address.call_count == 0

@@ -5,6 +5,9 @@ import logging
 import psycopg2
 import psycopg2.extras
 from psycopg2.extensions import connection, cursor
+from boto3 import client as boto_client
+from botocore.client import BaseClient
+from mypy_boto3_ses.client import SESClient as ses_client
 import requests
 from bs4 import BeautifulSoup
 
@@ -45,7 +48,6 @@ def get_product_page(url: str, headers: dict) -> str | None:
         raise TypeError('URL must be of type string.')
     if not isinstance(headers, dict):
         raise TypeError('header must be of type dict')
-
     if not url:
         logging.error("URL is empty")
         return None
@@ -73,3 +75,17 @@ def get_soup(url: str, headers: dict) -> BeautifulSoup | None:
         return BeautifulSoup(response, features="html.parser")
     logging.error("Failed to get a response from the URL")
     return None
+
+def get_ses_client(config: _Environ) -> ses_client:
+    '''Returns an ses client from a configuration.'''
+    return boto_client(
+        'ses',
+        aws_access_key_id = config["ACCESS_KEY"],
+        aws_secret_access_key = config['SECRET_ACCESS_KEY'],
+        region_name = config['AWS_REGION_NAME']
+    )
+
+def is_ses(boto_ses_client: ses_client) -> bool:
+    '''Returns true if ses client else false.'''
+    return (isinstance(boto_ses_client, BaseClient)
+            and boto_ses_client._service_model.service_name == 'ses')  # pylint: disable=protected-access
