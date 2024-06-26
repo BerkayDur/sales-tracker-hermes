@@ -13,9 +13,12 @@ Your code has been rated at 10.00/10
 ------------------------------------
 Your code has been rated at 10.00/10
 
+************* Module load
+Dashboard/load.py:39:11: W0718: Catching too general exception Exception (broad-exception-caught)
+Dashboard/load.py:2:0: W0611: Unused _Environ imported from os (unused-import)
 
-------------------------------------
-Your code has been rated at 10.00/10
+-----------------------------------
+Your code has been rated at 9.52/10
 
 ************* Module ses_get_emails
 Dashboard/ses_get_emails.py:36:0: C0304: Final newline missing (missing-final-newline)
@@ -30,31 +33,40 @@ Dashboard/email_verification.py:51:0: R1710: Either all return statements in a f
 -----------------------------------
 Your code has been rated at 9.57/10
 
-
-------------------------------------
-Your code has been rated at 10.00/10
-
-************* Module login
-Dashboard/login.py:15:0: C0301: Line too long (471/100) (line-too-long)
+************* Module helpers
+Dashboard/helpers.py:176:0: C0304: Final newline missing (missing-final-newline)
+Dashboard/helpers.py:115:7: C0121: Comparison 'user_id == None' should be 'user_id is None' (singleton-comparison)
+Dashboard/helpers.py:124:7: C0121: Comparison 'product_id == None' should be 'product_id is None' (singleton-comparison)
+Dashboard/helpers.py:151:11: W0718: Catching too general exception Exception (broad-exception-caught)
 
 -----------------------------------
-Your code has been rated at 9.84/10
+Your code has been rated at 9.63/10
 
+************* Module login
+Dashboard/login.py:16:0: C0301: Line too long (471/100) (line-too-long)
 
-------------------------------------
-Your code has been rated at 10.00/10
+-----------------------------------
+Your code has been rated at 9.83/10
+
+************* Module extract_combined
+Dashboard/extract_combined.py:54:11: W0718: Catching too general exception Exception (broad-exception-caught)
+
+-----------------------------------
+Your code has been rated at 9.78/10
 
 ************* Module add_product
-Dashboard/pages/add_product.py:142:0: C0304: Final newline missing (missing-final-newline)
+Dashboard/pages/add_product.py:67:0: C0304: Final newline missing (missing-final-newline)
 Dashboard/pages/add_product.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 Dashboard/pages/add_product.py:7:0: E0401: Unable to import 'navigation' (import-error)
 Dashboard/pages/add_product.py:9:0: E0401: Unable to import 'helpers' (import-error)
-Dashboard/pages/add_product.py:10:0: E0401: Unable to import 'load' (import-error)
-Dashboard/pages/add_product.py:65:11: W0718: Catching too general exception Exception (broad-exception-caught)
-Dashboard/pages/add_product.py:116:0: C0116: Missing function or method docstring (missing-function-docstring)
+Dashboard/pages/add_product.py:14:0: E0401: Unable to import 'load' (import-error)
+Dashboard/pages/add_product.py:21:11: W0718: Catching too general exception Exception (broad-exception-caught)
+Dashboard/pages/add_product.py:36:11: W0718: Catching too general exception Exception (broad-exception-caught)
+Dashboard/pages/add_product.py:16:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+Dashboard/pages/add_product.py:41:0: C0116: Missing function or method docstring (missing-function-docstring)
 
 -----------------------------------
-Your code has been rated at 8.12/10
+Your code has been rated at 5.71/10
 
 ************* Module email_alerts
 Dashboard/pages/email_alerts.py:56:0: C0304: Final newline missing (missing-final-newline)
