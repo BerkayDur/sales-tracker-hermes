@@ -1,5 +1,6 @@
 # Dashboard
 
+This folder contains the files required to run the dashboard for hermes sales tracker.
 
 ## Folders
 
