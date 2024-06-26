@@ -51,7 +51,7 @@ def extract_product_information(conn: connection, product_url: str) -> tuple:
         website_data = EXTRACT_FUNCTIONS[store_name](product_url)
         website_data['website_id'] = website_id
         return website_data
-    except ValueError:
+    except Exception:
         logging.info('extract from product url failed!')
         return None
 

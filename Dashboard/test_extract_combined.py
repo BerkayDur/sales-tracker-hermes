@@ -5,7 +5,8 @@ import pytest
 from extract_combined import (
     identify_store,
     get_website_id,
-    extract_product_information
+    extract_product_information,
+    EXTRACT_FUNCTIONS
 )
 
 @patch('extract_combined.EXTRACT_FUNCTIONS', {'test_url': None})
@@ -53,19 +54,3 @@ def test_extract_product_information_valid_2(mock_identify_store, mock_get_websi
     assert mock_get_website_id.call_args[0][0] == mock_conn
     assert mock_get_website_id.call_args[0][1] == fake_product[1]
 
-# @pytest.mark.parametrize('fake_product', [['www.asos.com', 'asos', 1], ['www.patagonia.co.uk', 'patagonia', 2], ['www.steam.com', 'steam', 3], ['www.mango.co.uk', 'mango', 4]])
-# @patch('extract_combined.EXTRACT_FUNCTIONS', {'asos': {'fake': 'FAKE'},'patagonia': {'fake': 'FAKE'},'steam': {'fake': 'FAKE'},'mango': {'fake': 'FAKE'}})
-# @patch('extract_combined.get_website_id')
-# @patch('extract_combined.identify_store')
-# def test_extract_product_information_valid_2(mock_identify_store, mock_get_website_id, mock_EXTRACT_FUNCTIONS, fake_product):
-#     mock_identify_store.return_value = fake_product[1]
-#     mock_get_website_id.return_value = fake_product[2]
-#     mock_conn = MagicMock()
-#     pritn(_EXTRACT_FUNCTIONS)
-#     assert False
-#     # extract_product_information(mock_conn, fake_product[0]) == out
-#     assert mock_identify_store.call_count == 1
-#     assert mock_identify_store.call_args[0][0] == fake_product[0]
-#     assert mock_get_website_id.call_count == 1
-#     assert mock_get_website_id.call_args[0][0] == mock_conn
-#     assert mock_get_website_id.call_args[0][1] == fake_product[1]

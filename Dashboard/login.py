@@ -7,23 +7,13 @@ from time import sleep
 
 import streamlit as st
 from dotenv import load_dotenv
-from psycopg2 import connect
+
+from helpers import (get_connection)
 from psycopg2.extensions import connection
 
 from navigation import make_sidebar
 
 EMAIL_PATTERN = r"""(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])"""
-
-
-def get_connection(config: _Environ) -> connection:
-    "Establishes a connection with the database"
-    return connect(
-        user=config["DB_USER"],
-        password=config["DB_PASSWORD"],
-        host=config["DB_HOST"],
-        port=config["DB_PORT"],
-        database=config["DB_NAME"]
-    )
 
 
 def authenticate(conn: connection, email: str) -> tuple | None:

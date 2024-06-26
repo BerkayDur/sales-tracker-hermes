@@ -89,3 +89,88 @@ def is_ses(boto_ses_client: ses_client) -> bool:
     '''Returns true if ses client else false.'''
     return (isinstance(boto_ses_client, BaseClient)
             and boto_ses_client._service_model.service_name == 'ses')  # pylint: disable=protected-access
+
+def can_parse_as_float(to_check: any) -> bool:
+    """Determines if a value can be parsed as a float.
+    Returns True on success, else False."""
+    try:
+        float(to_check)
+        return True
+    except (ValueError, TypeError):
+        logging.error("Input can't be parsed as a float")
+        return False
+
+def get_supported_websites(conn: connection) -> list:
+    """Gets a list of supported websites."""
+    with get_cursor(conn) as cur:
+        cur.execute("SELECT website_name from websites;")
+        websites = cur.fetchall()
+    return [website["website_name"] for website in websites]
+
+def get_user_id(conn: connection, email: str) -> int | None:
+    """Get a user id from the database based on an email."""
+    with get_cursor(conn) as cur:
+        cur.execute("SELECT user_id from users WHERE email = %s;", (email,))
+        user_id = cur.fetchone()
+    if user_id == None:
+        return None
+    return user_id.get("user_id")
+
+def get_product_id(conn: connection, url: str) -> int | None:
+    """Gets the products id from the database given a url."""
+    with get_cursor(conn) as cur:
+        cur.execute("SELECT product_id from products WHERE url = %s;", (url,))
+        product_id = cur.fetchone()
+    if product_id == None:
+        return None
+    return product_id.get("product_id")
+
+def is_subscription_in_table(conn: connection, user_id: int, product_id: int) -> bool:
+    """Determines if a user is subscribed to a particular product."""
+    with get_cursor(conn) as cur:
+        cur.execute("""SELECT * FROM subscriptions
+                        WHERE user_id = %s AND product_id = %s""",
+                    (user_id, product_id))
+        counts = cur.fetchone()
+    return counts is not None
+
+def insert_subscription_into_db(
+        conn: connection, user_id: int, product_id: int,
+        price_threshold: float | int | None) -> bool:
+    """Inserts a new subscription into the subscriptions table.
+    Returns True on success, else False."""
+    if isinstance(price_threshold, (int, float)) and price_threshold <= 0:
+        return False
+    try:
+        with get_cursor(conn) as cur:
+            cur.execute("""INSERT INTO subscriptions
+                         (user_id, product_id, price_threshold)
+                        VALUES (%s, %s, %s);""", (user_id, product_id, price_threshold))
+            conn.commit()
+        return True
+    except Exception:
+        return False
+
+def update_db_to_subscribe(
+        conn: connection, product_url: str, price_threshold: bool | None, user_email: str) -> bool:
+    """Inserts a subscription into a database, if it doesn't already exist.
+    Returns a dictionary, with the following attributes:
+        `success`: bool = represents whether the database updated/contains subscription
+        `message`: str  = contains a message signifying a message to display."""
+    user_id = get_user_id(conn, user_email)
+    if not user_id:
+        logging.error("User not validated. Please try again!")
+        return {'success': False, 'message': 'User not validated, please try again.'}
+    product_id = get_product_id(conn, product_url)
+    if not product_id:
+        logging.error("Unexpected error, please try again later.")
+        return {'success': False, 'message': 'Unexpected error, please try again later.'}
+    if is_subscription_in_table(conn, user_id, product_id):
+        logging.error("You are already subscribed to this product!")
+        return {'success': True, 'message': 'You are already subscribed to this product!'}
+    inserting_status = insert_subscription_into_db(conn, user_id, product_id, price_threshold)
+    if inserting_status:
+        logging.info("New subscription added!")
+        return {'status': True, 'message': 'New subscription added.'}
+    logging.info('update_db_to_subscribe failed unexpectedly (insert_subscription_to_db).')
+    return {'status': False, 'message': 'Unable to subscribe to product, please try again.'}
