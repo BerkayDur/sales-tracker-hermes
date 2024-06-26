@@ -10,6 +10,8 @@ import pandas as pd
 import altair as alt
 from psycopg2.extensions import connection
 
+from navigation import make_sidebar
+
 from utils.helpers import get_cursor, get_connection
 from utils.load import load_product_data
 from utils.ses_get_emails import get_ses_client, get_ses_emails
@@ -239,7 +241,12 @@ def display_subscribed_product(config: _Environ, product_information: dict) -> N
         config, product_information["product_id"])
 
     with st.container(border=True):
-        st.write("**%s** - **[%s](%s)**" % (product_information["website_name"].title(),
+        st.write('')
+        header_col1, header_col2 = st.columns([1, 19])
+        with header_col1:
+            st.image('logo/hermes_crop.png', width=40)
+        with header_col2:
+            st.write("**%s** - **[%s](%s)**" % (product_information["website_name"].title(),
                                             product_information["product_name"].title(),
                                             product_information["url"]))
         if price_readings is not None:

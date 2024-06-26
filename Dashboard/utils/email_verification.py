@@ -66,6 +66,42 @@ def send_verification_email(boto_ses_client: ses_client, email: str) -> dict[boo
     return {'success': True, 'request_id': response['ResponseMetadata'].get('RequestId')}
 
 
+def unverify_email(boto_ses_client: ses_client, email: str) -> dict:
+    '''Remove a verified email from ses.'''
+    if not isinstance(email, str):
+        logging.error(
+            'unverify_email passed `email` argument not of type str.')
+        return {'success': False, 'reason': 'bad email type, email must be of type str.'}
+    if not is_ses(boto_ses_client):
+        logging.error(
+            'unverify_email client is not a boto3 ses client.')
+        return {'success': False, 'reason': 'client is not a boto3 ses client.'}
+    logging.info('Removing verified email...')
+    return boto_ses_client.delete_verified_email_address(
+        EmailAddress=email
+    )
+#     try:
+#         response = boto_ses_client.verify_email_identity(EmailAddress=email)
+#     except ClientError as e:
+#         if not e.response.get('Error'):
+#             logging.error('sending email verification failed due to an unknown reason\
+#  (no Error attribute on response object), see field \'error\'!')
+#             reason = 'unknown reason, but no Error attribute on response, see field \'error\'!'
+#         elif e.response['Error'].get('Code') == 'InvalidClientTokenId':
+#             logging.error('sending email verification failed due to bad aws credentials!')
+#             reason = 'bad aws credentials!'
+#         elif e.response['Error'].get('Code') == 'InvalidParameterValue':
+#             logging.error('sending email verification failed due to bad email address format!')
+#             reason = 'invalid email address format.'
+#         else:
+#             logging.error(
+#                 'sending email verification failed due to an unknown reason!')
+#             reason = 'failure for unknown reason, see field \'error\''
+#         return {'success': False, 'reason': reason, 'error': e.response}
+#     logging.info('Sending email verification success!')
+    # return {'success': True, 'request_id': response['ResponseMetadata'].get('RequestId')}
+
+
 if __name__ == '__main__':
     load_dotenv()
     logging.basicConfig(level='INFO')

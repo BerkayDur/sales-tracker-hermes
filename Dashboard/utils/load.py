@@ -6,8 +6,8 @@ from dotenv import load_dotenv
 import psycopg2
 import psycopg2.extras
 from psycopg2.extensions import connection
-from extract_combined import extract_product_information
-from helpers import get_connection, get_cursor
+from utils.extract_combined import extract_product_information
+from utils.helpers import get_connection, get_cursor
 
 PRODUCT_READING_KEYS = set(('url', 'product_name', 'product_code', 'website_id'))
 
