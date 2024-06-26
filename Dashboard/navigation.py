@@ -34,6 +34,8 @@ def make_sidebar() -> None:
             st.write("")
             st.page_link('pages/email_alerts.py', label="Email Alerts", icon="📧")
             st.write("")
+            st.page_link('pages/add_product.py', label="Add new Subscription", icon="📬")
+            st.write("")
             st.write("")
             if st.button("Log out"):
                 

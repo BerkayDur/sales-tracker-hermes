@@ -15,14 +15,13 @@ RUN mkdir pages
 COPY pages/email_alerts.py pages
 COPY pages/price.py pages
 
-RUN mkdir utilities
-COPY utilities/email_verification.py utilities
-COPY utilities/extract_combined.py utilities
-COPY utilities/extract_from_asos.py utilities
-COPY utilities/extract_from_patagonia.py utilities
-COPY utilities/helpers.py utilities
-COPY utilities/load.py utilities
-COPY utilities/ses_get_emails.py utilities
+COPY email_verification.py .
+COPY extract_combined.py .
+COPY extract_from_asos.py .
+COPY extract_from_patagonia.py .
+COPY uhelpers.py .
+COPY load.py .
+COPY ses_get_emails.py .
 
 COPY login.py .
 COPY navigation.py .

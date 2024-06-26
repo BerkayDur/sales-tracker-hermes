@@ -7,3 +7,4 @@ streamlit
 boto3
 botocore
 boto3-stubs[ses]
+streamlit-nested-layout

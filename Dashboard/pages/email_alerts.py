@@ -6,8 +6,8 @@ from time import sleep
 import streamlit as st
 
 from navigation import make_sidebar
-from utils.ses_get_emails import get_ses_client, get_ses_emails
-from utils.email_verification import send_verification_email, unverify_email
+from ses_get_emails import get_ses_client, get_ses_emails
+from email_verification import send_verification_email, unverify_email
 
 def is_verified(_ses_client, email: str) -> bool:
     '''Checks if an email is verified'''
