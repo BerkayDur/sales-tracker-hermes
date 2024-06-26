@@ -75,3 +75,5 @@ The database structure can be seen in the following diagram:
 | **Nabiha Mohamed** | **[NabihaMoh](https://github.com/NabihaMoh)** |
 
 
+We hope you find this project useful for tracking and managing product sales. 
+Happy tracking!
