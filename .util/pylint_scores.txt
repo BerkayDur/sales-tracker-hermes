@@ -1,95 +1,97 @@
 ************* Module navigation
 Dashboard/navigation.py:25:0: C0303: Trailing whitespace (trailing-whitespace)
-Dashboard/navigation.py:39:0: C0303: Trailing whitespace (trailing-whitespace)
+Dashboard/navigation.py:41:0: C0303: Trailing whitespace (trailing-whitespace)
 
 -----------------------------------
-Your code has been rated at 9.38/10
+Your code has been rated at 9.41/10
+
+
+------------------------------------
+Your code has been rated at 10.00/10
+
+
+------------------------------------
+Your code has been rated at 10.00/10
+
+
+------------------------------------
+Your code has been rated at 10.00/10
+
+************* Module ses_get_emails
+Dashboard/ses_get_emails.py:36:0: C0304: Final newline missing (missing-final-newline)
+
+-----------------------------------
+Your code has been rated at 9.55/10
+
+************* Module email_verification
+Dashboard/email_verification.py:69:11: W0718: Catching too general exception Exception (broad-exception-caught)
+Dashboard/email_verification.py:51:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+
+-----------------------------------
+Your code has been rated at 9.57/10
+
+
+------------------------------------
+Your code has been rated at 10.00/10
 
 ************* Module login
-Dashboard/login.py:16:0: C0301: Line too long (471/100) (line-too-long)
+Dashboard/login.py:15:0: C0301: Line too long (471/100) (line-too-long)
 
 -----------------------------------
 Your code has been rated at 9.84/10
 
-************* Module extract_from_patagonia
-Dashboard/utils/extract_from_patagonia.py:5:0: E0401: Unable to import 'utils.helpers' (import-error)
-
------------------------------------
-Your code has been rated at 9.30/10
-
-************* Module extract_from_asos
-Dashboard/utils/extract_from_asos.py:5:0: E0401: Unable to import 'utils.helpers' (import-error)
-
------------------------------------
-Your code has been rated at 9.32/10
-
-************* Module load
-Dashboard/utils/load.py:9:0: E0401: Unable to import 'utils.extract_combined' (import-error)
-Dashboard/utils/load.py:10:0: E0401: Unable to import 'utils.helpers' (import-error)
-
------------------------------------
-Your code has been rated at 7.30/10
-
 
 ------------------------------------
 Your code has been rated at 10.00/10
-
-
-------------------------------------
-Your code has been rated at 10.00/10
-
-
-------------------------------------
-Your code has been rated at 10.00/10
-
-************* Module extract_combined
-Dashboard/utils/extract_combined.py:8:0: E0401: Unable to import 'utils.helpers' (import-error)
-Dashboard/utils/extract_combined.py:9:0: E0401: Unable to import 'utils.extract_from_asos' (import-error)
-Dashboard/utils/extract_combined.py:10:0: E0401: Unable to import 'utils.extract_from_patagonia' (import-error)
-
------------------------------------
-Your code has been rated at 6.74/10
 
 ************* Module add_product
-Dashboard/pages/add_product.py:4:0: C0304: Final newline missing (missing-final-newline)
+Dashboard/pages/add_product.py:142:0: C0304: Final newline missing (missing-final-newline)
 Dashboard/pages/add_product.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+Dashboard/pages/add_product.py:7:0: E0401: Unable to import 'navigation' (import-error)
+Dashboard/pages/add_product.py:9:0: E0401: Unable to import 'helpers' (import-error)
+Dashboard/pages/add_product.py:10:0: E0401: Unable to import 'load' (import-error)
+Dashboard/pages/add_product.py:65:11: W0718: Catching too general exception Exception (broad-exception-caught)
+Dashboard/pages/add_product.py:116:0: C0116: Missing function or method docstring (missing-function-docstring)
 
 -----------------------------------
-Your code has been rated at 3.33/10
+Your code has been rated at 8.12/10
 
 ************* Module email_alerts
 Dashboard/pages/email_alerts.py:56:0: C0304: Final newline missing (missing-final-newline)
 Dashboard/pages/email_alerts.py:8:0: E0401: Unable to import 'navigation' (import-error)
-Dashboard/pages/email_alerts.py:9:0: E0401: Unable to import 'utils.ses_get_emails' (import-error)
-Dashboard/pages/email_alerts.py:10:0: E0401: Unable to import 'utils.email_verification' (import-error)
+Dashboard/pages/email_alerts.py:9:0: E0401: Unable to import 'ses_get_emails' (import-error)
+Dashboard/pages/email_alerts.py:10:0: E0401: Unable to import 'email_verification' (import-error)
 
 -----------------------------------
 Your code has been rated at 3.04/10
 
 ************* Module price
-Dashboard/pages/price.py:183:0: C0301: Line too long (111/100) (line-too-long)
-Dashboard/pages/price.py:192:0: C0303: Trailing whitespace (trailing-whitespace)
-Dashboard/pages/price.py:203:0: C0301: Line too long (106/100) (line-too-long)
-Dashboard/pages/price.py:215:0: C0301: Line too long (123/100) (line-too-long)
-Dashboard/pages/price.py:234:0: C0301: Line too long (112/100) (line-too-long)
-Dashboard/pages/price.py:254:0: C0303: Trailing whitespace (trailing-whitespace)
-Dashboard/pages/price.py:256:0: C0301: Line too long (102/100) (line-too-long)
-Dashboard/pages/price.py:260:0: C0303: Trailing whitespace (trailing-whitespace)
-Dashboard/pages/price.py:13:0: E0401: Unable to import 'navigation' (import-error)
-Dashboard/pages/price.py:15:0: E0401: Unable to import 'utils.helpers' (import-error)
-Dashboard/pages/price.py:16:0: E0401: Unable to import 'utils.load' (import-error)
-Dashboard/pages/price.py:17:0: E0401: Unable to import 'utils.ses_get_emails' (import-error)
-Dashboard/pages/price.py:77:11: W0718: Catching too general exception Exception (broad-exception-caught)
-Dashboard/pages/price.py:183:0: C0116: Missing function or method docstring (missing-function-docstring)
-Dashboard/pages/price.py:194:0: C0116: Missing function or method docstring (missing-function-docstring)
-Dashboard/pages/price.py:222:0: C0116: Missing function or method docstring (missing-function-docstring)
-Dashboard/pages/price.py:231:0: C0116: Missing function or method docstring (missing-function-docstring)
-Dashboard/pages/price.py:249:21: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
-Dashboard/pages/price.py:17:0: W0611: Unused get_ses_client imported from utils.ses_get_emails (unused-import)
-Dashboard/pages/price.py:17:0: W0611: Unused get_ses_emails imported from utils.ses_get_emails (unused-import)
+Dashboard/pages/price.py:96:0: C0301: Line too long (111/100) (line-too-long)
+Dashboard/pages/price.py:105:0: C0303: Trailing whitespace (trailing-whitespace)
+Dashboard/pages/price.py:116:0: C0301: Line too long (104/100) (line-too-long)
+Dashboard/pages/price.py:128:0: C0301: Line too long (119/100) (line-too-long)
+Dashboard/pages/price.py:146:0: C0301: Line too long (108/100) (line-too-long)
+Dashboard/pages/price.py:153:0: C0301: Line too long (114/100) (line-too-long)
+Dashboard/pages/price.py:154:0: C0301: Line too long (101/100) (line-too-long)
+Dashboard/pages/price.py:156:0: C0301: Line too long (104/100) (line-too-long)
+Dashboard/pages/price.py:184:0: C0301: Line too long (194/100) (line-too-long)
+Dashboard/pages/price.py:189:0: C0303: Trailing whitespace (trailing-whitespace)
+Dashboard/pages/price.py:191:0: C0301: Line too long (102/100) (line-too-long)
+Dashboard/pages/price.py:15:0: E0401: Unable to import 'navigation' (import-error)
+Dashboard/pages/price.py:16:0: E0401: Unable to import 'helpers' (import-error)
+Dashboard/pages/price.py:96:0: C0116: Missing function or method docstring (missing-function-docstring)
+Dashboard/pages/price.py:107:0: C0116: Missing function or method docstring (missing-function-docstring)
+Dashboard/pages/price.py:135:0: C0116: Missing function or method docstring (missing-function-docstring)
+Dashboard/pages/price.py:144:0: C0116: Missing function or method docstring (missing-function-docstring)
+Dashboard/pages/price.py:154:4: R1705: Unnecessary "elif" after "return", remove the leading "el" from "elif" (no-else-return)
+Dashboard/pages/price.py:160:0: C0116: Missing function or method docstring (missing-function-docstring)
+Dashboard/pages/price.py:161:4: R1705: Unnecessary "elif" after "return", remove the leading "el" from "elif" (no-else-return)
+Dashboard/pages/price.py:167:0: C0116: Missing function or method docstring (missing-function-docstring)
+Dashboard/pages/price.py:168:4: R1705: Unnecessary "elif" after "return", remove the leading "el" from "elif" (no-else-return)
+Dashboard/pages/price.py:9:0: W0611: Unused import streamlit_nested_layout (unused-import)
 
 -----------------------------------
-Your code has been rated at 8.33/10
+Your code has been rated at 8.13/10
 
 
 ------------------------------------
@@ -133,8 +135,8 @@ ETL/Pipeline/extract_from_patagonia.py:8:0: C0411: standard import "json" should
 ETL/Pipeline/extract_from_patagonia.py:7:0: W0611: Unused import requests (unused-import)
 ETL/Pipeline/extract_from_patagonia.py:8:0: W0611: Unused import json (unused-import)
 
-------------------------------------------------------------------
-Your code has been rated at 8.89/10 (previous run: 9.30/10, -0.41)
+-------------------------------------------------------------------
+Your code has been rated at 8.89/10 (previous run: 10.00/10, -1.11)
 
 
 ------------------------------------
