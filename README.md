@@ -25,6 +25,7 @@ This project is designed to track products and notify users when they go on sale
 
 Follow these steps to set up the project:
 
+
 ### Dependencies
 
 1. **Clone the repository**:
@@ -42,6 +43,25 @@ Follow these steps to set up the project:
     ```bash
     pip3 install -r requirements.txt
     ```
+
+
+## Cloud Architecture
+The architecture of the project is shown in the following brief overview:
+
+<img src="./Diagrams/Architecture_Diagram.png" alt="Architecture Diagram" width="700">
+
+
+## Entity Relationship Diagram
+The database structure can be seen in the following diagram:
+
+<img src="./Diagrams/ERD.png" alt="ERD Diagram" width="500">
+
+| Table | Description |
+|---|---|
+| users | Containing the contact information for each registered user |
+| subscriptions | Containing products that each user is subscribed to as well as the optional price threshold that the user entered for each product |
+| products | Containing the data for each product that is being tracked |
+| price_readings | Containing the readings for the the prices for each product over time |
 
 
 ## Authors
