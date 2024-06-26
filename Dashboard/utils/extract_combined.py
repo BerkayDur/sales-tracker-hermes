@@ -5,9 +5,9 @@ import logging
 from psycopg2.extensions import connection
 from dotenv import load_dotenv
 
-from utilities.helpers import get_cursor, get_connection, configure_logging
-from utilities.extract_from_asos import extract_product_information as extract_from_asos
-from utilities.extract_from_patagonia import extract_product_information as extract_from_patagonia
+from helpers import get_cursor, get_connection, configure_logging
+from extract_from_asos import extract_product_information as extract_from_asos
+from extract_from_patagonia import extract_product_information as extract_from_patagonia
 
 EXTRACT_FUNCTIONS = {
     'asos' : extract_from_asos,

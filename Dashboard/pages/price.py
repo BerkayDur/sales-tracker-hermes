@@ -10,11 +10,9 @@ import pandas as pd
 import altair as alt
 from psycopg2.extensions import connection
 
-
-from navigation import make_sidebar
-from utilities.helpers import get_cursor, get_connection
-from utilities.load import load_product_data
-from utilities.ses_get_emails import get_ses_client, get_ses_emails
+from utils.helpers import get_cursor, get_connection
+from utils.load import load_product_data
+from utils.ses_get_emails import get_ses_client, get_ses_emails
 
 
 def can_parse_as_float(to_check: any) -> bool:
@@ -173,8 +171,8 @@ def get_encode_price_reading(
                                            {"reading_at": max_reading, "price": price_threshold}])
         threshold_chart = alt.Chart(price_threshold_df)
         threshold_line_enc = threshold_chart.encode(
-            x="reading_at:T",
-            y="price",
+            x=alt.X("reading_at:T", title="Taken at"),
+            y=alt.Y("price", title = "Price (£)"),
             color=alt.value("#FF0000"),
         )
         return threshold_line_enc.mark_line() + chart.mark_point() + chart.mark_line()
@@ -195,7 +193,7 @@ def change_threshold(config: _Environ, product_information: dict, column) -> Non
     text_input_placeholder = None
     if product_information['price_threshold'] is not None:
         text_input_placeholder = f"£{float(product_information['price_threshold']):.2f}"
-    new_threshold = st.text_input('Enter a new Threshold:',
+    new_threshold = st.text_input('Enter a new Threshold (£):',
                                     placeholder=text_input_placeholder,
                                     help='Can be left empty to remove threshold!',
                                     key=f'new_threshold_value_{product_information['product_id']}')
@@ -214,7 +212,7 @@ def change_threshold(config: _Environ, product_information: dict, column) -> Non
             elif valid_threshold:
                 change_threshold_in_db(config, new_threshold, product_information['product_id'], st.session_state['email'])
                 st.rerun()
-            elif not valid_threshold and type(new_threshold, float):
+            elif not valid_threshold and isinstance (new_threshold, float):
                 st.warning('Threshold must be a positive number!')
             else:
                 st.warning('Invalid threshold, please try again!')
@@ -255,11 +253,16 @@ def display_subscribed_product(config: _Environ, product_information: dict) -> N
                 
                 current_price = price_readings[
                     price_readings['reading_at'] == price_readings['reading_at'].max()]['price']
+                st.write('')
                 st.write(f'Current Price: £{float(current_price):.2f}')
+                st.write('')
                 with st.container(border=True):
+                    st.write('')
                     inner_col1, inner_col2 = st.columns(2)
+                    st.write('')
                     change_threshold(config, product_information, inner_col1)
                     unsubscribe_from_product(config, product_information, inner_col2)
+                    st.write('')
             with col2:
                 st.altair_chart(encoded_price_readings)
         else:
@@ -280,8 +283,8 @@ def price_tracker_page(config: _Environ) -> None:
         with st.form("subscribe_to_product", clear_on_submit=True, border=False):
             product_url = st.text_input("Enter the product URL:")
             price_threshold = st.text_input(
-                "Enter a threshold:", placeholder="Can be left empty")
-            if st.form_submit_button("Track Price", type="primary"):
+                "Enter a threshold (£):", placeholder="Can be left empty")
+            if st.form_submit_button("Track Product", type="primary"):
                 if not product_url:
                     logging.error("You must enter a URL.")
                     st.error("You must enter a URL.")
@@ -292,14 +295,15 @@ def price_tracker_page(config: _Environ) -> None:
                     st.warning('Price Threshold must be positive!')
                 else:
                     subscribe_to_product(config, product_url, price_threshold)
-
-    st.header('Tracking products:')
-
     subscribed_to_products = get_subscribed_products(
         config, st.session_state["email"])
-    subscribed_to_products.sort(key=lambda x:x['product_id'])
-    for product in subscribed_to_products:
-            display_subscribed_product(config, product)    
+    if subscribed_to_products:
+        st.header('Tracked products:')
+        subscribed_to_products.sort(key=lambda x:x['product_id'])
+        for product in subscribed_to_products:
+            display_subscribed_product(config, product)
+    else:
+        st.warning('You are not subscribed to any products, please subscribe above!')
 
 
 if __name__ == "__main__":

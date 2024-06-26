@@ -5,7 +5,6 @@ import pytest
 from extract_combined import (
     identify_store,
     get_website_id,
-    extract_product_information,
 )
 
 @patch('extract_combined.EXTRACT_FUNCTIONS', {'test_url': None})

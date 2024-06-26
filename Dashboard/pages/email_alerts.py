@@ -5,8 +5,8 @@ from os import _Environ, environ as CONFIG
 import streamlit as st
 
 from navigation import make_sidebar
-from utilities.ses_get_emails import get_ses_client, get_ses_emails
-from utilities.email_verification import send_verification_email
+from utils.ses_get_emails import get_ses_client, get_ses_emails
+from utils.email_verification import send_verification_email
 
 def is_verified(_ses_client, email: str) -> bool:
     '''Checks if an email is verified'''
