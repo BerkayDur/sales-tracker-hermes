@@ -3,12 +3,14 @@ import logging
 
 from lambda_multiprocessing import Pool
 
-from helpers import configure_log, validate_input, remove_stale_products
+from pipeline_helpers import configure_log, validate_input, remove_stale_products
 from extract_from_asos import process_product as extract_from_asos
+from extract_from_patagonia import process_product as extract_from_patagonia
 
 
 EXTRACT_FUNCTIONS = {
-    'asos': extract_from_asos
+    'asos': extract_from_asos,
+    'patagonia': extract_from_patagonia
 }
 
 
@@ -64,6 +66,12 @@ def extract_price_and_sales_data(product_list: list[dict]) -> list[dict]:
 def handler(_event, _context=None) -> list:
     """Main function which lambda will call"""
     configure_log()
-    cleaned_data = validate_input(_event)
-    product_readings = extract_price_and_sales_data(cleaned_data)
+    product_readings = extract_price_and_sales_data(_event)
     return remove_stale_products(product_readings)
+
+
+if __name__ == "__main__":
+    configure_log()
+    cleaned_data = _event
+    product_readings = extract_price_and_sales_data(cleaned_data)
+    print(remove_stale_products(product_readings))

@@ -10,12 +10,12 @@ from psycopg2.extensions import connection
 import pandas as pd
 import mypy_boto3_ses.client as ses_client
 
-from helpers import get_connection, get_cursor, get_ses_client, is_ses
+from email_helpers import get_connection, get_cursor, get_ses_client, is_ses
 from combined_load import create_single_insert_format_string
 
 
 PRODUCT_READING_KEYS = set(('product_id', 'url', 'current_price',
-                            'previous_price', 'is_on_sale',
+                            'price', 'is_on_sale',
                             'reading_at', 'product_name', 'website_name'))
 
 
@@ -72,15 +72,15 @@ def filter_merged_table(merged_table: pd.DataFrame) -> pd.DataFrame:
         non_null_threshold_table.loc[:,'price_threshold'].astype(float))
     curr_less_threshold_filter = (non_null_threshold_table['current_price']
                                   <= non_null_threshold_table['price_threshold'])
-    prev_less_threshold_filter = (non_null_threshold_table['previous_price']
+    prev_less_threshold_filter = (non_null_threshold_table['price']
                                   <= non_null_threshold_table['price_threshold'])
     threshold_compare_merged_table = (
         merged_table[~threshold_filter][(curr_less_threshold_filter)
                                         & (~prev_less_threshold_filter)])
-    prev_price_filter = merged_table['previous_price'].isnull()
+    prev_price_filter = merged_table['price'].isnull()
     curr_less_prev_filter = (
         merged_table[threshold_filter &  ~prev_price_filter]['current_price']
-        < merged_table[threshold_filter &  ~prev_price_filter]['previous_price'])
+        < merged_table[threshold_filter &  ~prev_price_filter]['price'])
     product_on_sale_filter = merged_table[threshold_filter &  ~prev_price_filter]['is_on_sale']
     prev_compare_merged_table = (
         merged_table[threshold_filter &  ~prev_price_filter]
@@ -138,11 +138,11 @@ def format_email_from_data_frame(
 
     message = f"({row_data['website_name']}) \
 <a href='{row_data['url']}'>{row_data['product_name']}</a> "
-    if not row_data['previous_price'] or (isinstance(row_data['previous_price'], (int, float))
-                                           and isnan(row_data['previous_price'])):
+    if not row_data['price'] or (isinstance(row_data['price'], (int, float))
+                                           and isnan(row_data['price'])):
         message += f"now £{row_data['current_price']}"
     else:
-        message += f"was £{row_data['previous_price']}, now £{row_data['current_price']}"
+        message += f"was £{row_data['price']}, now £{row_data['current_price']}"
 
     message += f"{' (ON SALE)' if sale_and_thres else ''}."
 
