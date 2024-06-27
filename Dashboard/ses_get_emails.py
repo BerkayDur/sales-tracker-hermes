@@ -32,11 +32,11 @@ def get_ses_emails(boto_ses_client: ses_client, method: str) -> list[str]:
 `all`, `verified`, `unverified`, you passed %s of type %s', method, type(method))
     return []
 
-def is_ses_verified(ses_client: ses_client, email: str) -> bool:
+def is_ses_verified(boto_ses_client: ses_client, email: str) -> bool:
     '''Checks if an email is verified'''
     if not isinstance(email, str):
         return False
-    return email in get_ses_emails(ses_client, 'verified')
+    return email in get_ses_emails(boto_ses_client, 'verified')
 
 if __name__ == '__main__':
     logging.basicConfig(level='INFO')

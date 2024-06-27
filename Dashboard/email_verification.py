@@ -68,6 +68,7 @@ def unverify_email(boto_ses_client: ses_client, email: str) -> None:
         logging.info('unverity_email completed successfully, removing email.')
     except Exception:
         logging.error('unverify_email client failed unexpectedly.')
+    return None
 
 if __name__ == '__main__':
     load_dotenv()

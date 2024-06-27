@@ -112,7 +112,7 @@ def get_user_id(conn: connection, email: str) -> int | None:
     with get_cursor(conn) as cur:
         cur.execute("SELECT user_id from users WHERE email = %s;", (email,))
         user_id = cur.fetchone()
-    if user_id == None:
+    if user_id is None:
         return None
     return user_id.get("user_id")
 
@@ -121,7 +121,7 @@ def get_product_id(conn: connection, url: str) -> int | None:
     with get_cursor(conn) as cur:
         cur.execute("SELECT product_id from products WHERE url = %s;", (url,))
         product_id = cur.fetchone()
-    if product_id == None:
+    if product_id is None:
         return None
     return product_id.get("product_id")
 

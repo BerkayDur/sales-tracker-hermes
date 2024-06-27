@@ -22,7 +22,7 @@ def make_sidebar() -> None:
     """Creates sidebar"""
     st.set_page_config(layout='wide')
     page_name = get_current_page_name()
-    
+
     with st.sidebar:
         st.logo("logo/hermes_logo_full.png")
         st.write("")
@@ -38,7 +38,6 @@ def make_sidebar() -> None:
             st.write("")
             st.write("")
             if st.button("Log out"):
-                
                 logout()
         elif page_name != "login":
             st.switch_page("login.py")

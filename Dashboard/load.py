@@ -1,5 +1,5 @@
 """Load Script: Populates the product table with the product information"""
-from os import _Environ, environ as CONFIG
+from os import environ as CONFIG
 import logging
 
 from dotenv import load_dotenv
