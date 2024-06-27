@@ -1,7 +1,7 @@
 -- seeding websites data.
 INSERT INTO websites (website_name) VALUES
 ('asos'),
-('steam');
+('patagonia');
 
 INSERT INTO users (email) VALUES
 ('trainee.berkay.dur@sigmalabs.co.uk');
@@ -24,3 +24,12 @@ INSERT INTO subscriptions (user_id, product_id, price_threshold) VALUES
 (1, 5, 100),
 (1, 6, NULL),
 (1, 7, 85);
+
+-- 2024-06-28
+
+INSERT INTO price_readings (product_id, reading_at, price) VALUES
+(1, '2023-08-16 12:18:05', 150),
+(1, '2023-12-11 12:18:05', 140),
+(1, '2023-01-08 12:18:05', 150),
+(1, '2024-02-21 12:18:05', 159.99),
+(1, '2024-03-27 12:18:05', 150);
