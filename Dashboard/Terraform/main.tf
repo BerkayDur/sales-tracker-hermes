@@ -42,7 +42,7 @@ resource "aws_ecs_task_definition" "dashboard_task_def" {
     container_definitions = jsonencode(([
         {
             name = var.DASHBOARD_NAME
-            # image = Add this later
+            image = "129033205317.dkr.ecr.eu-west-2.amazonaws.com/c11-hermes-dashboard:latest"
             cpu = 1024
             memory = 3072
             essential = true
@@ -96,6 +96,8 @@ resource "aws_ecs_task_definition" "dashboard_task_def" {
 
 }
 
+
+
 resource "aws_ecs_service" "dashboard_service" {
     name = "${var.DASHBOARD_NAME}_service"
     cluster = var.CLUSTER_ARN
@@ -104,10 +106,11 @@ resource "aws_ecs_service" "dashboard_service" {
     launch_type = "FARGATE"
     network_configuration {
       subnets = var.SUBNETS
-      security_groups = ["sg-02e2c7112e97629d3"]
+      security_groups = [aws_security_group.c11_hermes_dashboard_sg.id]
       assign_public_ip = true
     }
 }
+
 
 
 data "aws_iam_role" "ecs_task_execution_role" {
