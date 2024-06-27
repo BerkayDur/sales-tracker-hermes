@@ -1,24 +1,26 @@
-************* Module navigation
-Dashboard/navigation.py:39:13: E0602: Undefined variable 'page_name' (undefined-variable)
 
------------------------------------
-Your code has been rated at 8.21/10
+------------------------------------
+Your code has been rated at 10.00/10
 
 
 ------------------------------------
 Your code has been rated at 10.00/10
 
-************* Module extract_from_asos
-Dashboard/utilities/extract_from_asos.py:5:0: E0401: Unable to import 'utilities.helpers' (import-error)
 
------------------------------------
-Your code has been rated at 9.32/10
+------------------------------------
+Your code has been rated at 10.00/10
 
 ************* Module load
+Dashboard/load.py:9:0: E0401: Unable to import 'utilities.extract_combined' (import-error)
+Dashboard/load.py:9:0: E0611: No name 'extract_combined' in module 'utilities' (no-name-in-module)
 Dashboard/load.py:39:11: W0718: Catching too general exception Exception (broad-exception-caught)
 
 -----------------------------------
-Your code has been rated at 9.76/10
+Your code has been rated at 7.38/10
+
+
+------------------------------------
+Your code has been rated at 10.00/10
 
 
 ------------------------------------
@@ -34,8 +36,8 @@ Your code has been rated at 9.79/10
 Dashboard/helpers.py:202:0: C0304: Final newline missing (missing-final-newline)
 Dashboard/helpers.py:152:11: W0718: Catching too general exception Exception (broad-exception-caught)
 
------------------------------------
-Your code has been rated at 9.84/10
+-------------------------------------------------------------------
+Your code has been rated at 9.84/10 (previous run: 10.00/10, -0.16)
 
 ************* Module login
 Dashboard/login.py:16:0: C0301: Line too long (471/100) (line-too-long)
@@ -72,10 +74,12 @@ Dashboard/pages/email_alerts.py:12:0: E0401: Unable to import 'custom_styling' (
 Your code has been rated at 8.00/10
 
 ************* Module price
-Dashboard/pages/price.py:22:0: E0401: Unable to import 'custom_styling' (import-error)
+Dashboard/pages/price.py:6:0: W0404: Reimport 'datetime' (imported line 5) (reimported)
+Dashboard/pages/price.py:9:0: W0404: Reimport 'load_dotenv' (imported line 8) (reimported)
+Dashboard/pages/price.py:24:0: E0401: Unable to import 'custom_styling' (import-error)
 
 -----------------------------------
-Your code has been rated at 9.64/10
+Your code has been rated at 9.50/10
 
 
 ------------------------------------
