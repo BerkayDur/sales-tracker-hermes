@@ -52,10 +52,9 @@ Your code has been rated at 9.78/10
 ************* Module custom_styling
 Dashboard/custom_styling.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 Dashboard/custom_styling.py:3:0: C0116: Missing function or method docstring (missing-function-docstring)
-Dashboard/custom_styling.py:6:8: W0612: Unused variable 'css' (unused-variable)
 
 -----------------------------------
-Your code has been rated at 5.00/10
+Your code has been rated at 3.33/10
 
 ************* Module add_product
 Dashboard/pages/add_product.py:15:0: E0401: Unable to import 'custom_styling' (import-error)
@@ -77,7 +76,7 @@ Dashboard/pages/price.py:9:0: W0404: Reimport 'load_dotenv' (imported line 8) (r
 Dashboard/pages/price.py:24:0: E0401: Unable to import 'custom_styling' (import-error)
 
 -----------------------------------
-Your code has been rated at 9.50/10
+Your code has been rated at 9.51/10
 
 
 ------------------------------------
