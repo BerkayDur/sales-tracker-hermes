@@ -10,9 +10,27 @@ Your code has been rated at 10.00/10
 ------------------------------------
 Your code has been rated at 10.00/10
 
+************* Module load
+Dashboard/load.py:39:11: W0718: Catching too general exception Exception (broad-exception-caught)
+
+-----------------------------------
+Your code has been rated at 9.76/10
+
 
 ------------------------------------
 Your code has been rated at 10.00/10
+
+************* Module email_verification
+Dashboard/email_verification.py:69:11: W0718: Catching too general exception Exception (broad-exception-caught)
+
+-----------------------------------
+Your code has been rated at 9.79/10
+
+************* Module helpers
+Dashboard/helpers.py:161:11: W0718: Catching too general exception Exception (broad-exception-caught)
+
+-----------------------------------
+Your code has been rated at 9.92/10
 
 ************* Module login
 Dashboard/login.py:16:0: C0301: Line too long (471/100) (line-too-long)
