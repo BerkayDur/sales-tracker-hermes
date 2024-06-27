@@ -44,12 +44,9 @@ Dashboard/extract_combined.py:56:11: W0718: Catching too general exception Excep
 -----------------------------------
 Your code has been rated at 9.79/10
 
-************* Module custom_styling
-Dashboard/custom_styling.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-Dashboard/custom_styling.py:5:0: C0116: Missing function or method docstring (missing-function-docstring)
 
------------------------------------
-Your code has been rated at 6.00/10
+------------------------------------
+Your code has been rated at 10.00/10
 
 ************* Module add_product
 Dashboard/pages/add_product.py:22:11: W0718: Catching too general exception Exception (broad-exception-caught)
@@ -62,12 +59,9 @@ Your code has been rated at 9.64/10
 ------------------------------------
 Your code has been rated at 10.00/10
 
-************* Module price
-Dashboard/pages/price.py:6:0: W0404: Reimport 'datetime' (imported line 5) (reimported)
-Dashboard/pages/price.py:9:0: W0404: Reimport 'load_dotenv' (imported line 8) (reimported)
 
------------------------------------
-Your code has been rated at 9.86/10
+------------------------------------
+Your code has been rated at 10.00/10
 
 
 ------------------------------------
