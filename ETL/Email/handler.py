@@ -7,7 +7,7 @@ from datetime import datetime
 from itertools import chain
 
 
-from helpers import (get_connection, get_ses_client,
+from email_helpers import (get_connection, get_ses_client,
                      filter_on_current_price_less_than_previous_price)
 from combined_load import write_new_price_entries_to_db
 from email_service import PRODUCT_READING_KEYS, verify_keys, send_emails

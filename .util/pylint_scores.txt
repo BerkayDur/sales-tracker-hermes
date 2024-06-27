@@ -1,3 +1,26 @@
+************* Module navigation
+Dashboard/navigation.py:43:13: E0602: Undefined variable 'page_name' (undefined-variable)
+
+-----------------------------------
+Your code has been rated at 8.28/10
+
+
+------------------------------------
+Your code has been rated at 10.00/10
+
+************* Module extract_from_asos
+Dashboard/utilities/extract_from_asos.py:5:0: E0401: Unable to import 'utilities.helpers' (import-error)
+
+-----------------------------------
+Your code has been rated at 9.32/10
+
+************* Module load
+Dashboard/utilities/load.py:9:0: E0401: Unable to import 'utilities.extract_combined' (import-error)
+Dashboard/utilities/load.py:10:0: E0401: Unable to import 'utilities.helpers' (import-error)
+
+-----------------------------------
+Your code has been rated at 7.30/10
+
 
 ------------------------------------
 Your code has been rated at 10.00/10
@@ -10,34 +33,30 @@ Your code has been rated at 10.00/10
 ------------------------------------
 Your code has been rated at 10.00/10
 
+************* Module extract_combined
+Dashboard/utilities/extract_combined.py:8:0: E0401: Unable to import 'utilities.helpers' (import-error)
+Dashboard/utilities/extract_combined.py:9:0: E0401: Unable to import 'utilities.extract_from_asos' (import-error)
 
-------------------------------------
-Your code has been rated at 10.00/10
-
-
-------------------------------------
-Your code has been rated at 10.00/10
-
-
-------------------------------------
-Your code has been rated at 10.00/10
-
-
-------------------------------------
-Your code has been rated at 10.00/10
+-----------------------------------
+Your code has been rated at 7.78/10
 
 ************* Module login
 Dashboard/login.py:16:0: C0301: Line too long (471/100) (line-too-long)
 
 -----------------------------------
-Your code has been rated at 9.85/10
+Your code has been rated at 9.84/10
 
 ************* Module price
-Dashboard/pages/price.py:9:0: E0401: Unable to import 'navigation' (import-error)
-Dashboard/pages/price.py:10:0: E0401: Unable to import 'utilities.ses_get_emails' (import-error)
+Dashboard/pages/price.py:194:0: C0301: Line too long (102/100) (line-too-long)
+Dashboard/pages/price.py:14:0: E0401: Unable to import 'navigation' (import-error)
+Dashboard/pages/price.py:15:0: E0401: Unable to import 'utilities.helpers' (import-error)
+Dashboard/pages/price.py:16:0: E0401: Unable to import 'utilities.load' (import-error)
+Dashboard/pages/price.py:17:0: E0401: Unable to import 'utilities.ses_get_emails' (import-error)
+Dashboard/pages/price.py:77:11: W0718: Catching too general exception Exception (broad-exception-caught)
+Dashboard/pages/price.py:189:17: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
 
 -----------------------------------
-Your code has been rated at 7.37/10
+Your code has been rated at 8.52/10
 
 
 ------------------------------------
@@ -60,28 +79,49 @@ Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
 Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
 
 
+------------------------------------
+Your code has been rated at 10.00/10
+
+
+------------------------------------
+Your code has been rated at 10.00/10
+
+
+------------------------------------
+Your code has been rated at 10.00/10
+
+
+------------------------------------
+Your code has been rated at 10.00/10
+
+************* Module extract_from_patagonia
+ETL/Pipeline/extract_from_patagonia.py:10:0: E0401: Unable to import 'helpers' (import-error)
+ETL/Pipeline/extract_from_patagonia.py:8:0: C0411: standard import "json" should be placed before third party imports "bs4.BeautifulSoup", "bs4.element.Tag", "requests" (wrong-import-order)
+ETL/Pipeline/extract_from_patagonia.py:7:0: W0611: Unused import requests (unused-import)
+ETL/Pipeline/extract_from_patagonia.py:8:0: W0611: Unused import json (unused-import)
+
+-------------------------------------------------------------------
+Your code has been rated at 8.89/10 (previous run: 10.00/10, -1.11)
+
+
+------------------------------------
+Your code has been rated at 10.00/10
+
+
+------------------------------------
+Your code has been rated at 10.00/10
+
+
 --------------------------------------------------------------------
 Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
 
+************* Module extract_main
+ETL/Pipeline/extract_main.py:7:0: E0401: Unable to import 'extract_from_asos' (import-error)
+ETL/Pipeline/extract_main.py:69:4: W0621: Redefining name 'product_readings' from outer scope (line 76) (redefined-outer-name)
+ETL/Pipeline/extract_main.py:75:19: E0602: Undefined variable '_event' (undefined-variable)
 
-------------------------------------
-Your code has been rated at 10.00/10
-
-
-------------------------------------
-Your code has been rated at 10.00/10
-
-
-------------------------------------
-Your code has been rated at 10.00/10
-
-
---------------------------------------------------------------------
-Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
-
-
-------------------------------------
-Your code has been rated at 10.00/10
+-----------------------------------
+Your code has been rated at 7.71/10
 
 
 ------------------------------------

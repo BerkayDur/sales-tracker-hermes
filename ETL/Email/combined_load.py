@@ -7,7 +7,7 @@ from itertools import chain
 
 from psycopg2.extensions import connection
 
-from helpers import get_cursor
+from email_helpers import get_cursor
 
 def create_single_insert_format_string(num_of_values: int) -> str:
     '''Creates a single insert format string that can be used to insert a single row.'''

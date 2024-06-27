@@ -36,7 +36,7 @@ def make_sidebar() -> None:
             if st.button("Log out"):
                 logout()
 
-        elif get_current_page_name() != "login":
+        elif page_name != "login":
             st.switch_page("login.py")
 
 

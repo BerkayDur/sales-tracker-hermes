@@ -44,5 +44,5 @@ def is_ses(client: ses_client) -> bool:
 
 def filter_on_current_price_less_than_previous_price(price_reading):
     '''Provides a filter on the current price being less than the previous price.'''
-    return ((not price_reading['previous_price']) or
-            price_reading['current_price'] < price_reading['previous_price'])
+    return ((not price_reading['price']) or
+            price_reading['current_price'] < price_reading['price'])
