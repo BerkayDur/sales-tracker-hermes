@@ -43,7 +43,7 @@ def subscribe_to_product(conn: connection, product_url: str, price_threshold: bo
 def add_product_page(conn: connection) -> None:
     """Add Product Page"""
     websites = get_supported_websites(conn)
-    st.title('Add new Subscription')
+    st.title('Add New Subscription')
     with st.container(border=True,):
         with st.form("subscribe_to_product", clear_on_submit=True, border=False):
             product_url = st.text_input("Enter the product URL:")

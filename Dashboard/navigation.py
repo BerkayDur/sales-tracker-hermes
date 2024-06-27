@@ -23,7 +23,7 @@ def make_sidebar() -> None:
     page_name = get_current_page_name()
 
     with st.sidebar:
-        st.logo("logo/hermes_logo_full.png")
+        st.logo("logo/hermes_icon.png")
         st.write("")
         st.write("")
 

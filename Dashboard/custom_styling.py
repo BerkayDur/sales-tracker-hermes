@@ -1,9 +1,6 @@
 import streamlit as st
 
 def apply_custom_styling() -> None:
-    st.set_page_config(layout='wide')
-    with open('styles.css', encoding='utf-8') as f:
-        css = f.read()
     st.markdown('''
 <head>
     <style>

@@ -207,6 +207,7 @@ def price_tracker_page(conn: connection) -> None:
 if __name__ == "__main__":
     logging.basicConfig(level="INFO")
     load_dotenv("../.env")
+    st.set_page_config(layout='wide')
     apply_custom_styling()
     make_sidebar()
     connec = get_connection(CONFIG)
