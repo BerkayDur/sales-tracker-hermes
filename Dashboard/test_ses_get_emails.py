@@ -5,7 +5,10 @@ from unittest.mock import MagicMock, patch
 import pytest
 import botocore.client
 
-from ses_get_emails import (get_ses_emails, is_ses_verified)
+from ses_get_emails import (
+    get_ses_emails,
+    is_ses_verified
+)
 
 
 @patch('ses_get_emails.is_ses')

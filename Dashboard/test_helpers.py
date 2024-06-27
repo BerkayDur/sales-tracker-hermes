@@ -11,7 +11,7 @@ from helpers import (
     get_user_id, get_product_id,
     is_subscription_in_table, insert_subscription_into_db,
     get_subscribed_products
-    )
+)
 
 
 def test_get_cursor_valid():
