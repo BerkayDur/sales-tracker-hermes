@@ -1,17 +1,17 @@
-from os import _Environ, environ as CONFIG
+'''Contains the add product page for streamlit dashboard.'''
+from os import environ as CONFIG
 import logging
 
 import streamlit as st
 from psycopg2.extensions import connection
 
-from navigation import make_sidebar
-
-from helpers import (
+from navigation import make_sidebar # pylint: disable=import-error
+from helpers import ( # pylint: disable=import-error
     get_connection, can_parse_as_float,
     get_supported_websites,
     update_db_to_subscribe
 )
-from load import load_product_data
+from load import load_product_data # pylint: disable=import-error
 
 def subscribe_to_product(conn: connection, product_url: str, price_threshold: bool | None) -> bool:
     """adds a product to the database and return True if successful
@@ -37,9 +37,10 @@ def subscribe_to_product(conn: connection, product_url: str, price_threshold: bo
         logging.error("Unable to subscribe to product!")
         st.warning("You are already subscribed to this product")
         return False
+    return True
 
-def add_product_page(config: _Environ):
-    conn = get_connection(config)
+def add_product_page(conn: connection) -> None:
+    """Add Product Page"""
     websites = get_supported_websites(conn)
     st.title('Add new Subscription')
     with st.container(border=True,):
@@ -63,5 +64,6 @@ def add_product_page(config: _Environ):
             st.write(website.title())
 
 if __name__ == '__main__':
+    connec = get_connection(CONFIG)
     make_sidebar()
-    add_product_page(CONFIG)
+    add_product_page(connec)

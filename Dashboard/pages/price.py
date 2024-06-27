@@ -1,19 +1,19 @@
-"""Price tracker page for streamlit"""
+"""Price tracker page for the streamlit dashboard"""
 
-from os import _Environ, environ as CONFIG
+from os import environ as CONFIG
 import logging
 from datetime import datetime
 
 from dotenv import load_dotenv
 import streamlit as st
-import streamlit_nested_layout
+import streamlit_nested_layout # pylint: disable=unused-import
 import pandas as pd
 import altair as alt
 from psycopg2.extensions import connection
 
 
-from navigation import make_sidebar
-from helpers import (
+from navigation import make_sidebar # pylint: disable=import-error
+from helpers import ( # pylint: disable=import-error
     get_cursor, get_connection,
     can_parse_as_float, get_user_id,
     get_subscribed_products
@@ -62,7 +62,10 @@ def get_encode_price_reading(
         return threshold_line_enc.mark_line() + chart.mark_point() + chart.mark_line()
     return chart.mark_point() + chart.mark_line()
 
-def change_threshold_in_db(conn: connection, new_threshold: float | None, product_id: int, email: str) -> None:
+def change_threshold_in_db(
+        conn: connection, new_threshold: float | None, product_id: int, email: str) -> None:
+    '''Given a new price threshold, this function modifies the subscription entry to that
+    new threshold.'''
     user_id = get_user_id(conn, email)
     with get_cursor(conn) as cur:
         cur.execute('''UPDATE subscriptions
@@ -70,9 +73,9 @@ def change_threshold_in_db(conn: connection, new_threshold: float | None, produc
                         WHERE user_id = %s
                         AND product_id = %s''', (new_threshold, user_id, product_id))
         conn.commit()
-    
 
 def change_threshold(conn: connection, product_information: dict) -> None:
+    '''Contains the streamlit display logic for changing the threshold in the dashboard.'''
     text_input_placeholder = None
     if product_information['price_threshold'] is not None:
         text_input_placeholder = f"£{float(product_information['price_threshold']):.2f}"
@@ -81,7 +84,8 @@ def change_threshold(conn: connection, product_information: dict) -> None:
                                     help='Can be left empty to remove threshold!',
                                     key=f'new_threshold_value_{product_information['product_id']}')
     st.write('')
-    if st.button('Update Price Alert', key=f'new_threshold_submit_{product_information['product_id']}'):
+    if st.button('Update Price Alert',
+                 key=f'new_threshold_submit_{product_information['product_id']}'):
         valid_threshold = False
         if new_threshold == '':
             new_threshold = None
@@ -93,7 +97,8 @@ def change_threshold(conn: connection, product_information: dict) -> None:
         if not valid_threshold and new_threshold == product_information['price_threshold']:
             st.warning('New threshold is the same as the old threshold.')
         elif valid_threshold:
-            change_threshold_in_db(conn, new_threshold, product_information['product_id'], st.session_state['email'])
+            change_threshold_in_db(conn, new_threshold,
+                                   product_information['product_id'], st.session_state['email'])
             st.rerun()
         elif not valid_threshold and isinstance (new_threshold, float):
             st.warning('Threshold must be a positive number!')
@@ -101,6 +106,7 @@ def change_threshold(conn: connection, product_information: dict) -> None:
             st.warning('Invalid threshold, please try again!')
 
 def unsubscribe_from_product_in_db(conn: connection, product_id: int, email: str) -> None:
+    '''Unsubscribe a user from a product, given product_id and user email.'''
     user_id = get_user_id(conn, email)
     with get_cursor(conn) as cur:
         cur.execute('''DELETE FROM subscriptions
@@ -108,33 +114,41 @@ def unsubscribe_from_product_in_db(conn: connection, product_id: int, email: str
                         AND user_id = %s''', (product_id, user_id))
         conn.commit()
 
-def unsubscribe_from_product(conn: connection, product_information: int) -> None:
-    if st.button('Unsubscribe', key=f'unsubscribe_button_{product_information['product_id']}'):
-        unsubscribe_from_product_in_db(conn, product_information['product_id'], st.session_state['email'])
+def unsubscribe_from_product(conn: connection, product_id: int) -> None:
+    '''contains the streamlit display logic for unsubscribing a user from a product,
+    given product id..'''
+    if st.button('Unsubscribe', key=f'unsubscribe_button_{product_id}'):
+        unsubscribe_from_product_in_db(conn, product_id,
+                                       st.session_state['email'])
         st.rerun()
 
 def product_price_change(price_readings: pd.DataFrame) -> int:
     '''returns an emoji representing the emoji regarding the price.'''
     if len(price_readings) == 1:
         return 0
-    price_readings_sorted_by_time = price_readings.sort_values(by='reading_at', ascending=False)[:2].reset_index()
-    if price_readings_sorted_by_time.loc[0]['price'] > price_readings_sorted_by_time.loc[1]['price']:
+    price_readings_sorted_by_time = (
+        price_readings.sort_values(by='reading_at', ascending=False)[:2].reset_index())
+    if (price_readings_sorted_by_time.loc[0]['price']
+        > price_readings_sorted_by_time.loc[1]['price']):
         return 1
-    elif price_readings_sorted_by_time.loc[0]['price'] == price_readings_sorted_by_time.loc[1]['price']:
+    if (price_readings_sorted_by_time.loc[0]['price']
+        == price_readings_sorted_by_time.loc[1]['price']):
         return 0
     return -1
 
 def get_price_change_emoji(price_change_enum: int) -> str:
+    '''returns an emoji based on an enumerated price change value.'''
     if price_change_enum == 0:
         return '➖'
-    elif price_change_enum == 1:
+    if price_change_enum == 1:
         return '📈'
     return '📉'
 
 def get_price_change_colour(price_change_enum: int) -> str:
+    '''returns text colour based on an enumerated price change value.'''
     if price_change_enum == 0:
         return 'orange'
-    elif price_change_enum == 1:
+    if price_change_enum == 1:
         return 'red'
     return 'green'
 
@@ -148,14 +162,16 @@ def display_subscribed_product(conn: connection, product_information: dict) -> N
         current_price = float(price_readings[
                     price_readings['reading_at'] == price_readings['reading_at'].max()]['price'])
         price_change_enum = product_price_change(price_readings)
-        expander = st.expander(f'**£:{get_price_change_colour(price_change_enum)}[{current_price:.2f}]** - {product_information['product_name']}', icon=get_price_change_emoji(price_change_enum))
+        expander = st.expander(
+            f'**£:{get_price_change_colour(price_change_enum)}[{current_price:.2f}]**\
+- {product_information['product_name']}', icon=get_price_change_emoji(price_change_enum))
     with expander:
         st.write('')
         if price_readings is not None:
             col1, col2 = st.columns(2)
-            
             if can_parse_as_float(product_information['price_threshold']):
-                product_information['price_threshold'] = float(product_information["price_threshold"])
+                product_information['price_threshold'] = (
+                    float(product_information["price_threshold"]))
             encoded_price_readings = get_encode_price_reading(
                 price_readings, product_information["price_threshold"])
             with col1:
@@ -163,7 +179,7 @@ def display_subscribed_product(conn: connection, product_information: dict) -> N
                 with inner_col_1:
                     st.link_button('Go to Product', url=product_information['url'])
                 with inner_col_2:
-                    unsubscribe_from_product(conn, product_information)
+                    unsubscribe_from_product(conn, product_information['product_id'])
                 st.write('')
                 st.write('')
                 st.write('')
@@ -182,7 +198,6 @@ def display_subscribed_product(conn: connection, product_information: dict) -> N
 
 def price_tracker_page(conn: connection) -> None:
     """Product Price Tracker Page"""
-
 
     subscribed_to_products = get_subscribed_products(
         conn, st.session_state["email"])

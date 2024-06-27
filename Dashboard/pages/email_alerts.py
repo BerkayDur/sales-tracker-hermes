@@ -1,52 +1,32 @@
-
 """Email alerts page for StreamLit"""
-from os import _Environ, environ as CONFIG
+from os import environ as CONFIG
 from time import sleep
 
 import streamlit as st
+from mypy_boto3_ses.client import SESClient as ses_client
 
-from navigation import make_sidebar
-from ses_get_emails import get_ses_client, is_ses_verified
-from email_verification import send_verification_email, unverify_email
+from navigation import make_sidebar # pylint: disable=import-error
+from helpers import (get_ses_client) # pylint: disable=import-error
+from ses_get_emails import is_ses_verified # pylint: disable=import-error
+from email_verification import send_verification_email, unverify_email # pylint: disable=import-error
 
-def email_alerts_page(config: _Environ):
+def email_alerts_page(boto_ses_client: ses_client):
     '''Contains the StreamLit email alerts page'''
 
     st.title('Email Alerts')
-    ses_client = get_ses_client(config)
 
-    if is_ses_verified(ses_client, st.session_state['email']):
+    if is_ses_verified(boto_ses_client, st.session_state['email']):
         if st.button('Unsubscribe from Email Alerts!'):
-            unverify_email(ses_client, st.session_state['email'])
+            unverify_email(boto_ses_client, st.session_state['email'])
             st.warning('You are now unsubscribed from Email Alerts!')
             sleep(1)
             st.rerun()
     else:
-        send_verification_email(ses_client, st.session_state['email'])
+        send_verification_email(boto_ses_client, st.session_state['email'])
         if st.button('Subscribe to Email Alerts!'):
             st.warning('Check your inbox!')
-    # else:
-    #     st.write('Verify your email to receive email alerts!')
-    #     col1, col2 = st.columns([3,10])
-    #     with col1:
-    #         if st.session_state.get('email_verification_sent'):
-    #             verify_email_button = st.button('Send another verification email!')
-
-    #         else:
-    #             verify_email_button = st.button('Send verification email!')
-    #     if verify_email_button:
-    #         st.session_state['email_verification_sent'] = True
-    #         send_verification_email(ses_client, st.session_state['email'])
-    #     if st.session_state.get('email_verification_sent'):
-    #         st.warning('Email verification sent, please check your inbox!')
-    #         with col2:
-    #             if st.button('Confirm Verification.'):
-    #                 if is_verified(ses_client, st.session_state['email']):
-    #                     st.success('You are now subscribed to receive email verifications!')
-    #                 else:
-    #                     st.warning('Please check you inbox to confirm email verification')
-
 
 if __name__ == '__main__':
+    client = get_ses_client(CONFIG)
     make_sidebar()
-    email_alerts_page(CONFIG)
+    email_alerts_page(client)
