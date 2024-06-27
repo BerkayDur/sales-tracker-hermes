@@ -52,8 +52,8 @@ resource "aws_ecs_task_definition" "dashboard_task_def" {
                     containerPort = 80
                 },
                 {
-                    hostPort = 8501
-                    containerPort = 8501
+                    hostPort = var.PORT_TO_EXPOSE
+                    containerPort = var.PORT_TO_EXPOSE
                 }
             ]
             
