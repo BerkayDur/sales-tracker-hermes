@@ -1,14 +1,18 @@
+************* Module navigation
+Dashboard/navigation.py:39:13: E0602: Undefined variable 'page_name' (undefined-variable)
 
-------------------------------------
-Your code has been rated at 10.00/10
-
-
-------------------------------------
-Your code has been rated at 10.00/10
+-----------------------------------
+Your code has been rated at 8.21/10
 
 
 ------------------------------------
 Your code has been rated at 10.00/10
+
+************* Module extract_from_asos
+Dashboard/utilities/extract_from_asos.py:5:0: E0401: Unable to import 'utilities.helpers' (import-error)
+
+-----------------------------------
+Your code has been rated at 9.32/10
 
 ************* Module load
 Dashboard/load.py:39:11: W0718: Catching too general exception Exception (broad-exception-caught)
