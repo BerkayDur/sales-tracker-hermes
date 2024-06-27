@@ -27,16 +27,17 @@ Dashboard/email_verification.py:69:11: W0718: Catching too general exception Exc
 Your code has been rated at 9.79/10
 
 ************* Module helpers
-Dashboard/helpers.py:151:11: W0718: Catching too general exception Exception (broad-exception-caught)
+Dashboard/helpers.py:202:0: C0304: Final newline missing (missing-final-newline)
+Dashboard/helpers.py:152:11: W0718: Catching too general exception Exception (broad-exception-caught)
 
 -----------------------------------
-Your code has been rated at 9.91/10
+Your code has been rated at 9.84/10
 
 ************* Module login
-Dashboard/login.py:15:0: C0301: Line too long (471/100) (line-too-long)
+Dashboard/login.py:16:0: C0301: Line too long (471/100) (line-too-long)
 
 -----------------------------------
-Your code has been rated at 9.83/10
+Your code has been rated at 9.84/10
 
 ************* Module extract_combined
 Dashboard/extract_combined.py:54:11: W0718: Catching too general exception Exception (broad-exception-caught)
@@ -44,20 +45,33 @@ Dashboard/extract_combined.py:54:11: W0718: Catching too general exception Excep
 -----------------------------------
 Your code has been rated at 9.78/10
 
-************* Module add_product
-Dashboard/pages/add_product.py:21:11: W0718: Catching too general exception Exception (broad-exception-caught)
-Dashboard/pages/add_product.py:36:11: W0718: Catching too general exception Exception (broad-exception-caught)
+************* Module custom_styling
+Dashboard/custom_styling.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+Dashboard/custom_styling.py:3:0: C0116: Missing function or method docstring (missing-function-docstring)
+Dashboard/custom_styling.py:6:8: W0612: Unused variable 'css' (unused-variable)
 
 -----------------------------------
-Your code has been rated at 9.60/10
+Your code has been rated at 5.00/10
 
+************* Module add_product
+Dashboard/pages/add_product.py:15:0: E0401: Unable to import 'custom_styling' (import-error)
+Dashboard/pages/add_product.py:22:11: W0718: Catching too general exception Exception (broad-exception-caught)
+Dashboard/pages/add_product.py:37:11: W0718: Catching too general exception Exception (broad-exception-caught)
 
-------------------------------------
-Your code has been rated at 10.00/10
+-----------------------------------
+Your code has been rated at 8.65/10
 
+************* Module email_alerts
+Dashboard/pages/email_alerts.py:12:0: E0401: Unable to import 'custom_styling' (import-error)
 
-------------------------------------
-Your code has been rated at 10.00/10
+-----------------------------------
+Your code has been rated at 8.00/10
+
+************* Module price
+Dashboard/pages/price.py:22:0: E0401: Unable to import 'custom_styling' (import-error)
+
+-----------------------------------
+Your code has been rated at 9.64/10
 
 
 ------------------------------------
