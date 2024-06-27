@@ -3,9 +3,7 @@
 from os import environ as CONFIG
 import logging
 from datetime import datetime
-from datetime import datetime
 
-from dotenv import load_dotenv
 from dotenv import load_dotenv
 import streamlit as st
 import streamlit_nested_layout # pylint: disable=unused-import
