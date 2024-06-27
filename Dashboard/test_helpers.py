@@ -10,6 +10,7 @@ from helpers import (
     can_parse_as_float, get_supported_websites,
     get_user_id, get_product_id,
     is_subscription_in_table, insert_subscription_into_db,
+    get_subscribed_products
     )
 
 
@@ -310,3 +311,33 @@ def test_insert_subscription_into_db_invalid_3(mock_get_cursor, exception_type):
      .return_value.execute.call_args[0][1] == (fake_user_id, fake_product_id, fake_price_threshold)
     assert mock_get_cursor.call_args[0][0] == mock_conn
     assert mock_conn.commit.call_count == 1
+
+@patch('helpers.get_cursor')
+def test_get_subscribed_products_valid_1(mock_get_cursor):
+    fake_data= [
+         {'product_id': 1, 'website_name': 'asos', 'url': 'www.asos.com', 'product_name': 'jeans', 'price_threshold': 10},
+         {'product_id': 2, 'website_name': 'patagonia', 'url': 'www.patagonia.com', 'product_name': 'shorts', 'price_threshold': None}]
+    mock_conn = MagicMock(spec=connection)
+    mock_get_cursor.return_value.__enter__\
+     .return_value.fetchall.return_value = fake_data
+    fake_email = 'FAKE.com'
+    assert get_subscribed_products(mock_conn, fake_email) == fake_data
+    assert mock_get_cursor.return_value.__enter__\
+     .return_value.execute.call_count == 1
+    assert mock_get_cursor.return_value.__enter__\
+     .return_value.execute.call_args[0][1] == (fake_email,)
+    assert mock_get_cursor.call_args[0][0] == mock_conn
+
+@patch('helpers.get_cursor')
+def test_get_subscribed_products_valid_2(mock_get_cursor):
+    fake_data = []
+    mock_conn = MagicMock(spec=connection)
+    mock_get_cursor.return_value.__enter__\
+     .return_value.fetchall.return_value = fake_data
+    fake_email = 'FAKE.com'
+    assert get_subscribed_products(mock_conn, fake_email) == fake_data
+    assert mock_get_cursor.return_value.__enter__\
+     .return_value.execute.call_count == 1
+    assert mock_get_cursor.return_value.__enter__\
+     .return_value.execute.call_args[0][1] == (fake_email,)
+    assert mock_get_cursor.call_args[0][0] == mock_conn

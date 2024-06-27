@@ -6,12 +6,8 @@ from time import sleep
 import streamlit as st
 
 from navigation import make_sidebar
-from ses_get_emails import get_ses_client, get_ses_emails
+from ses_get_emails import get_ses_client, is_ses_verified
 from email_verification import send_verification_email, unverify_email
-
-def is_verified(_ses_client, email: str) -> bool:
-    '''Checks if an email is verified'''
-    return email in get_ses_emails(_ses_client, 'verified')
 
 def email_alerts_page(config: _Environ):
     '''Contains the StreamLit email alerts page'''
@@ -19,7 +15,7 @@ def email_alerts_page(config: _Environ):
     st.title('Email Alerts')
     ses_client = get_ses_client(config)
 
-    if is_verified(ses_client, st.session_state['email']):
+    if is_ses_verified(ses_client, st.session_state['email']):
         if st.button('Unsubscribe from Email Alerts!'):
             unverify_email(ses_client, st.session_state['email'])
             st.warning('You are now unsubscribed from Email Alerts!')

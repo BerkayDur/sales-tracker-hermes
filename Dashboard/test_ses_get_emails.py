@@ -5,7 +5,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 import botocore.client
 
-from ses_get_emails import (get_ses_emails)
+from ses_get_emails import (get_ses_emails, is_ses_verified)
 
 
 @patch('ses_get_emails.is_ses')
@@ -86,3 +86,33 @@ def test_get_ses_emails_invalid(mock_is_ses, bad_method):
     assert mock_is_ses.call_args[0][0] == mock_client
     assert mock_client.list_identities.call_count == 0
     assert mock_client.list_verified_email_addresses.call_count == 0
+
+
+@patch('ses_get_emails.get_ses_emails')
+def test_is_ses_verified_valid(mock_get_ses_emails):
+    mock_ses_client = MagicMock()
+    mock_get_ses_emails.return_value = ['FAKE.com', 'FAKE2.com', 'FAKE3.com']
+    fake_email = 'FAKE2.com'
+    assert is_ses_verified(mock_ses_client, fake_email)
+    assert mock_get_ses_emails.call_count == 1
+    assert mock_get_ses_emails.call_args[0][0] == mock_ses_client
+    assert mock_get_ses_emails.call_args[0][1] == 'verified'
+
+
+@patch('ses_get_emails.get_ses_emails')
+def test_is_ses_verified_invalid_1(mock_get_ses_emails):
+    mock_ses_client = MagicMock()
+    mock_get_ses_emails.return_value = ['FAKE.com', 'FAKE2.com', 'FAKE3.com']
+    fake_email = 'FAKE4.com'
+    assert not is_ses_verified(mock_ses_client, fake_email)
+    assert mock_get_ses_emails.call_count == 1
+    assert mock_get_ses_emails.call_args[0][0] == mock_ses_client
+    assert mock_get_ses_emails.call_args[0][1] == 'verified'
+
+@pytest.mark.parametrize('fake_email', [23, 18.0, [], {}])
+@patch('ses_get_emails.get_ses_emails')
+def test_is_ses_verified_invalid_2(mock_get_ses_emails, fake_email):
+    mock_ses_client = MagicMock()
+    mock_get_ses_emails.return_value = ['FAKE.com', 'FAKE2.com', 'FAKE3.com']
+    assert not is_ses_verified(mock_ses_client, fake_email)
+    assert mock_get_ses_emails.call_count == 0

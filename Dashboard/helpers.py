@@ -174,3 +174,16 @@ def update_db_to_subscribe(
         return {'status': True, 'message': 'New subscription added.'}
     logging.info('update_db_to_subscribe failed unexpectedly (insert_subscription_to_db).')
     return {'status': False, 'message': 'Unable to subscribe to product, please try again.'}
+
+
+def get_subscribed_products(conn: connection, email: str) -> list[dict]:
+    """Get a list of all products subscribed by user, email."""
+    with get_cursor(conn) as cur:
+        cur.execute("""SELECT product_id, website_name, url, product_name, price_threshold
+                    FROM websites
+                    JOIN products USING (website_id)
+                    JOIN subscriptions USING (product_id)
+                    JOIN users USING (user_id)
+                    WHERE email = %s""", (email,))
+        subscribed_products = cur.fetchall()
+    return subscribed_products
