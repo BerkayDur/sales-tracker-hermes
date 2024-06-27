@@ -1,6 +1,7 @@
 '''Contains the add product page for streamlit dashboard.'''
 from os import environ as CONFIG
 import logging
+from PIL import Image
 
 import streamlit as st
 from psycopg2.extensions import connection
@@ -45,16 +46,19 @@ def subscribe_to_product(conn: connection, product_url: str, price_threshold: bo
 def add_product_page(conn: connection) -> None:
     """Add Product Page"""
     websites = get_supported_websites(conn)
-    st.title('Add New Subscription')
+    st.header('Add New Subscription')
+    st.write('')
     with st.container(border=True,):
         with st.form("subscribe_to_product", clear_on_submit=True, border=False):
-            product_url = st.text_input("Enter the product URL:")
+            product_url = st.text_input("**Paste the product link:**")
+            st.write('')
             price_threshold = st.text_input(
-                "Enter a threshold (£):", placeholder="Can be left empty")
-            if st.form_submit_button("Track Product", type="primary"):
+                "**Alert me when this product is below:** **:orange[*]**", placeholder="£")
+            st.markdown('<span style="font-size:0.8rem; position:relative; top:-1rem;">**:orange[*]** Leave this empty to be alerted on all price decreases</span>', unsafe_allow_html=True)
+            if st.form_submit_button("Track this Product", type="primary"):
                 if not product_url:
                     logging.error("User must enter a URL.")
-                    st.error("You must enter a URL.")
+                    st.error("You must enter a product link.")
                 elif price_threshold != "" and not can_parse_as_float(price_threshold):
                     logging.error("Threshold must be a number (or empty).")
                     st.warning("Threshold must be a number (or empty).")
@@ -63,9 +67,9 @@ def add_product_page(conn: connection) -> None:
                     st.warning('Price Threshold must be positive!')
                 else:
                     subscribe_to_product(conn, product_url, price_threshold)
-    with st.expander("List of Supported websites", expanded=True):
+    with st.expander("**See supported websites**", expanded=True):
         for website in websites:
-            st.write(website.title())
+            st.markdown(website)
 
 if __name__ == '__main__':
     connec = get_connection(CONFIG)

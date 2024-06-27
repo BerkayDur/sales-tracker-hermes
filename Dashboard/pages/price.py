@@ -62,14 +62,14 @@ def change_threshold_in_db(
 
 def change_threshold(conn: connection, product_information: dict) -> None:
     '''Contains the streamlit display logic for changing the threshold in the dashboard.'''
-    text_input_placeholder = None
+    text_input_placeholder = '£'
     if product_information['price_threshold'] is not None:
         text_input_placeholder = f"£{float(product_information['price_threshold']):.2f}"
-    new_threshold = st.text_input('Enter a new Threshold (£):',
+    
+    new_threshold = st.text_input('**Alert me when this product is below:** **:orange[*]**' ,
                                     placeholder=text_input_placeholder,
-                                    help='Can be left empty to remove threshold!',
                                     key=f'new_threshold_value_{product_information['product_id']}')
-    st.write('')
+    st.markdown('<span style="font-size:0.8rem; position:relative; top:-1rem;">**:orange[*]** Leave this empty to be alerted on all price decreases</span>', unsafe_allow_html=True)
     if st.button('Update Price Alert',
                  key=f'new_threshold_submit_{product_information['product_id']}'):
         valid_threshold = False
@@ -169,12 +169,6 @@ def display_subscribed_product(conn: connection, product_information: dict) -> N
                     st.link_button('Go to Product', url=product_information['url'])
                 with inner_col_2:
                     unsubscribe_from_product(conn, product_information['product_id'])
-                st.write('')
-                st.write('')
-                st.write('')
-                st.write('')
-                st.write('')
-                st.write('')
                 with st.container(border=True):
                     st.write('')
                     change_threshold(conn, product_information)
@@ -191,13 +185,13 @@ def price_tracker_page(conn: connection) -> None:
     subscribed_to_products = get_subscribed_products(
         conn, st.session_state["email"])
     if subscribed_to_products:
-        st.title('Tracked products:')
+        st.header('Track your products')
         subscribed_to_products.sort(key=lambda x:x['product_id'])
         websites = list(set(product['website_name'] for product in subscribed_to_products))
         websites.sort()
         for website in websites:
             st.write('')
-            with st.expander(f'**{website}**'.title()):
+            with st.expander(f'**{website}**'):
                 for product in subscribed_to_products:
                     if product['website_name'] == website:
                         display_subscribed_product(conn, product)
