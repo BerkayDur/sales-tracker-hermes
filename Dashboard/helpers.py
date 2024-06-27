@@ -18,6 +18,7 @@ DEFAULT_REQUEST_TIMEOUT_SECONDS = 30
 
 def get_connection(config: _Environ) -> connection:
     """Establishes a connection with the database."""
+    logging.info('Trying to connect to Database.')
     return psycopg2.connect(
         user=config["DB_USER"],
         host=config["DB_HOST"],
@@ -30,8 +31,10 @@ def get_connection(config: _Environ) -> connection:
 def get_cursor(conn: connection) -> cursor:
     """Returns a cursor for the database."""
     if not isinstance(conn, connection):
+        logging.error('A cursor can only be constructed from a Psycopg2 connection object')
         raise TypeError(
             'A cursor can only be constructed from a Psycopg2 connection object')
+    logging.info('Creating a Psycopg2 cursor.')
     return conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 
 
@@ -46,8 +49,10 @@ def configure_logging() -> None:
 def get_product_page(url: str, headers: dict) -> str | None:
     """Fetch the HTML content of a product page from a given URL."""
     if not isinstance(url, str):
+        logging.error('URL must be of type string in get_product_page.')
         raise TypeError('URL must be of type string.')
     if not isinstance(headers, dict):
+        logging.error('header must be of type dict in get_product_page.')
         raise TypeError('header must be of type dict')
     if not url:
         logging.error("URL is empty")
@@ -55,6 +60,7 @@ def get_product_page(url: str, headers: dict) -> str | None:
     try:
         response = requests.get(url, headers=headers,
                                 timeout=DEFAULT_REQUEST_TIMEOUT_SECONDS)
+        logging.info('get_product_page ran successfully.')
         return response.text
     except requests.exceptions.RequestException as e:
         logging.error("A request error has occurred: %s", e)
@@ -66,13 +72,16 @@ def get_product_page(url: str, headers: dict) -> str | None:
 def get_soup(url: str, headers: dict) -> BeautifulSoup | None:
     """Returns a soup object for a game given the web address."""
     if not isinstance(url, str):
+        logging.error('URL must be of type string in get_soup.')
         raise TypeError('URL must be of type string.')
     if not isinstance(headers, dict):
+        logging.error('header must be of type string in get_soup.')
         raise TypeError('header must be of type dict')
 
     response = get_product_page(url, headers=headers)
 
     if response:
+        logging.info('Get soup from product page response.')
         return BeautifulSoup(response, features="html.parser")
     logging.error("Failed to get a response from the URL")
     return None

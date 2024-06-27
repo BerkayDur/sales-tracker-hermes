@@ -13,6 +13,7 @@ def is_correct_page(soup: BeautifulSoup) -> bool:
 
     single_product_identifier = soup.find(
         'div', attrs={'class': 'product-detail'})
+    logging.info('Searched BeautifulSoup object for product.')
     return single_product_identifier is not None
 
 
@@ -25,6 +26,7 @@ def scrape_product_information(soup: BeautifulSoup) -> dict | None:
     product_soup = soup.find('script', type="application/ld+json")
     if product_soup:
         product_data = json.loads(product_soup.string)
+        logging.info('Scraped product information for BeautifulSoup object.')
         return product_data
     logging.error("Product information script not found in the page")
     return None
@@ -33,6 +35,7 @@ def scrape_product_information(soup: BeautifulSoup) -> dict | None:
 def get_product_code_patagonia(product_data: dict) -> str | None:
     """Returns product ID from the webpage"""
     if not isinstance(product_data, dict):
+        logging.error('product_data is not of type dict in get_product_code_asos.')
         raise TypeError('product_info must be of type dict')
     if not product_data:
         logging.error("Missing product data")
@@ -40,10 +43,12 @@ def get_product_code_patagonia(product_data: dict) -> str | None:
 
     product_id = product_data.get("mpn")
     if product_id:
+        logging.info('Scraped patagonia product code from product_data dict.')
         return str(product_id)
 
     sku = product_data.get("sku")
     if sku:
+        logging.info('Scraped patagonia product code from product_data dict.')
         return str(sku)
 
     logging.error("Missing productID in product_data")
@@ -53,6 +58,7 @@ def get_product_code_patagonia(product_data: dict) -> str | None:
 def get_product_name_patagonia(product_data: dict) -> str | None:
     """Returns product name from the webpage"""
     if not isinstance(product_data, dict):
+        logging.error('product_data is not of type dict in get_product_name_patagonia.')
         raise TypeError('product_info must be of type dict')
 
     if not product_data:
@@ -61,6 +67,7 @@ def get_product_name_patagonia(product_data: dict) -> str | None:
 
     product_name = product_data.get("name")
     if product_name:
+        logging.info('Scraped patagonia product name from product_data dict.')
         return product_name
 
     logging.error("Missing name in product_data")

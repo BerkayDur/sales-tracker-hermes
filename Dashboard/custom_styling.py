@@ -1,6 +1,9 @@
+import logging
+
 import streamlit as st
 
 def apply_custom_styling() -> None:
+    logging.info('Apply custom CS styling.')
     st.markdown('''
 <head>
     <style>

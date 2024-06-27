@@ -31,12 +31,14 @@ def subscribe_to_product(conn: connection, product_url: str, price_threshold: bo
         update_db_status = update_db_to_subscribe(conn, product_url,
                                       price_threshold, st.session_state["email"])
         if update_db_status['status']:
+            logging.info("Successfully updates database to add user, product subscription.")
             st.success(update_db_status['message'])
         else:
+            logging.error("Failed to update database to add user, product subscription.")
             st.warning(update_db_status['message'])
     except Exception:
-        logging.error("Unable to subscribe to product!")
-        st.warning("You are already subscribed to this product")
+        logging.error("User is already subscribed to this product.")
+        st.warning("You are already subscribed to this product.")
         return False
     return True
 
@@ -51,12 +53,13 @@ def add_product_page(conn: connection) -> None:
                 "Enter a threshold (£):", placeholder="Can be left empty")
             if st.form_submit_button("Track Product", type="primary"):
                 if not product_url:
-                    logging.error("You must enter a URL.")
+                    logging.error("User must enter a URL.")
                     st.error("You must enter a URL.")
                 elif price_threshold != "" and not can_parse_as_float(price_threshold):
                     logging.error("Threshold must be a number (or empty).")
                     st.warning("Threshold must be a number (or empty).")
                 elif can_parse_as_float(price_threshold) and float(price_threshold) <= 0:
+                    logging.error("Price threshold entered by user must be positive.")
                     st.warning('Price Threshold must be positive!')
                 else:
                     subscribe_to_product(conn, product_url, price_threshold)

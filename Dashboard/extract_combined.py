@@ -44,15 +44,17 @@ def extract_product_information(conn: connection, product_url: str) -> tuple:
         return None
     website_id = get_website_id(conn, store_name)
     if not website_id:
+        logging.info('extract_product_information , website_id is null.')
         return None
 
     logging.info('Starting to run correct extract script for product url.')
     try:
         website_data = EXTRACT_FUNCTIONS[store_name](product_url)
         website_data['website_id'] = website_id
+        logging.info('Successfully extract product information from website.')
         return website_data
     except Exception:
-        logging.info('extract from product url failed!')
+        logging.info('extract_product_information from product url failed!')
         return None
 
 
