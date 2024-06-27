@@ -1,157 +1,25 @@
-"""Price tracker page for streamlit"""
+"""Price tracker page for the streamlit dashboard"""
 
-from os import _Environ, environ as CONFIG
+from os import environ as CONFIG
 import logging
 from datetime import datetime
 
 from dotenv import load_dotenv
 import streamlit as st
+import streamlit_nested_layout # pylint: disable=unused-import
 import pandas as pd
 import altair as alt
 from psycopg2.extensions import connection
 
 
-from navigation import make_sidebar
-from utilities.helpers import get_cursor, get_connection
-from utilities.load import load_product_data
-from utilities.ses_get_emails import get_ses_client, get_ses_emails
-
-
-def can_parse_as_float(to_check: any) -> bool:
-    """Determines if a value can be parsed as a float.
-    Returns True on success, else False."""
-    try:
-        float(to_check)
-        return True
-    except (ValueError, TypeError):
-        logging.error("Input can't be parsed as a float")
-        return False
-
-
-def get_supported_websites(conn: connection) -> list:
-    """Gets a list of supported websites."""
-    with get_cursor(conn) as cur:
-        cur.execute("SELECT website_name from websites;")
-        websites = cur.fetchall()
-    return [website["website_name"] for website in websites]
-
-
-def get_user_id(conn: connection, email: str) -> int | None:
-    """Get a user id from the database based on an email."""
-    with get_cursor(conn) as cur:
-        cur.execute("SELECT user_id from users WHERE email = %s;", (email,))
-        user_id = cur.fetchone()
-    return user_id.get("user_id")
-
-
-def get_product_id(conn: connection, url: str) -> int | None:
-    """Gets the products id from the database given a url."""
-    with get_cursor(conn) as cur:
-        cur.execute("SELECT product_id from products WHERE url = %s;", (url,))
-        product_id = cur.fetchone()
-    return product_id.get("product_id")
-
-
-def is_subscription_in_table(conn: connection, user_id: int, product_id: int) -> bool:
-    """Determines if a user is subscribed to a particular product."""
-    with get_cursor(conn) as cur:
-        cur.execute("""SELECT * FROM subscriptions
-                        WHERE user_id = %s AND product_id = %s""",
-                    (user_id, product_id))
-        counts = cur.fetchone()
-    return counts is not None
-
-
-def insert_subscription_into_db(
-        conn: connection, user_id: int, product_id: int,
-        price_threshold: float | int | None) -> bool:
-    """Inserts a new subscription into the subscriptions table.
-    Returns True on success, else False."""
-    try:
-        with get_cursor(conn) as cur:
-            cur.execute("""INSERT INTO subscriptions
-                         (user_id, product_id, price_threshold)
-                        VALUES (%s, %s, %s);""", (user_id, product_id, price_threshold))
-            conn.commit()
-        return True
-    except Exception as e:
-        st.write(e)
-        return False
-
-
-def update_db_to_subscribe(
-        config: _Environ, product_url: str, price_threshold: bool | None, user_email: str) -> bool:
-    """Inserts a subscription into a database, if it doesn't already exist.
-    Returns True on success, else False"""
-    conn = get_connection(config)
-    user_id = get_user_id(conn, user_email)
-    if not user_id:
-        logging.error("User not validated. Please try again!")
-        st.warning("User not validated. Please try again!")
-        return False
-    product_id = get_product_id(conn, product_url)
-    if not product_id:
-        logging.error("Unexpected error, please try again later.")
-        st.warning("Unexpected error, please try again later.")
-        return False
-    if is_subscription_in_table(conn, user_id, product_id):
-        logging.error("You are already subscribed to this product!")
-        st.warning("You are already subscribed to this product!")
-        return True
-    logging.info("New subscription added!")
-    st.success("New subscription added!")
-    return insert_subscription_into_db(conn, user_id, product_id, price_threshold)
-
-
-def subscribe_to_product(config: _Environ, product_url: str, price_threshold: bool | None) -> bool:
-    """adds a product to the database and return True if successful
-    (or if product is already in the database), else False."""
-    try:
-        load_product_data(config, product_url)
-    except (TypeError, ValueError):
-        logging.error(
-            "Invalid URL, please enter a URL from one of the supported websites!")
-        st.warning(
-            "Invalid URL, please enter a URL from one of the supported websites!")
-        return False
-    try:
-        if price_threshold == "":
-            price_threshold = None
-        return update_db_to_subscribe(config, product_url,
-                                      price_threshold, st.session_state["email"])
-    except (TypeError, ValueError):
-        logging.error("Unable to subscribe to product!")
-        st.warning("Unable to subscribe to product!")
-        return False
-
-
-def get_subscribed_products(config: _Environ, email: str) -> list[dict]:
-    """Get a list of all products subscribed by user, email."""
-    conn = get_connection(config)
-    with get_cursor(conn) as cur:
-        cur.execute("""SELECT product_id, website_name, url, product_name, price_threshold
-                    FROM websites
-                    JOIN products USING (website_id)
-                    JOIN subscriptions USING (product_id)
-                    JOIN users USING (user_id)
-                    WHERE email = %s""", (email,))
-        subscribed_products = cur.fetchall()
-    return subscribed_products
-
-
-def get_price_readings(config: _Environ, product_id: int) -> pd.DataFrame | None:
-    """Get a pandas DataFrame of all price readings for a particular product."""
-    conn = get_connection(config)
-    with get_cursor(conn) as cur:
-        cur.execute(
-            """SELECT * FROM price_readings WHERE product_id = %s;""", (product_id,))
-        price_readings = cur.fetchall()
-    if not price_readings:
-        return None
-    price_readings = pd.DataFrame(price_readings)
-    price_readings["price"] = price_readings["price"].apply(float)
-    return price_readings
-
+from navigation import make_sidebar # pylint: disable=import-error
+from helpers import ( # pylint: disable=import-error
+    get_cursor, get_connection,
+    can_parse_as_float, get_user_id,
+    get_subscribed_products,
+    get_price_readings
+)
+from custom_styling import apply_custom_styling # pylint: disable=import-error
 
 def get_encode_price_reading(
         price_readings: pd.DataFrame, price_threshold: float | None) -> alt.ChartDataType:
@@ -161,7 +29,8 @@ def get_encode_price_reading(
     fake_new_data = price_reading_at.iloc[[-1]]
     fake_new_data["reading_at"] = datetime.now()
     price_reading_at = pd.concat([price_reading_at, fake_new_data])
-    chart = alt.Chart(price_reading_at).encode(
+    title = alt.TitleParams('Price over Time', anchor='middle')
+    chart = alt.Chart(price_reading_at, title=title).encode(
         x="reading_at:T",
         y="price"
     )
@@ -170,77 +39,177 @@ def get_encode_price_reading(
         min_reading = price_reading_at["reading_at"].min()
         price_threshold_df = pd.DataFrame([{"reading_at": min_reading, "price": price_threshold},
                                            {"reading_at": max_reading, "price": price_threshold}])
-        chart_2 = alt.Chart(price_threshold_df).encode(
-            x="reading_at:T",
-            y="price",
-            color=alt.value("#FF0000")
+        threshold_chart = alt.Chart(price_threshold_df)
+        threshold_line_enc = threshold_chart.encode(
+            x=alt.X("reading_at:T", title="Taken at"),
+            y=alt.Y("price", title = "Price (£)"),
+            color=alt.value("#FF0000"),
         )
-        return chart_2.mark_line() + chart.mark_point() + chart.mark_line()
+        return threshold_line_enc.mark_line() + chart.mark_point() + chart.mark_line()
     return chart.mark_point() + chart.mark_line()
 
+def change_threshold_in_db(
+        conn: connection, new_threshold: float | None, product_id: int, email: str) -> None:
+    '''Given a new price threshold, this function modifies the subscription entry to that
+    new threshold.'''
+    user_id = get_user_id(conn, email)
+    with get_cursor(conn) as cur:
+        cur.execute('''UPDATE subscriptions
+                        SET price_threshold = %s
+                        WHERE user_id = %s
+                        AND product_id = %s''', (new_threshold, user_id, product_id))
+        conn.commit()
 
-def display_subscribed_product(config: _Environ, product_information: dict) -> None:
+def change_threshold(conn: connection, product_information: dict) -> None:
+    '''Contains the streamlit display logic for changing the threshold in the dashboard.'''
+    text_input_placeholder = None
+    if product_information['price_threshold'] is not None:
+        text_input_placeholder = f"£{float(product_information['price_threshold']):.2f}"
+    new_threshold = st.text_input('Enter a new Threshold (£):',
+                                    placeholder=text_input_placeholder,
+                                    help='Can be left empty to remove threshold!',
+                                    key=f'new_threshold_value_{product_information['product_id']}')
+    st.write('')
+    if st.button('Update Price Alert',
+                 key=f'new_threshold_submit_{product_information['product_id']}'):
+        valid_threshold = False
+        if new_threshold == '':
+            new_threshold = None
+            valid_threshold = True
+        elif can_parse_as_float(new_threshold):
+            new_threshold = float(new_threshold)
+            if new_threshold > 0:
+                valid_threshold = True
+        if not valid_threshold and new_threshold == product_information['price_threshold']:
+            logging.warning('New threshold is the same as the old threshold.')
+            st.warning('New threshold is the same as the old threshold.')
+        elif valid_threshold:
+            change_threshold_in_db(conn, new_threshold,
+                                   product_information['product_id'], st.session_state['email'])
+            st.rerun()
+        elif not valid_threshold and isinstance (new_threshold, float):
+            logging.warning('Threshold must be a positive number!')
+            st.warning('Threshold must be a positive number!')
+        else:
+            logging.warning('Invalid threshold, please try again!')
+            st.warning('Invalid threshold, please try again!')
+
+def unsubscribe_from_product_in_db(conn: connection, product_id: int, email: str) -> None:
+    '''Unsubscribe a user from a product, given product_id and user email.'''
+    user_id = get_user_id(conn, email)
+    with get_cursor(conn) as cur:
+        cur.execute('''DELETE FROM subscriptions
+                        WHERE product_id = %s
+                        AND user_id = %s''', (product_id, user_id))
+        conn.commit()
+
+def unsubscribe_from_product(conn: connection, product_id: int) -> None:
+    '''contains the streamlit display logic for unsubscribing a user from a product,
+    given product id..'''
+    if st.button('Unsubscribe', key=f'unsubscribe_button_{product_id}'):
+        unsubscribe_from_product_in_db(conn, product_id,
+                                       st.session_state['email'])
+        st.rerun()
+
+def product_price_change(price_readings: pd.DataFrame) -> int:
+    '''returns an emoji representing the emoji regarding the price.'''
+    if len(price_readings) == 1:
+        return 0
+    price_readings_sorted_by_time = (
+        price_readings.sort_values(by='reading_at', ascending=False)[:2].reset_index())
+    if (price_readings_sorted_by_time.loc[0]['price']
+        > price_readings_sorted_by_time.loc[1]['price']):
+        return 1
+    if (price_readings_sorted_by_time.loc[0]['price']
+        == price_readings_sorted_by_time.loc[1]['price']):
+        return 0
+    return -1
+
+def get_price_change_emoji(price_change_enum: int) -> str:
+    '''returns an emoji based on an enumerated price change value.'''
+    if price_change_enum == 0:
+        return '➖'
+    if price_change_enum == 1:
+        return '📈'
+    return '📉'
+
+def get_price_change_colour(price_change_enum: int) -> str:
+    '''returns text colour based on an enumerated price change value.'''
+    if price_change_enum == 0:
+        return 'orange'
+    if price_change_enum == 1:
+        return 'red'
+    return 'green'
+
+def display_subscribed_product(conn: connection, product_information: dict) -> None:
     """For a particular product, get the price readings and display a container
     for that product, containing relevant information."""
     price_readings = get_price_readings(
-        config, product_information["product_id"])
-
-    with st.container(border=True):
-        st.write("**%s** - **[%s](%s)**" % (product_information["website_name"],
-                                            product_information["product_name"],
-                                            product_information["website_name"]))
+        conn, product_information["product_id"])
+    expander = st.expander(f'Fetching data for {product_information['product_name']}')
+    if price_readings is not None:
+        current_price = float(price_readings[
+                    price_readings['reading_at'] == price_readings['reading_at'].max()]['price'])
+        price_change_enum = product_price_change(price_readings)
+        expander = st.expander(
+            f'**£:{get_price_change_colour(price_change_enum)}[{current_price:.2f}]**\
+- {product_information['product_name']}', icon=get_price_change_emoji(price_change_enum))
+    with expander:
+        st.write('')
         if price_readings is not None:
+            col1, col2 = st.columns(2)
             if can_parse_as_float(product_information['price_threshold']):
-                product_information['price_threshold'] = float(product_information["price_threshold"])
+                product_information['price_threshold'] = (
+                    float(product_information["price_threshold"]))
             encoded_price_readings = get_encode_price_reading(
                 price_readings, product_information["price_threshold"])
-            st.altair_chart(encoded_price_readings)
+            with col1:
+                inner_col_1, inner_col_2 = st.columns([5,10])
+                with inner_col_1:
+                    st.link_button('Go to Product', url=product_information['url'])
+                with inner_col_2:
+                    unsubscribe_from_product(conn, product_information['product_id'])
+                st.write('')
+                st.write('')
+                st.write('')
+                st.write('')
+                st.write('')
+                st.write('')
+                with st.container(border=True):
+                    st.write('')
+                    change_threshold(conn, product_information)
+                    st.write('')
+            with col2:
+                st.altair_chart(encoded_price_readings)
         else:
-            st.write("No data to display")
-        st.write(price_readings)
+            st.write("Fetching data... Please wait.")
 
 
-def price_tracker_page(config: _Environ) -> None:
+def price_tracker_page(conn: connection) -> None:
     """Product Price Tracker Page"""
-    conn = get_connection(config)
-    st.title("Product Price Tracker")
-    websites = get_supported_websites(conn)
-
-    with st.expander("List of Supported websites", expanded=True):
-        for website in websites:
-            st.write(website)
-
-    with st.expander("Subscribe to new product", expanded=True):
-        with st.form("subscribe_to_product", clear_on_submit=True, border=False):
-            product_url = st.text_input("Enter the product URL:")
-            price_threshold = st.text_input(
-                "Enter a threshold", placeholder="Can be left empty")
-            if st.form_submit_button("Track Price", type="primary"):
-                if not product_url:
-                    logging.error("You must enter a URL.")
-                    st.error("You must enter a URL.")
-                elif price_threshold != "" and not can_parse_as_float(price_threshold):
-                    logging.error("Threshold must be a number (or empty).")
-                    st.warning("Threshold must be a number (or empty).")
-                else:
-                    subscribe_to_product(config, product_url, price_threshold)
-        ses_client = get_ses_client(config)
-    with st.expander(label="Email Alerts!"):
-        if st.session_state['email'] not in get_ses_emails(ses_client, method='verified'):
-            if st.button('Click here to sign up to email alerts.'):
-                st.warning('Sending verification, please check your inbox.')
-
 
     subscribed_to_products = get_subscribed_products(
-        config, st.session_state["email"])
-    st.write(subscribed_to_products)
-    for product in subscribed_to_products:
-        display_subscribed_product(config, product)
+        conn, st.session_state["email"])
+    if subscribed_to_products:
+        st.title('Tracked products:')
+        subscribed_to_products.sort(key=lambda x:x['product_id'])
+        websites = list(set(product['website_name'] for product in subscribed_to_products))
+        websites.sort()
+        for website in websites:
+            st.write('')
+            with st.expander(f'**{website}**'.title()):
+                for product in subscribed_to_products:
+                    if product['website_name'] == website:
+                        display_subscribed_product(conn, product)
+    else:
+        st.warning('You are not subscribed to any products, please subscribe above!')
 
 
 if __name__ == "__main__":
     logging.basicConfig(level="INFO")
     load_dotenv("../.env")
+    st.set_page_config(layout='wide')
+    apply_custom_styling()
     make_sidebar()
-
-    price_tracker_page(CONFIG)
+    connec = get_connection(CONFIG)
+    price_tracker_page(connec)
