@@ -48,10 +48,6 @@ resource "aws_ecs_task_definition" "dashboard_task_def" {
             essential = true
             portMappings = [
                 {
-                    hostPort = 80
-                    containerPort = 80
-                },
-                {
                     hostPort = var.PORT_TO_EXPOSE
                     containerPort = var.PORT_TO_EXPOSE
                 }
