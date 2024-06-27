@@ -20,10 +20,9 @@ def get_current_page_name() -> str | None:
 
 def make_sidebar() -> None:
     """Creates sidebar"""
-    st.logo("logo/hermes_logo_full.png")
+    st.logo("logo/hermes_logo.png")
 
     with st.sidebar:
-        st.title("💎 Sales tracker")
         st.write("")
         st.write("")
 
@@ -37,7 +36,7 @@ def make_sidebar() -> None:
             if st.button("Log out"):
                 logout()
 
-        elif get_current_page_name() != "login":
+        elif page_name != "login":
             st.switch_page("login.py")
 
 
