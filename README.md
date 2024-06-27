@@ -67,9 +67,9 @@ The Extract, Transform, Load (ETL) pipeline is designed for updating product pri
 - **Extract**: 
   - **Provisioning Lambda**: This Lambda function extracts data from the RDS and groups data together into manageable chunks each to be processed by separate transform lambdas. This ensures that irrespective of the number of products being tracked, the lambdas are able to scrape the price data efficiently.
 - **Transform**:
-  - **Transform Lambdas**: The provisioning Lambda triggers multiple Transform Lambda functions. These functions gather updated price data for products and send forward details of products that have decreased in price to the load process.
+  - **Transform**: Within these Lambdas the data is then processed and filtered to only send forward details of products that have decreased in price to the load process.
 - **Load**:
-  - **Email Script**: This script uses Amazon Simple Email Service (SES) to send alerts to users when there are price reductions.
+  - **Email Lambda**: This script uses Amazon Simple Email Service (SES) to send alerts to users when there are price reductions.
 
 ### Streamlit Dashboard
 
@@ -87,7 +87,7 @@ A cleanup script runs daily to remove the RDS entries that no longer have any us
 Each component of the architecture is provisioned and managed using Terraform scripts, ensuring consistency, scalability.
 Continuous Integration and Continuous Deployment (CI/CD) practices are followed, allowing for seamless deployment and updates.
 
-## Key Technology Choices
+## Key Technologies Chosen
 
 ### Amazon Web Services (AWS)
 
@@ -99,15 +99,15 @@ AWS was chosen for this project because it is the most widely used cloud platfor
 
 - **Amazon ECS (Elastic Container Service)**: Highly scalable container orchestration service. ECS is used to run the Streamlit dashboard, allowing for containerized application management and deployment.
 
-- **Amazon ECR (Elastic Container Registry)**: Managed Docker container registry that makes it easy to store, manage, and deploy Docker container images. ECR is used to store the Docker images for the Streamlit dashboard and other containerized components.
+- **Amazon ECR (Elastic Container Registry)**: Managed Docker container registry that makes it easy to store, manage, and deploy Docker container images. ECR is used to store the Docker images for the Streamlit dashboard and each of the lambdas.
 
 - **Amazon SES (Simple Email Service)**: Scalable and cost-effective email service. SES is used to send email notifications to users when product prices drop below specified thresholds, ensuring timely alerts.
 
-- **Amazon EventBridge**: Serverless event bus that makes it easy to connect applications using data from your own applications, integrated AWS services, and SaaS applications. EventBridge is used to trigger the cleanup script and other scheduled tasks within the system.
+- **Amazon EventBridge**: Serverless event bus that makes it easy to launch applications using a schedule. EventBridge is used to trigger the cleanup script and the price checking ETL pipeline.
 
 ### Streamlit
 
-- **Streamlit**: An open-source app framework for Machine Learning and Data Science projects. Streamlit is used to build the user-facing dashboard, providing an interactive interface for users to manage product subscriptions, view price history, and add new products.
+- **Streamlit**: Streamlit is used to build the user-facing dashboard, providing an interactive interface for users to manage product subscriptions, view price history, and add new products.
 
 ### Terraform
 
