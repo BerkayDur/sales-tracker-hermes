@@ -1,9 +1,6 @@
-************* Module navigation
-Dashboard/navigation.py:25:0: C0303: Trailing whitespace (trailing-whitespace)
-Dashboard/navigation.py:41:0: C0303: Trailing whitespace (trailing-whitespace)
 
------------------------------------
-Your code has been rated at 9.41/10
+------------------------------------
+Your code has been rated at 10.00/10
 
 
 ------------------------------------
@@ -15,35 +12,28 @@ Your code has been rated at 10.00/10
 
 ************* Module load
 Dashboard/load.py:39:11: W0718: Catching too general exception Exception (broad-exception-caught)
-Dashboard/load.py:2:0: W0611: Unused _Environ imported from os (unused-import)
 
 -----------------------------------
-Your code has been rated at 9.52/10
+Your code has been rated at 9.76/10
 
-************* Module ses_get_emails
-Dashboard/ses_get_emails.py:35:20: W0621: Redefining name 'ses_client' from outer scope (line 5) (redefined-outer-name)
 
------------------------------------
-Your code has been rated at 9.62/10
+------------------------------------
+Your code has been rated at 10.00/10
 
 ************* Module email_verification
 Dashboard/email_verification.py:69:11: W0718: Catching too general exception Exception (broad-exception-caught)
-Dashboard/email_verification.py:51:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
 
 -----------------------------------
-Your code has been rated at 9.57/10
+Your code has been rated at 9.79/10
 
 ************* Module helpers
-Dashboard/helpers.py:189:0: C0304: Final newline missing (missing-final-newline)
-Dashboard/helpers.py:115:7: C0121: Comparison 'user_id == None' should be 'user_id is None' (singleton-comparison)
-Dashboard/helpers.py:124:7: C0121: Comparison 'product_id == None' should be 'product_id is None' (singleton-comparison)
 Dashboard/helpers.py:151:11: W0718: Catching too general exception Exception (broad-exception-caught)
 
 -----------------------------------
-Your code has been rated at 9.65/10
+Your code has been rated at 9.91/10
 
 ************* Module login
-Dashboard/login.py:16:0: C0301: Line too long (471/100) (line-too-long)
+Dashboard/login.py:15:0: C0301: Line too long (471/100) (line-too-long)
 
 -----------------------------------
 Your code has been rated at 9.83/10
@@ -55,56 +45,19 @@ Dashboard/extract_combined.py:54:11: W0718: Catching too general exception Excep
 Your code has been rated at 9.78/10
 
 ************* Module add_product
-Dashboard/pages/add_product.py:67:0: C0304: Final newline missing (missing-final-newline)
-Dashboard/pages/add_product.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-Dashboard/pages/add_product.py:7:0: E0401: Unable to import 'navigation' (import-error)
-Dashboard/pages/add_product.py:9:0: E0401: Unable to import 'helpers' (import-error)
-Dashboard/pages/add_product.py:14:0: E0401: Unable to import 'load' (import-error)
 Dashboard/pages/add_product.py:21:11: W0718: Catching too general exception Exception (broad-exception-caught)
 Dashboard/pages/add_product.py:36:11: W0718: Catching too general exception Exception (broad-exception-caught)
-Dashboard/pages/add_product.py:16:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
-Dashboard/pages/add_product.py:41:0: C0116: Missing function or method docstring (missing-function-docstring)
 
 -----------------------------------
-Your code has been rated at 5.71/10
+Your code has been rated at 9.60/10
 
-************* Module email_alerts
-Dashboard/pages/email_alerts.py:52:0: C0304: Final newline missing (missing-final-newline)
-Dashboard/pages/email_alerts.py:8:0: E0401: Unable to import 'navigation' (import-error)
-Dashboard/pages/email_alerts.py:9:0: E0401: Unable to import 'ses_get_emails' (import-error)
-Dashboard/pages/email_alerts.py:10:0: E0401: Unable to import 'email_verification' (import-error)
 
------------------------------------
-Your code has been rated at 2.38/10
+------------------------------------
+Your code has been rated at 10.00/10
 
-************* Module price
-Dashboard/pages/price.py:65:0: C0301: Line too long (111/100) (line-too-long)
-Dashboard/pages/price.py:73:0: C0303: Trailing whitespace (trailing-whitespace)
-Dashboard/pages/price.py:84:0: C0301: Line too long (104/100) (line-too-long)
-Dashboard/pages/price.py:96:0: C0301: Line too long (117/100) (line-too-long)
-Dashboard/pages/price.py:113:0: C0301: Line too long (106/100) (line-too-long)
-Dashboard/pages/price.py:120:0: C0301: Line too long (114/100) (line-too-long)
-Dashboard/pages/price.py:121:0: C0301: Line too long (101/100) (line-too-long)
-Dashboard/pages/price.py:123:0: C0301: Line too long (104/100) (line-too-long)
-Dashboard/pages/price.py:151:0: C0301: Line too long (194/100) (line-too-long)
-Dashboard/pages/price.py:156:0: C0303: Trailing whitespace (trailing-whitespace)
-Dashboard/pages/price.py:158:0: C0301: Line too long (102/100) (line-too-long)
-Dashboard/pages/price.py:15:0: E0401: Unable to import 'navigation' (import-error)
-Dashboard/pages/price.py:16:0: E0401: Unable to import 'helpers' (import-error)
-Dashboard/pages/price.py:65:0: C0116: Missing function or method docstring (missing-function-docstring)
-Dashboard/pages/price.py:75:0: C0116: Missing function or method docstring (missing-function-docstring)
-Dashboard/pages/price.py:103:0: C0116: Missing function or method docstring (missing-function-docstring)
-Dashboard/pages/price.py:111:0: C0116: Missing function or method docstring (missing-function-docstring)
-Dashboard/pages/price.py:121:4: R1705: Unnecessary "elif" after "return", remove the leading "el" from "elif" (no-else-return)
-Dashboard/pages/price.py:127:0: C0116: Missing function or method docstring (missing-function-docstring)
-Dashboard/pages/price.py:128:4: R1705: Unnecessary "elif" after "return", remove the leading "el" from "elif" (no-else-return)
-Dashboard/pages/price.py:134:0: C0116: Missing function or method docstring (missing-function-docstring)
-Dashboard/pages/price.py:135:4: R1705: Unnecessary "elif" after "return", remove the leading "el" from "elif" (no-else-return)
-Dashboard/pages/price.py:3:0: W0611: Unused _Environ imported from os (unused-import)
-Dashboard/pages/price.py:9:0: W0611: Unused import streamlit_nested_layout (unused-import)
 
------------------------------------
-Your code has been rated at 7.81/10
+------------------------------------
+Your code has been rated at 10.00/10
 
 
 ------------------------------------
