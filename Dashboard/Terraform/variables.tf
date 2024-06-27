@@ -38,7 +38,7 @@ variable "CLUSTER_ARN" {
 }
 
 variable "SUBNETS" {
-    type=list(string)
+    type = list(string)
 }
 
 variable "AWS_VPC" {
@@ -56,5 +56,6 @@ variable "AWS_REGION" {
 }
 
 variable "dashboard_name" {
-  default = "c11-hermes-dashboard-tf-1"
+    type = string
+    default = "c11-hermes-dashboard-tf-1"
 }
