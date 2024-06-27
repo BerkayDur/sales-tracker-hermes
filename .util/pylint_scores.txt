@@ -20,10 +20,6 @@ Your code has been rated at 9.76/10
 ------------------------------------
 Your code has been rated at 10.00/10
 
-
-------------------------------------
-Your code has been rated at 10.00/10
-
 ************* Module email_verification
 Dashboard/email_verification.py:69:11: W0718: Catching too general exception Exception (broad-exception-caught)
 
@@ -31,11 +27,10 @@ Dashboard/email_verification.py:69:11: W0718: Catching too general exception Exc
 Your code has been rated at 9.79/10
 
 ************* Module helpers
-Dashboard/helpers.py:211:0: C0304: Final newline missing (missing-final-newline)
 Dashboard/helpers.py:161:11: W0718: Catching too general exception Exception (broad-exception-caught)
 
--------------------------------------------------------------------
-Your code has been rated at 9.85/10 (previous run: 10.00/10, -0.15)
+-----------------------------------
+Your code has been rated at 9.92/10
 
 ************* Module login
 Dashboard/login.py:16:0: C0301: Line too long (471/100) (line-too-long)
@@ -57,26 +52,22 @@ Dashboard/custom_styling.py:5:0: C0116: Missing function or method docstring (mi
 Your code has been rated at 6.00/10
 
 ************* Module add_product
-Dashboard/pages/add_product.py:15:0: E0401: Unable to import 'custom_styling' (import-error)
 Dashboard/pages/add_product.py:22:11: W0718: Catching too general exception Exception (broad-exception-caught)
 Dashboard/pages/add_product.py:39:11: W0718: Catching too general exception Exception (broad-exception-caught)
 
 -----------------------------------
-Your code has been rated at 8.73/10
+Your code has been rated at 9.64/10
 
-************* Module email_alerts
-Dashboard/pages/email_alerts.py:13:0: E0401: Unable to import 'custom_styling' (import-error)
 
------------------------------------
-Your code has been rated at 8.28/10
+------------------------------------
+Your code has been rated at 10.00/10
 
 ************* Module price
 Dashboard/pages/price.py:6:0: W0404: Reimport 'datetime' (imported line 5) (reimported)
 Dashboard/pages/price.py:9:0: W0404: Reimport 'load_dotenv' (imported line 8) (reimported)
-Dashboard/pages/price.py:24:0: E0401: Unable to import 'custom_styling' (import-error)
 
 -----------------------------------
-Your code has been rated at 9.51/10
+Your code has been rated at 9.86/10
 
 
 ------------------------------------
