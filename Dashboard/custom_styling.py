@@ -1,8 +1,11 @@
+"""Contains custom styling for Dashboard."""
+
 import logging
 
 import streamlit as st
 
 def apply_custom_styling() -> None:
+    """Creates the custom styling for streamlit."""
     logging.info('Apply custom CS styling.')
     st.markdown('''
 <head>

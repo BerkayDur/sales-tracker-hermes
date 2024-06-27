@@ -83,14 +83,17 @@ def change_threshold(conn: connection, product_information: dict) -> None:
             if new_threshold > 0:
                 valid_threshold = True
         if not valid_threshold and new_threshold == product_information['price_threshold']:
+            logging.warning('New threshold is the same as the old threshold.')
             st.warning('New threshold is the same as the old threshold.')
         elif valid_threshold:
             change_threshold_in_db(conn, new_threshold,
                                    product_information['product_id'], st.session_state['email'])
             st.rerun()
         elif not valid_threshold and isinstance (new_threshold, float):
+            logging.warning('Threshold must be a positive number!')
             st.warning('Threshold must be a positive number!')
         else:
+            logging.warning('Invalid threshold, please try again!')
             st.warning('Invalid threshold, please try again!')
 
 def unsubscribe_from_product_in_db(conn: connection, product_id: int, email: str) -> None:
