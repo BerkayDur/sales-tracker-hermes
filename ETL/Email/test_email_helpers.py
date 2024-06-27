@@ -6,7 +6,7 @@ import pytest
 import botocore.client
 from psycopg2.extensions import connection, cursor
 
-from helpers import get_cursor, is_ses
+from email_helpers import get_cursor, is_ses
 
 def test_get_cursor_valid():
     '''test for valid.'''

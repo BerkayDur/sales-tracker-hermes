@@ -1,7 +1,9 @@
-streamlit
-python-dotenv
 psycopg2-binary
+python-dotenv
+requests
+bs4
 
+streamlit
 boto3
 botocore
 boto3-stubs[ses]

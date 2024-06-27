@@ -1,12 +1,16 @@
 # This file assigns variables to the values stored in terraform.tfvars
 
-variable "AWS_REGION" {
+variable "AWS_VPC" {
   type = string
-  default = "eu-west-2"
 }
 
 variable "DB_PASSWORD" {
   type = string
+}
+
+variable "AWS_REGION" {
+  type = string
+  default = "eu-west-2"
 }
 
 variable "DB_USERNAME" {
@@ -26,7 +30,7 @@ variable "DB_NAME" {
 
 variable "RDS_NAME" {
   type = string
-  default = "c11-hermes-db"
+  default = "c11-hermes-db-tf-1"
 }
 
 variable "DB_SUBNET" {
@@ -36,7 +40,7 @@ variable "DB_SUBNET" {
 
 variable "SG_NAME" {
   type = string
-  default = "c11-hermes-sg"
+  default = "c11-hermes-sg-tf-1"
 }
 
 variable "AWS_AZ" {

@@ -11,6 +11,7 @@ from psycopg2 import connect
 from psycopg2.extensions import connection
 
 from navigation import make_sidebar
+from utilities.email_verification import get_ses_client, send_verification_email
 
 EMAIL_PATTERN = r"""(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])"""
 
@@ -64,8 +65,8 @@ def login_page(config: _Environ, email_pattern: str) -> None:
         if authenticate(conn, login_email):
             login(login_email)
         else:
-            logging.error("Invalid email address. Please try again.")
-            st.error("Invalid email address. Please try again.")
+            logging.error("Invalid email address. Please sign up.")
+            st.error("Invalid email address. Please sign up.")
 
     st.write("---")
 
@@ -84,6 +85,8 @@ def login_page(config: _Environ, email_pattern: str) -> None:
             st.error(
                 f"The email {signup_email} is already registered. Please log in.")
         elif re.match(email_pattern, signup_email):
+            client = get_ses_client(config)
+            send_verification_email(client, signup_email)
             add_email(conn, signup_email)
             login(signup_email)
         else:
@@ -103,7 +106,6 @@ def login(email: str) -> None:
 
 if __name__ == "__main__":
     logging.basicConfig(level="INFO")
-    st.query_params["page"] = "login"
     make_sidebar()
     load_dotenv()
 

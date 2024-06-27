@@ -33,9 +33,11 @@ def read_database(conn: connection):
         raise TypeError(
             'A cursor can only be constructed from a Psycopg2 connection object')
     with get_cursor(conn) as cur:
-        cur.execute("""SELECT DISTINCT ON (product_id) product_id, product_code, url, price
+        cur.execute("""SELECT DISTINCT ON (product_id) product_id, product_code,
+                    url, price, website_name, product_name
                     FROM products
                     LEFT JOIN price_readings USING (product_id)
+                    LEFT JOIN websites USING (website_id)
                     ORDER BY product_id, reading_at DESC""")
         data = cur.fetchall()
     logging.info("Product details taken from database")
@@ -77,4 +79,4 @@ def handler(_event=None, _context=None) -> dict[str, list[list[dict]]]:
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     load_dotenv()
-    handler()
+    print(handler()['output'][1])
