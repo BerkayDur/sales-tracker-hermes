@@ -33,12 +33,9 @@ Your code has been rated at 10.00/10
 ------------------------------------
 Your code has been rated at 10.00/10
 
-************* Module extract_combined
-Dashboard/utilities/extract_combined.py:8:0: E0401: Unable to import 'utilities.helpers' (import-error)
-Dashboard/utilities/extract_combined.py:9:0: E0401: Unable to import 'utilities.extract_from_asos' (import-error)
 
------------------------------------
-Your code has been rated at 7.78/10
+------------------------------------
+Your code has been rated at 10.00/10
 
 ************* Module login
 Dashboard/login.py:16:0: C0301: Line too long (471/100) (line-too-long)
