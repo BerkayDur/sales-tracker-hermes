@@ -2,7 +2,7 @@
 from os import _Environ
 import logging
 
-import psycopg2
+from psycopg2 import connect
 import psycopg2.extras
 from psycopg2.extensions import connection, cursor
 from boto3 import client as boto_client
@@ -19,7 +19,7 @@ DEFAULT_REQUEST_TIMEOUT_SECONDS = 30
 def get_connection(config: _Environ) -> connection:
     """Establishes a connection with the database."""
     logging.info('Trying to connect to Database.')
-    return psycopg2.connect(
+    return connect(
         user=config["DB_USER"],
         host=config["DB_HOST"],
         database=config["DB_NAME"],
