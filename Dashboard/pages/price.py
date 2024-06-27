@@ -22,8 +22,6 @@ from helpers import (
 
 
 
-
-
 def get_price_readings(conn: connection, product_id: int) -> pd.DataFrame | None:
     """Get a pandas DataFrame of all price readings for a particular product."""
     with get_cursor(conn) as cur:
