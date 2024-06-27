@@ -12,6 +12,7 @@ from helpers import ( # pylint: disable=import-error
     update_db_to_subscribe
 )
 from load import load_product_data # pylint: disable=import-error
+from custom_styling import apply_custom_styling
 
 def subscribe_to_product(conn: connection, product_url: str, price_threshold: bool | None) -> bool:
     """adds a product to the database and return True if successful
@@ -65,5 +66,6 @@ def add_product_page(conn: connection) -> None:
 
 if __name__ == '__main__':
     connec = get_connection(CONFIG)
+    apply_custom_styling()
     make_sidebar()
     add_product_page(connec)

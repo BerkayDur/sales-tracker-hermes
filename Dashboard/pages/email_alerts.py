@@ -9,6 +9,7 @@ from navigation import make_sidebar # pylint: disable=import-error
 from helpers import (get_ses_client) # pylint: disable=import-error
 from ses_get_emails import is_ses_verified # pylint: disable=import-error
 from email_verification import send_verification_email, unverify_email # pylint: disable=import-error
+from custom_styling import apply_custom_styling
 
 def email_alerts_page(boto_ses_client: ses_client):
     '''Contains the StreamLit email alerts page'''
@@ -28,5 +29,6 @@ def email_alerts_page(boto_ses_client: ses_client):
 
 if __name__ == '__main__':
     client = get_ses_client(CONFIG)
+    apply_custom_styling()
     make_sidebar()
     email_alerts_page(client)

@@ -16,24 +16,10 @@ from navigation import make_sidebar # pylint: disable=import-error
 from helpers import ( # pylint: disable=import-error
     get_cursor, get_connection,
     can_parse_as_float, get_user_id,
-    get_subscribed_products
+    get_subscribed_products,
+    get_price_readings
 )
-
-
-
-
-def get_price_readings(conn: connection, product_id: int) -> pd.DataFrame | None:
-    """Get a pandas DataFrame of all price readings for a particular product."""
-    with get_cursor(conn) as cur:
-        cur.execute(
-            """SELECT * FROM price_readings WHERE product_id = %s;""", (product_id,))
-        price_readings = cur.fetchall()
-    if not price_readings:
-        return None
-    price_readings = pd.DataFrame(price_readings)
-    price_readings["price"] = price_readings["price"].apply(float)
-    return price_readings
-
+from custom_styling import apply_custom_styling
 
 def get_encode_price_reading(
         price_readings: pd.DataFrame, price_threshold: float | None) -> alt.ChartDataType:
@@ -219,7 +205,7 @@ def price_tracker_page(conn: connection) -> None:
 if __name__ == "__main__":
     logging.basicConfig(level="INFO")
     load_dotenv("../.env")
+    apply_custom_styling()
     make_sidebar()
-
     connec = get_connection(CONFIG)
     price_tracker_page(connec)
