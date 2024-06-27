@@ -11,12 +11,10 @@ Your code has been rated at 10.00/10
 Your code has been rated at 10.00/10
 
 ************* Module load
-Dashboard/load.py:9:0: E0401: Unable to import 'utilities.extract_combined' (import-error)
-Dashboard/load.py:9:0: E0611: No name 'extract_combined' in module 'utilities' (no-name-in-module)
 Dashboard/load.py:39:11: W0718: Catching too general exception Exception (broad-exception-caught)
 
 -----------------------------------
-Your code has been rated at 7.38/10
+Your code has been rated at 9.76/10
 
 
 ------------------------------------
