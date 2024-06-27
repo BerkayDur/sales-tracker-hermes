@@ -5,7 +5,7 @@ from time import sleep
 import streamlit as st
 from streamlit.runtime.scriptrunner import get_script_run_ctx
 from streamlit.source_util import get_pages
-
+from custom_styling import apply_custom_styling
 
 def get_current_page_name() -> str | None:
     """Gets the name of the page"""
@@ -20,7 +20,6 @@ def get_current_page_name() -> str | None:
 
 def make_sidebar() -> None:
     """Creates sidebar"""
-    st.set_page_config(layout='wide')
     page_name = get_current_page_name()
 
     with st.sidebar:
@@ -30,7 +29,7 @@ def make_sidebar() -> None:
 
         if st.session_state.get("logged_in", False):
             st.page_link("pages/price.py",
-                         label="Price Tracker", icon="💵")
+                         label=":white[Price Tracker]", icon="💵")
             st.write("")
             st.page_link('pages/email_alerts.py', label="Email Alerts", icon="📧")
             st.write("")
@@ -45,6 +44,7 @@ def make_sidebar() -> None:
 
 def logout() -> None:
     """Logs out of account"""
+    apply_custom_styling()
     st.session_state.logged_in = False
     st.info("Logged out successfully!")
     sleep(0.5)

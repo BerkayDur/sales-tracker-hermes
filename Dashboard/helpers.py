@@ -10,6 +10,7 @@ from botocore.client import BaseClient
 from mypy_boto3_ses.client import SESClient as ses_client
 import requests
 from bs4 import BeautifulSoup
+import pandas as pd
 
 
 DEFAULT_REQUEST_TIMEOUT_SECONDS = 30
@@ -187,3 +188,15 @@ def get_subscribed_products(conn: connection, email: str) -> list[dict]:
                     WHERE email = %s""", (email,))
         subscribed_products = cur.fetchall()
     return subscribed_products
+
+def get_price_readings(conn: connection, product_id: int) -> pd.DataFrame | None:
+    """Get a pandas DataFrame of all price readings for a particular product."""
+    with get_cursor(conn) as cur:
+        cur.execute(
+            """SELECT * FROM price_readings WHERE product_id = %s;""", (product_id,))
+        price_readings = cur.fetchall()
+    if not price_readings:
+        return None
+    price_readings = pd.DataFrame(price_readings)
+    price_readings["price"] = price_readings["price"].apply(float)
+    return price_readings
