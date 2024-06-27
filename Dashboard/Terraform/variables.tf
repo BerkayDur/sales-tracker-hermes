@@ -13,7 +13,7 @@ variable "DB_HOST" {
 }
 
 variable "DB_PORT" {
-    type = number
+    type = string
     default = 1433
 }
 
@@ -29,6 +29,10 @@ variable "DB_NAME" {
     type = string
 }
 
+variable "DASHBOARD_NAME" {
+    type = string
+}
+
 variable "CLUSTER_ARN" {
     type = string
 }
@@ -39,11 +43,6 @@ variable "SUBNETS" {
 
 variable "AWS_VPC" {
     type = string
-}
-
-variable "DASHBAORD_SG" {
-    type = string
-    
 }
 
 variable "PORT_TO_EXPOSE" {

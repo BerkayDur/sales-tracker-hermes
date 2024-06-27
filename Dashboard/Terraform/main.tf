@@ -33,7 +33,7 @@ resource "aws_security_group" "c11_hermes_dashboard_sg" {
 
 
 resource "aws_ecs_task_definition" "dashboard_task_def" {
-    family = "${var.dashboard_name}_task_def"
+    family = "${var.DASHBOARD_NAME}_task_def"
     requires_compatibilities = ["FARGATE"]
     network_mode = "awsvpc"
     cpu = 1024
@@ -41,8 +41,8 @@ resource "aws_ecs_task_definition" "dashboard_task_def" {
     execution_role_arn = data.aws_iam_role.ecs_task_execution_role.arn
     container_definitions = jsonencode(([
         {
-            name = "c11-berkay-better-cheese-truck-dashboard-terraform-test"
-            # image = Fill this in later
+            name = var.DASHBOARD_NAME
+            # image = Add this later
             cpu = 1024
             memory = 3072
             essential = true
@@ -56,18 +56,37 @@ resource "aws_ecs_task_definition" "dashboard_task_def" {
                     containerPort = 8501
                 }
             ]
-        environment = {
-            variables = {
-            DB_HOST = var.DB_HOST,
-            DB_PORT = var.DB_PORT,
-            DB_NAME = var.DB_NAME,
-            DB_USER = var.DB_USER,
-            DB_PASSWORD = var.DB_PASSWORD,
-            ACCESS_KEY = var.ACCESS_KEY,
-            SECRET_ACCESS_KEY = var.SECRET_ACCESS_KEY,
-            AWS_REGION_NAME = var.AWS_REGION
-            }
-        }
+            
+            environment = [
+                {
+                    "name" : "ACCESS_KEY",
+                    "value" : var.ACCESS_KEY
+                },
+                {
+                    "name" : "SECRET_ACCESS_KEY",
+                    "value" : var.SECRET_ACCESS_KEY
+                },
+                {
+                    "name" : "DB_HOST",
+                    "value" : var.DB_HOST
+                },
+                {
+                    "name" : "DB_PORT",
+                    "value" : var.DB_PORT
+                },
+                {
+                    "name" : "DB_PASSWORD",
+                    "value" : var.DB_PASSWORD
+                },
+                {
+                    "name" : "DB_USER",
+                    "value" : var.DB_USER
+                },
+                {
+                    "name" : "DB_NAME",
+                    "value" : var.DB_NAME
+                }
+            ]
         }
     ]))
     runtime_platform {
@@ -78,7 +97,7 @@ resource "aws_ecs_task_definition" "dashboard_task_def" {
 }
 
 resource "aws_ecs_service" "dashboard_service" {
-    name = "${var.dashboard_name}_service"
+    name = "${var.DASHBOARD_NAME}_service"
     cluster = var.CLUSTER_ARN
     task_definition = aws_ecs_task_definition.dashboard_task_def.arn
     desired_count = 1
@@ -91,6 +110,6 @@ resource "aws_ecs_service" "dashboard_service" {
 }
 
 
-resource "" "name" {
-  
+data "aws_iam_role" "ecs_task_execution_role" {
+  name = "ecsTaskExecutionRole"
 }
