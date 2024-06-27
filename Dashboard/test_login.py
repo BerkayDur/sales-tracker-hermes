@@ -1,10 +1,12 @@
 from unittest.mock import MagicMock, patch
 
 import pytest
-
 from psycopg2.extensions import connection
 
-from login import (authenticate, add_email)
+from login import (
+    authenticate,
+    add_email
+)
 
 def test_authenticate_valid_1():
     mock_conn = MagicMock(spec=connection)

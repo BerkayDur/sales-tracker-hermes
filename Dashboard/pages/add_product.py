@@ -12,7 +12,7 @@ from helpers import ( # pylint: disable=import-error
     update_db_to_subscribe
 )
 from load import load_product_data # pylint: disable=import-error
-from custom_styling import apply_custom_styling
+from custom_styling import apply_custom_styling # pylint: disable=import-error
 
 def subscribe_to_product(conn: connection, product_url: str, price_threshold: bool | None) -> bool:
     """adds a product to the database and return True if successful

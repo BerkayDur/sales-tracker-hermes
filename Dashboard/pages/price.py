@@ -21,7 +21,7 @@ from helpers import ( # pylint: disable=import-error
     get_subscribed_products,
     get_price_readings
 )
-from custom_styling import apply_custom_styling
+from custom_styling import apply_custom_styling # pylint: disable=import-error
 
 def get_encode_price_reading(
         price_readings: pd.DataFrame, price_threshold: float | None) -> alt.ChartDataType:

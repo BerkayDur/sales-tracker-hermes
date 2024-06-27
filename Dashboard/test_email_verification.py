@@ -5,8 +5,10 @@ import pytest
 from botocore.client import BaseClient
 from botocore.exceptions import ClientError
 
-from email_verification import (send_verification_email,
-                                unverify_email)
+from email_verification import (
+    send_verification_email,
+    unverify_email
+)
 
 
 @patch('email_verification.is_ses')
