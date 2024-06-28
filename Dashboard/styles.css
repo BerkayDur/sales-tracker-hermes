@@ -1,0 +1,12 @@
+:root {
+    --orange: #DA884A;
+    --slate: #4E5B6A;
+}
+
+[data-testid="stHeader"] {
+    background-color: var(--slate);
+}
+
+[data-testid="stSidebarContent"] {
+    background-color: var(--slate);
+}
