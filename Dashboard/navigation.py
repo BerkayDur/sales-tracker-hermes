@@ -48,5 +48,5 @@ def logout() -> None:
     apply_custom_styling()
     st.session_state.logged_in = False
     st.info("Signing out...")
-    sleep(30)
+    sleep(0.5)
     st.switch_page("login.py")

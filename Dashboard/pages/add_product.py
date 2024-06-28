@@ -1,7 +1,6 @@
 '''Contains the add product page for streamlit dashboard.'''
 from os import environ as CONFIG
 import logging
-from PIL import Image
 
 import streamlit as st
 from psycopg2.extensions import connection
