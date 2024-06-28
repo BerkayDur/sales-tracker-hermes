@@ -49,15 +49,18 @@ Your code has been rated at 9.79/10
 Your code has been rated at 10.00/10
 
 ************* Module add_product
+Dashboard/pages/add_product.py:56:0: C0301: Line too long (188/100) (line-too-long)
 Dashboard/pages/add_product.py:22:11: W0718: Catching too general exception Exception (broad-exception-caught)
 Dashboard/pages/add_product.py:39:11: W0718: Catching too general exception Exception (broad-exception-caught)
 
 -----------------------------------
-Your code has been rated at 9.64/10
+Your code has been rated at 9.48/10
 
+************* Module email_alerts
+Dashboard/pages/email_alerts.py:19:0: C0301: Line too long (201/100) (line-too-long)
 
-------------------------------------
-Your code has been rated at 10.00/10
+-----------------------------------
+Your code has been rated at 9.74/10
 
 
 ------------------------------------

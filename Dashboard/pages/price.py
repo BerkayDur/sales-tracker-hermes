@@ -29,24 +29,32 @@ def get_encode_price_reading(
     fake_new_data = price_reading_at.iloc[[-1]]
     fake_new_data["reading_at"] = datetime.now()
     price_reading_at = pd.concat([price_reading_at, fake_new_data])
-    title = alt.TitleParams('Price over Time', anchor='middle')
+
+    title = alt.TitleParams('Historical Price', anchor='middle')
     chart = alt.Chart(price_reading_at, title=title).encode(
-        x="reading_at:T",
-        y="price"
-    )
+        x=alt.X("reading_at:T", title="Time", axis=alt.Axis(labels=False)),
+        y=alt.Y("price", title="Price (£)", scale=alt.Scale(zero=False))
+        )
     if price_threshold is not None:
         max_reading = price_reading_at["reading_at"].max()
         min_reading = price_reading_at["reading_at"].min()
-        price_threshold_df = pd.DataFrame([{"reading_at": min_reading, "price": price_threshold},
-                                           {"reading_at": max_reading, "price": price_threshold}])
+        price_threshold_df = pd.DataFrame([
+            {"reading_at": min_reading, "price": price_threshold},
+            {"reading_at": max_reading, "price": price_threshold, 'text': 'Alert Threshold'}])
         threshold_chart = alt.Chart(price_threshold_df)
         threshold_line_enc = threshold_chart.encode(
-            x=alt.X("reading_at:T", title="Taken at"),
+            x=alt.X("reading_at:T", title="Time"),
             y=alt.Y("price", title = "Price (£)"),
             color=alt.value("#FF0000"),
+            text='text'
         )
-        return threshold_line_enc.mark_line() + chart.mark_point() + chart.mark_line()
-    return chart.mark_point() + chart.mark_line()
+        return (threshold_line_enc.mark_text(
+            align='right', baseline='middle',
+            dx=75, dy=0).transform_filter(alt.datum.text is not None)
+                + threshold_line_enc.mark_line()
+                + chart.mark_point(color="black")
+                + chart.mark_line(color="black"))
+    return chart.mark_point(color='black') + chart.mark_line(color="black")
 
 def change_threshold_in_db(
         conn: connection, new_threshold: float | None, product_id: int, email: str) -> None:
@@ -62,16 +70,29 @@ def change_threshold_in_db(
 
 def change_threshold(conn: connection, product_information: dict) -> None:
     '''Contains the streamlit display logic for changing the threshold in the dashboard.'''
-    text_input_placeholder = None
+    text_input_placeholder = '£'
     if product_information['price_threshold'] is not None:
         text_input_placeholder = f"£{float(product_information['price_threshold']):.2f}"
-    new_threshold = st.text_input('Enter a new Threshold (£):',
+    st.markdown('''
+        <div style="position:relative;top:-1rem;">
+        <p style="font-size:1.3rem; color: var(--orange); font-weight:600;">Update Price Alert</p>
+        </div>''', unsafe_allow_html=True)
+
+    new_threshold = st.text_input('**Alert me when this product is below:** **:orange[*]**' ,
                                     placeholder=text_input_placeholder,
-                                    help='Can be left empty to remove threshold!',
                                     key=f'new_threshold_value_{product_information['product_id']}')
-    st.write('')
-    if st.button('Update Price Alert',
-                 key=f'new_threshold_submit_{product_information['product_id']}'):
+    st.markdown('''
+        <span style="font-size:0.8rem; position:relative; top:-1rem;">
+                **:orange[*]** Leave this empty to be alerted on all price decreases
+        </span>''', unsafe_allow_html=True)
+    col1, col2 = st.columns([5,3])
+    with col1:
+        price_alert_update = st.button(
+            'Update Price Alert',
+            key=f'new_threshold_submit_{product_information['product_id']}')
+    with col2:
+        unsubscribe_from_product(conn, product_information['product_id'])
+    if price_alert_update:
         valid_threshold = False
         if new_threshold == '':
             new_threshold = None
@@ -164,16 +185,7 @@ def display_subscribed_product(conn: connection, product_information: dict) -> N
             encoded_price_readings = get_encode_price_reading(
                 price_readings, product_information["price_threshold"])
             with col1:
-                inner_col_1, inner_col_2 = st.columns([5,10])
-                with inner_col_1:
-                    st.link_button('Go to Product', url=product_information['url'])
-                with inner_col_2:
-                    unsubscribe_from_product(conn, product_information['product_id'])
-                st.write('')
-                st.write('')
-                st.write('')
-                st.write('')
-                st.write('')
+                st.link_button('Go to product', url=product_information['url'])
                 st.write('')
                 with st.container(border=True):
                     st.write('')
@@ -191,18 +203,19 @@ def price_tracker_page(conn: connection) -> None:
     subscribed_to_products = get_subscribed_products(
         conn, st.session_state["email"])
     if subscribed_to_products:
-        st.title('Tracked products:')
+        st.markdown('<h2 class="pageTitle">Track Your Products</h2>', unsafe_allow_html=True)
         subscribed_to_products.sort(key=lambda x:x['product_id'])
         websites = list(set(product['website_name'] for product in subscribed_to_products))
         websites.sort()
         for website in websites:
             st.write('')
-            with st.expander(f'**{website}**'.title()):
+            with st.expander(f'**{website}**'):
                 for product in subscribed_to_products:
                     if product['website_name'] == website:
                         display_subscribed_product(conn, product)
     else:
-        st.warning('You are not subscribed to any products, please subscribe above!')
+        st.warning(
+        'You are not subscribed to track any product, please subscribe to track price changes.')
 
 
 if __name__ == "__main__":

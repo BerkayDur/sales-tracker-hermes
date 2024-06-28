@@ -42,11 +42,10 @@ def add_email(conn: connection, email: str) -> tuple | None:
 
 def login_page(config: _Environ, email_pattern: str) -> None:
     """Login page"""
-    st.title("Login Page")
+    st.header("Sign in")
 
     login_email = st.text_input(
-        "Please enter your email to access the website:",
-        placeholder="email",
+        "Please enter your email address:"
     )
     if st.button("Login", type="primary"):
         logging.info("Login button clicked with %s", login_email)
@@ -56,16 +55,13 @@ def login_page(config: _Environ, email_pattern: str) -> None:
         else:
             logging.error("Invalid email address. Please sign up.")
             st.error("Invalid email address. Please sign up.")
-            logging.error("Invalid email address. Please sign up.")
-            st.error("Invalid email address. Please sign up.")
 
     st.write("---")
 
-    st.title("Sign up")
+    st.header("Sign up")
 
     signup_email = st.text_input(
-        "Please enter your email to sign up to the website:",
-        placeholder="email"
+        "Please enter your email address:", key="email signup",
     )
     if st.button("Sign up", type="primary"):
         logging.info("Sign up button clicked with %s", signup_email)
