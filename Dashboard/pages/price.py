@@ -48,7 +48,9 @@ def get_encode_price_reading(
             color=alt.value("#FF0000"),
             text='text'
         )
-        return (threshold_line_enc.mark_text(align='right', baseline='middle', dx=75, dy=0).transform_filter(alt.datum.text != None)
+        return (threshold_line_enc.mark_text(
+            align='right', baseline='middle',
+            dx=75, dy=0).transform_filter(alt.datum.text is not None)
                 + threshold_line_enc.mark_line()
                 + chart.mark_point(color="black")
                 + chart.mark_line(color="black"))
@@ -71,15 +73,23 @@ def change_threshold(conn: connection, product_information: dict) -> None:
     text_input_placeholder = '£'
     if product_information['price_threshold'] is not None:
         text_input_placeholder = f"£{float(product_information['price_threshold']):.2f}"
-    st.markdown('<div style="position:relative;top:-1rem;"><p style="font-size:1.3rem; color: var(--orange); font-weight:600;">Update Price Alert</p></div>', unsafe_allow_html=True)
+    st.markdown('''
+        <div style="position:relative;top:-1rem;">
+        <p style="font-size:1.3rem; color: var(--orange); font-weight:600;">Update Price Alert</p>
+        </div>''', unsafe_allow_html=True)
 
     new_threshold = st.text_input('**Alert me when this product is below:** **:orange[*]**' ,
                                     placeholder=text_input_placeholder,
                                     key=f'new_threshold_value_{product_information['product_id']}')
-    st.markdown('<span style="font-size:0.8rem; position:relative; top:-1rem;">**:orange[*]** Leave this empty to be alerted on all price decreases</span>', unsafe_allow_html=True)
+    st.markdown('''
+        <span style="font-size:0.8rem; position:relative; top:-1rem;">
+                **:orange[*]** Leave this empty to be alerted on all price decreases
+        </span>''', unsafe_allow_html=True)
     col1, col2 = st.columns([5,3])
     with col1:
-        price_alert_update = st.button('Update Price Alert', key=f'new_threshold_submit_{product_information['product_id']}')
+        price_alert_update = st.button(
+            'Update Price Alert',
+            key=f'new_threshold_submit_{product_information['product_id']}')
     with col2:
         unsubscribe_from_product(conn, product_information['product_id'])
     if price_alert_update:
@@ -204,7 +214,8 @@ def price_tracker_page(conn: connection) -> None:
                     if product['website_name'] == website:
                         display_subscribed_product(conn, product)
     else:
-        st.warning('You are not subscribed to track any product, please subscribe to track price changes.')
+        st.warning(
+        'You are not subscribed to track any product, please subscribe to track price changes.')
 
 
 if __name__ == "__main__":
