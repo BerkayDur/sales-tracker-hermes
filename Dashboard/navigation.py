@@ -31,7 +31,8 @@ def make_sidebar() -> None:
         st.write("")
 
         if st.session_state.get("logged_in", False):
-            st.page_link('pages/add_product.py', label="Add New Subscription", icon="📬")
+            st.page_link('pages/add_product.py',
+                         label="Add New Subscription", icon="📬")
             st.write("")
             st.page_link("pages/price.py",
                          label="Track Your Products", icon="💵")
@@ -39,8 +40,6 @@ def make_sidebar() -> None:
             st.page_link('pages/email_alerts.py',
                          label="Email Alerts", icon="📧")
             st.write("")
-            st.page_link('pages/add_product.py',
-                         label="Add new Subscription", icon="📬")
             st.write("")
             st.write("")
             if st.button("Sign out"):
