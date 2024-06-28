@@ -4,9 +4,6 @@ from datetime import datetime
 import logging
 from bs4 import BeautifulSoup
 from bs4.element import Tag
-import requests
-import json
-
 from pipeline_helpers import get_soup
 
 
