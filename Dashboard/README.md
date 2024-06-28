@@ -10,9 +10,17 @@ This repository contains the files required to run the Hermes Sales Tracker dash
 | Name                 | Description                                               |
 |----------------------|-----------------------------------------------------------|
 | **`pages`**          | Contains the different pages that the dashboard uses.     |
-| **`utilities`**      | Contains scripts for completing various tasks.            |
 | **`login.py`**       | Code used for logging the user into the dashboard.        |
 | **`navigation.py`**  | Code used for navigating through the dashboard.           |
+| **`test_...py`**| Contains Pytests for named files.|
+| **`custom_styling.py`**| Contains customized CSS styling for the Dashboard.|
+| **`email_verification.py`**| Contains the email verification logic.|
+| **`extract_from_asos.py`**| Contains the logic to get product information from asos.|
+| **`extract_from_patagonia.py`**| Contains the logic to get product information from asos.|
+| **`extract_combined.py`**| Contains the logic to get product information (combines all `extract_from_...py` files).|
+| **`helpers.py`**| Contains the helpers to that is used throughout this directory.|
+| **`load.py`**| Contains the logic to load extracted data from `extract_combined.py` to the database.|
+| **`ses_get_email.py`**| Contains the logic to get ses emails.|
 | **`requirements.txt`** | Lists the required libraries for running the code.      |
 | **`README.md`**      | This file, providing an overview and instructions.        |
 
@@ -76,6 +84,31 @@ docker push <your_ecr_repository>:latest
 ```
 
 Replace `<your_ecr_repository>` with your actual Amazon ECR repository URI.
+
+## Terraform
+
+To host your program on AWS:
+1. **Create `terraform.tfvars` File**:
+   Within the `Terraform` directory, create a `terraform.tfvars` file and provide the necessary values for the variables in `variables.tf`. E.g.:
+   ```hcl
+   CLUSTER_ARN = "Your ECS cluster ARN"
+   ```
+
+2. **Initialize Terraform**:
+   Within the same directory, initialize the Terraform configuration by running:
+   ```sh
+   terraform init
+   ```
+
+3. **Apply Terraform Configuration**:
+   Within the same directory, apply the Terraform configuration to create the ETL pipeline infrastructure:
+   ```sh
+   terraform apply
+   ```
+
+   Review the planned actions and confirm by typing `yes`.
+
+
 
 ## Environment Variables
 
