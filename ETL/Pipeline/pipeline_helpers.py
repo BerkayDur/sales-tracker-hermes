@@ -1,6 +1,7 @@
 """This file contains functions that are used throughout this directory"""
 
 import logging
+
 import requests
 from bs4 import BeautifulSoup
 

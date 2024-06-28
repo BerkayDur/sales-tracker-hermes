@@ -9,7 +9,7 @@ import streamlit as st
 from dotenv import load_dotenv
 from psycopg2.extensions import connection
 
-from helpers import (get_connection)
+from helpers import get_connection
 from navigation import make_sidebar
 from custom_styling import apply_custom_styling
 
