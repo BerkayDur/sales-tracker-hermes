@@ -1,4 +1,5 @@
 """Combined Extract Script: Identifies the store name and executes the relevant extraction"""
+
 from os import environ as CONFIG
 import logging
 
@@ -10,16 +11,18 @@ from extract_from_asos import extract_product_information as extract_from_asos
 from extract_from_patagonia import extract_product_information as extract_from_patagonia
 
 EXTRACT_FUNCTIONS = {
-    'asos' : extract_from_asos,
-    'patagonia' : extract_from_patagonia
+    'asos': extract_from_asos,
+    'patagonia': extract_from_patagonia
 }
 
 
 def identify_store(product_url: str) -> str | None:
     """Returns the store from the given URL."""
     if not isinstance(product_url, str):
-        logging.error('product_url passed to identify_store must be of type str')
-        raise TypeError('product_url passed to identify_store must be of type str')
+        logging.error(
+            'product_url passed to identify_store must be of type str')
+        raise TypeError(
+            'product_url passed to identify_store must be of type str')
     product_url = product_url.lower()
     for store_name in EXTRACT_FUNCTIONS:
         if store_name in product_url:
@@ -28,10 +31,12 @@ def identify_store(product_url: str) -> str | None:
     logging.info('store name not found in product url.')
     return None
 
+
 def get_website_id(conn: connection, website_name: str) -> int:
     """get a website id from the database."""
     with get_cursor(conn) as cur:
-        cur.execute('SELECT website_id FROM websites WHERE website_name = %s', (website_name,))
+        cur.execute(
+            'SELECT website_id FROM websites WHERE website_name = %s', (website_name,))
         website_id = cur.fetchone()
     return website_id.get('website_id')
 

@@ -1,9 +1,11 @@
 """This file tests whether the extract_combined file works as expected"""
+
 from unittest.mock import patch
+
 import pytest
 
 from extract_main import (get_website_name, remove_stale_products,
-                              extract_price_and_sales_data, process)
+                          extract_price_and_sales_data, process)
 
 
 def test_get_website_name_with_valid_website_name(fake_product_data):

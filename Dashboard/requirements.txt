@@ -2,7 +2,7 @@ psycopg2-binary
 python-dotenv
 requests
 bs4
-
+pytest
 streamlit
 boto3
 botocore
