@@ -102,13 +102,9 @@ Your code has been rated at 10.00/10
 ------------------------------------
 Your code has been rated at 10.00/10
 
-************* Module extract_patagonia
-ETL/Pipeline/extract_patagonia.py:8:0: C0411: standard import "json" should be placed before third party imports "bs4.BeautifulSoup", "bs4.element.Tag", "requests" (wrong-import-order)
-ETL/Pipeline/extract_patagonia.py:7:0: W0611: Unused import requests (unused-import)
-ETL/Pipeline/extract_patagonia.py:8:0: W0611: Unused import json (unused-import)
 
------------------------------------
-Your code has been rated at 9.55/10
+------------------------------------
+Your code has been rated at 10.00/10
 
 
 ------------------------------------
