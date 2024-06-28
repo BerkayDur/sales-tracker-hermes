@@ -62,31 +62,6 @@ def test_get_current_price_invalid_type():
         get_current_price("not a Tag object")
 
 
-# def test_get_current_price_no_sales_span():
-#     html = '''
-#     <span class="js-buy-config-price">
-#         <span class="value" content="100"></span>
-#     </span>
-#     '''
-#     soup = BeautifulSoup(html, 'html.parser').find(
-#         'span', class_='js-buy-config-price')
-#     result = get_current_price(soup)
-#     print(result)
-#     assert result is None
-
-
-# def test_get_current_price_no_value_span():
-#     html = '''
-#     <span class="js-buy-config-price">
-#         <span class="sales"></span>
-#     </span>
-#     '''
-#     soup = BeautifulSoup(html, 'html.parser').find(
-#         'span', class_='js-buy-config-price')
-#     result = get_current_price(soup)
-#     assert result is None
-
-
 def test_get_current_price_invalid_content():
     """Tests the get current price with invalid contents"""
     html = '''
