@@ -4,7 +4,7 @@ INSERT INTO websites (website_name) VALUES
 ('patagonia');
 
 INSERT INTO users (email) VALUES
-('trainee.berkay.dur@sigmalabs.co.uk');
+('trainee.nabiha.mohamed@sigmalabs.co.uk');
 
 INSERT INTO products (product_code, product_name, website_id, url) VALUES
 ('205780494', 'ON Cloudrunner 2 running trainers in white', 1, 'https://www.asos.com/on-running/on-cloudrunner-2-running-trainers-in-white/prd/205780494#colourWayId-205780495'),
