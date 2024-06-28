@@ -23,15 +23,18 @@ def get_current_page_name() -> str | None:
 def make_sidebar() -> None:
     """Creates sidebar"""
     page_name = get_current_page_name()
-
     with st.sidebar:
-        st.logo("logo/hermes_icon.png")
+        st.logo("logo/hermes_logo.png")
+        st.write("")
+        st.write("")
         st.write("")
         st.write("")
 
         if st.session_state.get("logged_in", False):
+            st.page_link('pages/add_product.py', label="Add New Subscription", icon="📬")
+            st.write("")
             st.page_link("pages/price.py",
-                         label=":white[Price Tracker]", icon="💵")
+                         label="Track Your Products", icon="💵")
             st.write("")
             st.page_link('pages/email_alerts.py',
                          label="Email Alerts", icon="📧")
@@ -40,7 +43,7 @@ def make_sidebar() -> None:
                          label="Add new Subscription", icon="📬")
             st.write("")
             st.write("")
-            if st.button("Log out"):
+            if st.button("Sign out"):
                 logout()
         elif page_name != "login":
             st.switch_page("login.py")
@@ -50,6 +53,6 @@ def logout() -> None:
     """Logs out of account"""
     apply_custom_styling()
     st.session_state.logged_in = False
-    st.info("Logged out successfully!")
+    st.info("Signing out...")
     sleep(0.5)
     st.switch_page("login.py")
