@@ -13,6 +13,8 @@ COPY logo/hermes_icon_crop.png logo
 COPY logo/hermes_icon.png logo
 COPY logo/hermes_logo_black.png logo
 COPY logo/hermes_logo_orange.png logo
+COPY logo/hermes_logo_white_orange.png logo
+COPY logo/hermes_logo_white.png logo
 COPY logo/hermes_logo.png logo
 COPY logo/patagonia_bear.png logo
 COPY logo/patagonia_logo.png logo
