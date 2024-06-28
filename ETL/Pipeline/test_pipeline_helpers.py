@@ -1,7 +1,10 @@
 """This file tests whether the helpers file works as expected"""
+
 from unittest.mock import patch
+
 import pytest
 import requests
+
 from pipeline_helpers import (has_required_keys, has_correct_types,
                               validate_input, get_soup, get_product_page)
 
