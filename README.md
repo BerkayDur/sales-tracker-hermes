@@ -12,35 +12,25 @@ This project is designed to track products and notify users when they go on sale
 
 | Folder | Description |
 |---|---|
-| **.github** | GitHub-specific files and actions. |
-| **.util** | Utility scripts and tools. |
-| **Clean-up** | The scripts for cleaning up unsubscribed products from the database. |
-| **Dashboard** | Code used for the dashboard and visualization. |
-| **Database**  | Database management scripts and configurations. |
-| **Diagrams** | Diagrams of the system architecture and entity relationship diagram. |
-| **ETL**  | ETL pipeline scripts and configurations. |
+| **.github** | GitHub-specific files and Actions. |
+| **.util** | Utility scripts and tools for GitHub Actions. |
+| [**Clean-up**](./Clean-up/README.md) | The scripts for cleaning up unsubscribed products from the database. |
+| [**Dashboard**](./Dashboard/README.md) | Code used for the dashboard and visualization. |
+| [**Database**](./Database/README.md)  | Database management scripts and configurations. |
+| [**Diagrams**](./Diagrams/README.md) | Diagrams of the system architecture and entity relationship diagram. |
+| [**ETL**](./ETL/README.md)  | ETL pipeline scripts and configurations. |
 
 ## Setup
 
-Follow these steps to set up the application:
+This project is split into several main directories that contain the source code regarding that section. Each section has it's own terraform script that is used to build AWS infrastructure.
 
-### Dependencies
+Dependencies are local to each main directory and it is thus recommended to set-up the code in the following manner (Click and follow the steps in the README.md of each):
 
-1. **Clone the repository**:
-    ```bash
-    git clone https://github.com/BerkayDur/sales-tracker-hermes
-    ```
+1. [Database](./Database/README.md)
+2. [Clean-up](./Clean-up/README.md)
+3. [ETL](./ETL/README.md)
+4. [Dashboard](./Dashboard/README.md)
 
-2. **Create and activate a virtual environment (optional but recommended)**:
-    ```bash
-    python3 -m venv .venv
-    source .venv/bin/activate
-    ```
-
-3. **Install the dependencies**:
-    ```bash
-    pip3 install -r requirements.txt
-    ```
 
 ## Cloud Architecture
 The architecture of the project is shown in the following brief overview:
