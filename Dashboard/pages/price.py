@@ -38,8 +38,9 @@ def get_encode_price_reading(
     if price_threshold is not None:
         max_reading = price_reading_at["reading_at"].max()
         min_reading = price_reading_at["reading_at"].min()
-        price_threshold_df = pd.DataFrame([{"reading_at": min_reading, "price": price_threshold},
-                                           {"reading_at": max_reading, "price": price_threshold, 'text': 'Alert Threshold'}])
+        price_threshold_df = pd.DataFrame([
+            {"reading_at": min_reading, "price": price_threshold},
+            {"reading_at": max_reading, "price": price_threshold, 'text': 'Alert Threshold'}])
         threshold_chart = alt.Chart(price_threshold_df)
         threshold_line_enc = threshold_chart.encode(
             x=alt.X("reading_at:T", title="Time"),
