@@ -50,7 +50,7 @@ def get_encode_price_reading(
         )
         return (threshold_line_enc.mark_text(
             align='right', baseline='middle',
-            dx=75, dy=0).transform_filter(alt.datum.text is not None)
+            dx=75, dy=0).transform_filter(alt.datum.text != None)  # pylint: disable=singleton-comparison
                 + threshold_line_enc.mark_line()
                 + chart.mark_point(color="black")
                 + chart.mark_line(color="black"))
@@ -82,9 +82,9 @@ def change_threshold(conn: connection, product_information: dict) -> None:
                                     placeholder=text_input_placeholder,
                                     key=f'new_threshold_value_{product_information['product_id']}')
     st.markdown('''
-        <span style="font-size:0.8rem; position:relative; top:-1rem;">
-                **:orange[*]** Leave this empty to be alerted on all price decreases
-        </span>''', unsafe_allow_html=True)
+        <span style="font-size:0.8rem; position:relative; top:-1rem;">**:orange[*]**
+                Leave this empty to be alerted on all price decreases
+                </span>''', unsafe_allow_html=True)
     col1, col2 = st.columns([5,3])
     with col1:
         price_alert_update = st.button(
