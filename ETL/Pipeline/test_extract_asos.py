@@ -1,4 +1,4 @@
-"""This file tests whether the extract_from_asos file works as expected"""
+"""This file tests whether the extract_patagonia file works as expected"""
 
 from unittest.mock import patch
 

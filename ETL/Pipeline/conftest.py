@@ -72,3 +72,9 @@ def fixture_required_data_types():
         'product_code': int,
         'product_name': str
     }
+
+
+@pytest.fixture(name="fake_url")
+def fixture_fake_url() -> str:
+    """Example data for product url"""
+    return "www.asos.com/trainers"
