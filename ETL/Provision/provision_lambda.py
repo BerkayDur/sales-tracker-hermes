@@ -1,4 +1,5 @@
 "A script to read the url, and product data from the database"
+
 from os import _Environ, environ as ENV
 import logging
 

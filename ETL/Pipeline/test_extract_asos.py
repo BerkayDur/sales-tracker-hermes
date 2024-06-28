@@ -1,12 +1,12 @@
 """This file tests whether the extract_from_asos file works as expected"""
 
 from unittest.mock import patch
-import requests
 
+import requests
 import pytest
 
 from extract_asos import (get_product_info, get_asos_api_url, get_current_price,
-                               get_sale_status, process_product)
+                          get_sale_status, process_product)
 
 
 def test_get_asos_api_url_product_code(fake_product_data):

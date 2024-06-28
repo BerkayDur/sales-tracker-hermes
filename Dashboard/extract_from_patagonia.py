@@ -1,7 +1,10 @@
 "Extract Script: Pulls product information from Patagonia webpage"
+
 import json
 import logging
+
 from bs4 import BeautifulSoup
+
 from helpers import get_soup, configure_logging
 
 
@@ -35,7 +38,8 @@ def scrape_product_information(soup: BeautifulSoup) -> dict | None:
 def get_product_code_patagonia(product_data: dict) -> str | None:
     """Returns product ID from the webpage"""
     if not isinstance(product_data, dict):
-        logging.error('product_data is not of type dict in get_product_code_asos.')
+        logging.error(
+            'product_data is not of type dict in get_product_code_asos.')
         raise TypeError('product_info must be of type dict')
     if not product_data:
         logging.error("Missing product data")
@@ -58,7 +62,8 @@ def get_product_code_patagonia(product_data: dict) -> str | None:
 def get_product_name_patagonia(product_data: dict) -> str | None:
     """Returns product name from the webpage"""
     if not isinstance(product_data, dict):
-        logging.error('product_data is not of type dict in get_product_name_patagonia.')
+        logging.error(
+            'product_data is not of type dict in get_product_name_patagonia.')
         raise TypeError('product_info must be of type dict')
 
     if not product_data:
