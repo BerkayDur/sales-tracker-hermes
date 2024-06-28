@@ -39,35 +39,30 @@ This file defines the variables used in the Terraform configuration:
 - `AWS_REGION`: The AWS region where the RDS instance will be created. Default is `eu-west-2`.
 - `DB_PASSWORD`: The password for the PostgreSQL database.
 
-### Instructions
+### Setup 
 
-1. **Clone the Repository**:
-   ```sh
-   git clone <repository-url>
-   cd <repository-directory>
-   ```
 
-2. **Create `terraform.tfvars` File**:
-   Create a `terraform.tfvars` file in the same directory and provide the necessary values for the variables:
+1. **Create `terraform.tfvars` File**:
+   Within the `Terraform` directory, create a `terraform.tfvars` file and provide the necessary values for the variables in `variables.tf`. E.g.:
    ```hcl
    DB_PASSWORD = "your_db_password"
    ```
 
-3. **Initialize Terraform**:
-   Initialize the Terraform configuration by running:
+2. **Initialize Terraform**:
+   Within the same directory, initialize the Terraform configuration by running:
    ```sh
    terraform init
    ```
 
-4. **Apply Terraform Configuration**:
-   Apply the Terraform configuration to create the RDS instance:
+3. **Apply Terraform Configuration**:
+   Within the same directory, apply the Terraform configuration to create the RDS instance:
    ```sh
    terraform apply
    ```
 
    Review the planned actions and confirm by typing `yes`.
 
-5. **Retrieve Outputs**:
+4. **Retrieve Outputs**:
    After the `apply` step completes, Terraform will output the necessary information to connect to your database. You can also use:
    ```sh
    terraform output
@@ -75,7 +70,7 @@ This file defines the variables used in the Terraform configuration:
 
 ### Security Considerations
 
-- Ensure your `DB_PASSWORD` is stored securely and not hardcoded in the Terraform files.
+- Ensure your `DB_PASSWORD` is stored securely and not entered directly in the Terraform files.
 - Use appropriate security group settings to restrict access to your RDS instance.
 - Enable encryption for data at rest and in transit.
 
