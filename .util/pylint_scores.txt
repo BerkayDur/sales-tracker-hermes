@@ -11,7 +11,7 @@ Your code has been rated at 10.00/10
 Your code has been rated at 10.00/10
 
 ************* Module load
-Dashboard/load.py:39:11: W0718: Catching too general exception Exception (broad-exception-caught)
+Dashboard/load.py:44:11: W0718: Catching too general exception Exception (broad-exception-caught)
 
 -----------------------------------
 Your code has been rated at 9.76/10
@@ -39,7 +39,7 @@ Dashboard/login.py:16:0: C0301: Line too long (471/100) (line-too-long)
 Your code has been rated at 9.84/10
 
 ************* Module extract_combined
-Dashboard/extract_combined.py:56:11: W0718: Catching too general exception Exception (broad-exception-caught)
+Dashboard/extract_combined.py:61:11: W0718: Catching too general exception Exception (broad-exception-caught)
 
 -----------------------------------
 Your code has been rated at 9.79/10
@@ -102,14 +102,9 @@ Your code has been rated at 10.00/10
 ------------------------------------
 Your code has been rated at 10.00/10
 
-************* Module extract_patagonia
-ETL/Pipeline/extract_patagonia.py:10:0: E0401: Unable to import 'helpers' (import-error)
-ETL/Pipeline/extract_patagonia.py:8:0: C0411: standard import "json" should be placed before third party imports "bs4.BeautifulSoup", "bs4.element.Tag", "requests" (wrong-import-order)
-ETL/Pipeline/extract_patagonia.py:7:0: W0611: Unused import requests (unused-import)
-ETL/Pipeline/extract_patagonia.py:8:0: W0611: Unused import json (unused-import)
 
------------------------------------
-Your code has been rated at 8.89/10
+------------------------------------
+Your code has been rated at 10.00/10
 
 
 ------------------------------------

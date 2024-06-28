@@ -1,6 +1,8 @@
 "Tests for the provision lambda"
+
 from provision_lambda import group_data, read_database
 from unittest.mock import MagicMock
+
 import pytest
 from psycopg2.extensions import connection
 

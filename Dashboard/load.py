@@ -6,14 +6,18 @@ from dotenv import load_dotenv
 import psycopg2
 import psycopg2.extras
 from psycopg2.extensions import connection
+
 from extract_combined import extract_product_information
 from helpers import get_connection, get_cursor
 
-PRODUCT_READING_KEYS = set(('url', 'product_name', 'product_code', 'website_id'))
+PRODUCT_READING_KEYS = set(
+    ('url', 'product_name', 'product_code', 'website_id'))
+
 
 def verify_keys(keys: list, required_keys: set) -> bool:
     """Verifies if all required keys are in keys."""
     return not required_keys - set(keys)
+
 
 def insert_product_information(conn: connection, extracted_data: dict) -> bool:
     """Inserts product name and code into the database."""
@@ -21,7 +25,7 @@ def insert_product_information(conn: connection, extracted_data: dict) -> bool:
         raise TypeError(
             'A cursor can only be constructed from a Psycopg2 connection object')
     if (not isinstance(extracted_data, dict)
-        or not verify_keys(extracted_data, PRODUCT_READING_KEYS)):
+            or not verify_keys(extracted_data, PRODUCT_READING_KEYS)):
         raise TypeError('Extracted data must be a dict with keys\
 `url`, `product_name`, `product_code`, `website_id`.')
 
@@ -32,9 +36,10 @@ def insert_product_information(conn: connection, extracted_data: dict) -> bool:
                 """INSERT INTO PRODUCTS (website_id, url, product_code, product_name)
                 VALUES (%s, %s, %s, %s)""",
                 (extracted_data['website_id'], extracted_data['url'],
-                extracted_data['product_code'], extracted_data['product_name']))
+                 extracted_data['product_code'], extracted_data['product_name']))
             conn.commit()
-            logging.info("Product information successfully added into the database")
+            logging.info(
+                "Product information successfully added into the database")
             return True
     except Exception:
         logging.error('Unable to insert product into database.')

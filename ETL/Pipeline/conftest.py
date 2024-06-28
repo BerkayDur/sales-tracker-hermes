@@ -1,4 +1,5 @@
 """Contains all the fixtures used in the test extract file"""
+
 import pytest
 
 
@@ -16,7 +17,7 @@ def fixture_fake_product_data() -> dict:
         'url': "https://www.asos.com/adidas",
         'product_code': 12345,
         'product_name': 'adidas  trainers',
-        'website_name' : 'asos'
+        'website_name': 'asos'
     }
 
 
