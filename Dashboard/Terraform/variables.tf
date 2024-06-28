@@ -30,6 +30,7 @@ variable "DB_NAME" {
 }
 
 variable "DASHBOARD_NAME" {
+    default = "c11-hermes-dashboard-tf-2"
     type = string
 }
 
@@ -53,9 +54,4 @@ variable "PORT_TO_EXPOSE" {
 variable "AWS_REGION" {
     type = string
     default = "eu-west-2"
-}
-
-variable "dashboard_name" {
-    type = string
-    default = "c11-hermes-dashboard-tf-1"
 }

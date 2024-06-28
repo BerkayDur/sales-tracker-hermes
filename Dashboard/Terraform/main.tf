@@ -1,5 +1,5 @@
 resource "aws_security_group" "c11_hermes_dashboard_sg" {
-    name        = "${var.dashboard_name}_sg"
+    name        = "${var.DASHBOARD_NAME}_sg"
     vpc_id = var.AWS_VPC
     description = "Allows access to streamlit dashboard"
     egress = [
@@ -81,6 +81,10 @@ resource "aws_ecs_task_definition" "dashboard_task_def" {
                 {
                     "name" : "DB_NAME",
                     "value" : var.DB_NAME
+                },
+                {
+                    "name" : "AWS_REGION_NAME",
+                    "value" : var.AWS_REGION
                 }
             ]
         }
