@@ -42,7 +42,7 @@ resource "aws_ecs_task_definition" "dashboard_task_def" {
     container_definitions = jsonencode(([
         {
             name = var.DASHBOARD_NAME
-            image = "129033205317.dkr.ecr.eu-west-2.amazonaws.com/c11-hermes-dashboard:latest"
+            image = "129033205317.dkr.ecr.eu-west-2.amazonaws.com/c11-hermes-dashboard-registry:latest"
             cpu = 1024
             memory = 3072
             essential = true
