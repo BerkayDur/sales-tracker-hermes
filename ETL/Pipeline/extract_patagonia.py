@@ -7,17 +7,7 @@ from bs4.element import Tag
 import requests
 import json
 
-from helpers import get_soup
-
-
-def get_asos_api_url(product_code: int) -> str | None:
-    """Returns the API URL for a given product on the ASOS website."""
-    if not isinstance(product_code, int):
-        logging.error('Product ID must be a integer to get the url.')
-        return None
-
-    return f"https://www.asos.com/api/product/catalogue/v4/stockprice?productIds=\
-        {product_code}&store=COM&currency=GBP&keyStoreDataversion=ornjx7v-36&country=GB"
+from pipeline_helpers import get_soup
 
 
 def get_product_info(soup: BeautifulSoup) -> BeautifulSoup | None:
