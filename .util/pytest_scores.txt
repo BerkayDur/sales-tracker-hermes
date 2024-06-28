@@ -24,4 +24,4 @@ ETL/Pipeline/test_extract_main.py ..........                             [ 96%]
 ETL/Pipeline/test_pipeline_helpers.py ........                           [ 98%]
 ETL/Provision/test_provision_lambda.py ......                            [100%]
 
-============================= 441 passed in 1.36s ==============================
+============================= 441 passed in 1.44s ==============================
