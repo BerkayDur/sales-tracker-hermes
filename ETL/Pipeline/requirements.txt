@@ -1,3 +1,4 @@
 requests
 lambda_multiprocessing
-requests
+bs4
+pytest

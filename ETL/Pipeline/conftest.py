@@ -1,4 +1,5 @@
 """Contains all the fixtures used in the test extract file"""
+
 import pytest
 
 

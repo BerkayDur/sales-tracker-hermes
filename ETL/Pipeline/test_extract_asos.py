@@ -1,8 +1,8 @@
 """This file tests whether the extract_patagonia file works as expected"""
 
 from unittest.mock import patch
-import requests
 
+import requests
 import pytest
 
 from extract_asos import (get_product_info, get_asos_api_url, get_current_price,
