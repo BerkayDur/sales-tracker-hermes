@@ -102,14 +102,14 @@ Your code has been rated at 10.00/10
 ------------------------------------
 Your code has been rated at 10.00/10
 
-************* Module extract_from_patagonia
-ETL/Pipeline/extract_from_patagonia.py:10:0: E0401: Unable to import 'helpers' (import-error)
-ETL/Pipeline/extract_from_patagonia.py:8:0: C0411: standard import "json" should be placed before third party imports "bs4.BeautifulSoup", "bs4.element.Tag", "requests" (wrong-import-order)
-ETL/Pipeline/extract_from_patagonia.py:7:0: W0611: Unused import requests (unused-import)
-ETL/Pipeline/extract_from_patagonia.py:8:0: W0611: Unused import json (unused-import)
+************* Module extract_patagonia
+ETL/Pipeline/extract_patagonia.py:10:0: E0401: Unable to import 'helpers' (import-error)
+ETL/Pipeline/extract_patagonia.py:8:0: C0411: standard import "json" should be placed before third party imports "bs4.BeautifulSoup", "bs4.element.Tag", "requests" (wrong-import-order)
+ETL/Pipeline/extract_patagonia.py:7:0: W0611: Unused import requests (unused-import)
+ETL/Pipeline/extract_patagonia.py:8:0: W0611: Unused import json (unused-import)
 
--------------------------------------------------------------------
-Your code has been rated at 8.89/10 (previous run: 10.00/10, -1.11)
+-----------------------------------
+Your code has been rated at 8.89/10
 
 
 ------------------------------------
@@ -124,12 +124,11 @@ Your code has been rated at 10.00/10
 Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
 
 ************* Module extract_main
-ETL/Pipeline/extract_main.py:7:0: E0401: Unable to import 'extract_from_asos' (import-error)
 ETL/Pipeline/extract_main.py:69:4: W0621: Redefining name 'product_readings' from outer scope (line 76) (redefined-outer-name)
 ETL/Pipeline/extract_main.py:75:19: E0602: Undefined variable '_event' (undefined-variable)
 
 -----------------------------------
-Your code has been rated at 7.71/10
+Your code has been rated at 8.75/10
 
 
 ------------------------------------
