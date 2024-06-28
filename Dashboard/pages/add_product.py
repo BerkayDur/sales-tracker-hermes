@@ -45,7 +45,7 @@ def subscribe_to_product(conn: connection, product_url: str, price_threshold: bo
 def add_product_page(conn: connection) -> None:
     """Add Product Page"""
     websites = get_supported_websites(conn)
-    st.header('Add New Subscription')
+    st.markdown('<h2 class="pageTitle">Add New Subscription</h2>', unsafe_allow_html=True)
     st.write('')
     with st.container(border=True,):
         with st.form("subscribe_to_product", clear_on_submit=True, border=False):
@@ -66,7 +66,7 @@ def add_product_page(conn: connection) -> None:
                     st.warning('Price Threshold must be positive!')
                 else:
                     subscribe_to_product(conn, product_url, price_threshold)
-    with st.expander("**See supported websites**", expanded=True):
+    with st.expander("**See supported websites**", expanded=False):
         for website in websites:
             st.markdown(website)
 

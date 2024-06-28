@@ -15,6 +15,10 @@ def apply_custom_styling() -> None:
             --dorange: #E0935A;
             --slate: #4E5B6A;
         }
+        
+        .pageTitle {
+            color: var(--orange);
+        }
                 
         [data-testid="stHeader"] {
             background-color: var(--slate);
@@ -127,6 +131,9 @@ def apply_custom_styling() -> None:
             color: white;
         }                
 
+        div[data-testid="stExpander"] summary div[data-testid="stMarkdownContainer"] > p > strong {
+            font-size:1.2rem;
+        }
     </style>
 </head>
 ''', unsafe_allow_html=True)

@@ -14,9 +14,9 @@ from custom_styling import apply_custom_styling # pylint: disable=import-error
 
 def email_alerts_page(boto_ses_client: ses_client):
     '''Contains the StreamLit email alerts page'''
-
-    st.title('Subscribe to email alerts')
-    st.markdown('Subscribe to stay alerted on price drops for your favourite products.')
+    st.markdown('<h2 class="pageTitle">Email Alerts</h2>', unsafe_allow_html=True)
+    st.write('')
+    st.markdown('<p style="font-size:1.3rem;"><span style="color:var(--orange);"><b>Subscribe</b></span> to stay <b>alerted</b> on price drops for your favourite products.</p>', unsafe_allow_html=True)
     st.text('')
     if is_ses_verified(boto_ses_client, st.session_state['email']):
         if st.button('Unsubscribe from Email Alerts!'):
