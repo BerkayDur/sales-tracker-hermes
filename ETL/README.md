@@ -25,3 +25,48 @@ The Extract, Transform, Load (ETL) pipeline is designed for updating product pri
 ### Load
 
 - **Email Lambda**: This script utilizes Amazon Simple Email Service (SES) to send email alerts to users when there are price reductions for the products they are tracking.
+
+### Setup 
+
+1. **Create `terraform.tfvars` File**:
+   Within the `Terraform` directory, create a `terraform.tfvars` file and provide the necessary values for the variables in `variables.tf`. E.g.:
+   ```hcl
+   PROCESSING_BATCH_SIZE = "Your desired batch size"
+   ```
+
+2. **Initialize Terraform**:
+   Within the same directory, initialize the Terraform configuration by running:
+   ```sh
+   terraform init
+   ```
+
+3. **Apply Terraform Configuration**:
+   Within the same directory, apply the Terraform configuration to create the ETL pipeline infrastructure:
+   ```sh
+   terraform apply
+   ```
+
+   Review the planned actions and confirm by typing `yes`.
+
+4. **Retrieve Outputs**:
+   After the `apply` step completes, Terraform will output the necessary information to connect to your database. You can also use:
+   ```sh
+   terraform output
+   ```
+
+
+### Cleaning Up
+
+To destroy the RDS instance and clean up the resources created by Terraform, run:
+```sh
+terraform destroy
+```
+Review the planned actions and confirm by typing `yes`.
+
+### Support
+
+For any issues or questions, please refer to the [Terraform AWS Provider Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs) or contact the project maintainer.
+
+---
+
+By following the above steps, you will successfully set up a PostgreSQL database on AWS RDS using Terraform.
