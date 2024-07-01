@@ -4,10 +4,11 @@ import logging
 
 import streamlit as st
 
+
 def apply_custom_styling() -> None:
     """Creates the custom styling for streamlit."""
-    logging.info('Apply custom CS styling.')
-    st.markdown('''
+    logging.info("Apply custom CS styling.")
+    st.markdown("""
 <head>
     <style>
         :root {
@@ -136,4 +137,4 @@ def apply_custom_styling() -> None:
         }
     </style>
 </head>
-''', unsafe_allow_html=True)
+""", unsafe_allow_html=True)

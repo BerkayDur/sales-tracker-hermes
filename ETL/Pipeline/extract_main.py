@@ -9,8 +9,8 @@ from extract_patagonia import process_product as extract_from_patagonia
 
 
 EXTRACT_FUNCTIONS = {
-    'asos': extract_from_asos,
-    'patagonia': extract_from_patagonia
+    "asos": extract_from_asos,
+    "patagonia": extract_from_patagonia
 }
 
 
@@ -18,13 +18,13 @@ def get_website_name(product_data: dict) -> str | None:
     """Returns the website from the product dictionary."""
     if not isinstance(product_data, dict):
         logging.error(
-            'product_data must be of type dict')
+            "product_data must be of type dict")
         raise TypeError(
-            'product_data must be of type dict')
-    website_name = product_data.get('website_name')
+            "product_data must be of type dict")
+    website_name = product_data.get("website_name")
     if website_name:
         return website_name
-    logging.info('website name not found.')
+    logging.info("website name not found.")
     return None
 
 
@@ -39,15 +39,15 @@ def process(product_data: dict):
     website_name = get_website_name(clean_data)
 
     if not website_name:
-        logging.error('No API found for %s', product_data['product_code'])
+        logging.error("No API found for %s", product_data["product_code"])
         return None
-    logging.info('Starting to run %s extract script.', website_name)
+    logging.info("Starting to run %s extract script.", website_name)
     try:
         website_data = EXTRACT_FUNCTIONS[website_name](product_data)
         return website_data
     except ValueError:
-        logging.error('extract from product %s failed! for %s ',
-                      website_name, product_data['product_code'])
+        logging.error("extract from product %s failed! for %s ",
+                      website_name, product_data["product_code"])
         return None
 
 

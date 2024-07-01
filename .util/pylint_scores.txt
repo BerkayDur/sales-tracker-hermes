@@ -2,62 +2,68 @@
 ------------------------------------
 Your code has been rated at 10.00/10
 
+************* Module extract_from_patagonia
+Dashboard/extract_from_patagonia.py:8:0: E0001: Cannot import 'helpers' due to 'invalid syntax (helpers, line 20)' (syntax-error)
 
-------------------------------------
-Your code has been rated at 10.00/10
+-----------------------------------
+Your code has been rated at 9.36/10
 
+************* Module extract_from_asos
+Dashboard/extract_from_asos.py:8:0: E0001: Cannot import 'helpers' due to 'invalid syntax (helpers, line 20)' (syntax-error)
 
-------------------------------------
-Your code has been rated at 10.00/10
+-----------------------------------
+Your code has been rated at 9.40/10
 
 ************* Module load
+Dashboard/load.py:11:0: E0001: Cannot import 'helpers' due to 'invalid syntax (helpers, line 20)' (syntax-error)
 Dashboard/load.py:44:11: W0718: Catching too general exception Exception (broad-exception-caught)
 
 -----------------------------------
-Your code has been rated at 9.76/10
+Your code has been rated at 8.57/10
 
+************* Module ses_get_emails
+Dashboard/ses_get_emails.py:7:0: E0001: Cannot import 'helpers' due to 'invalid syntax (helpers, line 20)' (syntax-error)
 
-------------------------------------
-Your code has been rated at 10.00/10
+-----------------------------------
+Your code has been rated at 8.08/10
 
 ************* Module email_verification
-Dashboard/email_verification.py:69:11: W0718: Catching too general exception Exception (broad-exception-caught)
+Dashboard/email_verification.py:9:0: E0001: Cannot import 'helpers' due to 'invalid syntax (helpers, line 20)' (syntax-error)
+Dashboard/email_verification.py:71:11: W0718: Catching too general exception Exception (broad-exception-caught)
 
 -----------------------------------
-Your code has been rated at 9.79/10
+Your code has been rated at 8.72/10
 
 ************* Module helpers
-Dashboard/helpers.py:161:11: W0718: Catching too general exception Exception (broad-exception-caught)
-
------------------------------------
-Your code has been rated at 9.92/10
-
+Dashboard/helpers.py:20:8: E0001: Parsing failed: 'invalid syntax (helpers, line 20)' (syntax-error)
 ************* Module login
 Dashboard/login.py:16:0: C0301: Line too long (471/100) (line-too-long)
+Dashboard/login.py:12:0: E0001: Cannot import 'helpers' due to 'invalid syntax (helpers, line 20)' (syntax-error)
 
 -----------------------------------
-Your code has been rated at 9.84/10
+Your code has been rated at 9.02/10
 
 ************* Module extract_combined
+Dashboard/extract_combined.py:9:0: E0001: Cannot import 'helpers' due to 'invalid syntax (helpers, line 20)' (syntax-error)
 Dashboard/extract_combined.py:61:11: W0718: Catching too general exception Exception (broad-exception-caught)
 
 -----------------------------------
-Your code has been rated at 9.79/10
+Your code has been rated at 8.75/10
 
 
 ------------------------------------
 Your code has been rated at 10.00/10
 
 ************* Module add_product
-Dashboard/pages/add_product.py:56:0: C0301: Line too long (188/100) (line-too-long)
-Dashboard/pages/add_product.py:22:11: W0718: Catching too general exception Exception (broad-exception-caught)
-Dashboard/pages/add_product.py:39:11: W0718: Catching too general exception Exception (broad-exception-caught)
+Dashboard/pages/add_product.py:62:0: C0301: Line too long (180/100) (line-too-long)
+Dashboard/pages/add_product.py:23:11: W0718: Catching too general exception Exception (broad-exception-caught)
+Dashboard/pages/add_product.py:42:11: W0718: Catching too general exception Exception (broad-exception-caught)
 
 -----------------------------------
 Your code has been rated at 9.48/10
 
 ************* Module email_alerts
-Dashboard/pages/email_alerts.py:19:0: C0301: Line too long (201/100) (line-too-long)
+Dashboard/pages/email_alerts.py:21:0: C0301: Line too long (201/100) (line-too-long)
 
 -----------------------------------
 Your code has been rated at 9.74/10

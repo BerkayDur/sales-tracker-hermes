@@ -13,7 +13,7 @@ def get_current_page_name() -> str | None:
     """Gets the name of the page"""
     ctx = get_script_run_ctx()
     if ctx is None:
-        raise RuntimeError("Couldn't get script context")
+        raise RuntimeError("Could not get script context")
 
     pages = get_pages("")
 
@@ -31,13 +31,13 @@ def make_sidebar() -> None:
         st.write("")
 
         if st.session_state.get("logged_in", False):
-            st.page_link('pages/add_product.py',
+            st.page_link("pages/add_product.py",
                          label="Add New Subscription", icon="📬")
             st.write("")
             st.page_link("pages/price.py",
                          label="Track Your Products", icon="💵")
             st.write("")
-            st.page_link('pages/email_alerts.py',
+            st.page_link("pages/email_alerts.py",
                          label="Email Alerts", icon="📧")
             st.write("")
             st.write("")
