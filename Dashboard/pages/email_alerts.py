@@ -6,41 +6,44 @@ import logging
 import streamlit as st
 from mypy_boto3_ses.client import SESClient as ses_client
 
-from navigation import make_sidebar # pylint: disable=import-error
-from helpers import (get_ses_client) # pylint: disable=import-error
-from ses_get_emails import is_ses_verified # pylint: disable=import-error
-from email_verification import send_verification_email, unverify_email # pylint: disable=import-error
-from custom_styling import apply_custom_styling # pylint: disable=import-error
+from navigation import make_sidebar  # pylint: disable=import-error
+from helpers import get_ses_client  # pylint: disable=import-error
+from ses_get_emails import is_ses_verified  # pylint: disable=import-error
+from email_verification import send_verification_email, unverify_email  # pylint: disable=import-error
+from custom_styling import apply_custom_styling  # pylint: disable=import-error
 
-def email_alerts_page(boto_ses_client: ses_client):
-    '''Contains the StreamLit email alerts page'''
-    st.markdown('<h2 class="pageTitle">Email Alerts</h2>', unsafe_allow_html=True)
-    st.write('')
+
+def email_alerts_page(boto_ses_client: ses_client) -> None:
+    """Contains the StreamLit email alerts page"""
+    st.markdown('<h2 class="pageTitle">Email Alerts</h2>',
+                unsafe_allow_html=True)
+    st.write("")
     st.markdown('<p style="font-size:1.3rem;"><span style="color:var(--orange);"><b>Subscribe</b></span> to stay <b>alerted</b> on price drops for your favourite products.</p>', unsafe_allow_html=True)
-    st.text('')
-    if is_ses_verified(boto_ses_client, st.session_state['email']):
-        if st.button('Unsubscribe from Email Alerts!'):
-            logging.info('Trying to unsubscribe from email alerts.')
+    st.text("")
+    if is_ses_verified(boto_ses_client, st.session_state["email"]):
+        if st.button("Unsubscribe from Email Alerts!"):
+            logging.info("Trying to unsubscribe from email alerts.")
 
-            unverify_email(boto_ses_client, st.session_state['email'])
-            logging.info('Successfully unsubscribed from email alerts.')
-            st.warning('You are now unsubscribed from Email Alerts!')
+            unverify_email(boto_ses_client, st.session_state["email"])
+            logging.info("Successfully unsubscribed from email alerts.")
+            st.warning("You are now unsubscribed from Email Alerts!")
             sleep(1)
             st.rerun()
     else:
         col1, col2 = st.columns([1, 8])
         with col1:
-            email_sign_up = st.button('Sign me up!')
+            email_sign_up = st.button("Sign me up!")
         if email_sign_up:
-            send_verification_email(boto_ses_client, st.session_state['email'])
+            send_verification_email(boto_ses_client, st.session_state["email"])
 
             with col2:
-                if st.button('Unsubscribe!'):
-                    unverify_email(boto_ses_client, st.session_state['email'])
-            logging.info('Sent user email verification.')
-            st.warning('Action required: confirm your email subscription')
+                if st.button("Unsubscribe!"):
+                    unverify_email(boto_ses_client, st.session_state["email"])
+            logging.info("Sent user email verification.")
+            st.warning("Action required: confirm your email subscription")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     client = get_ses_client(CONFIG)
     apply_custom_styling()
     make_sidebar()

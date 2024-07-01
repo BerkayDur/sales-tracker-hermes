@@ -12,7 +12,7 @@ def configure_log() -> None:
     """Configures log output"""
     logging.basicConfig(
         level=logging.INFO,
-        format='%(asctime)s - %(levelname)s - %(message)s'
+        format="%(asctime)s - %(levelname)s - %(message)s"
     )
 
 
@@ -30,7 +30,7 @@ def has_correct_types(entry, required_keys):
 def convert_product_code(entry: dict) -> bool:
     """Convert the product_code from str to int."""
     try:
-        entry['product_code'] = int(entry['product_code'])
+        entry["product_code"] = int(entry["product_code"])
         return True
     except (ValueError, TypeError) as e:
         logging.error("Error has occured: %s", e)
@@ -40,11 +40,11 @@ def convert_product_code(entry: dict) -> bool:
 def validate_input(entry):
     """Validates the input list of products"""
     required_keys = {
-        'product_id': int,
-        'url': str,
-        'product_code': int,
-        'product_name': str,
-        'website_name': str
+        "product_id": int,
+        "url": str,
+        "product_code": int,
+        "product_name": str,
+        "website_name": str
     }
     if (isinstance(entry, dict) and has_required_keys(entry, required_keys) and
             convert_product_code(entry) and has_correct_types(entry, required_keys)):
@@ -55,18 +55,18 @@ def validate_input(entry):
 
 
 def remove_stale_products(products: list[dict]) -> list[dict]:
-    """remove products where the price hasn't decreased!"""
+    """remove products where the price hasn"t decreased!"""
     return [product for product in products
-            if product.get('previous_price') is None
-            or product['current_price'] <= product['previous_price']]
+            if product.get("previous_price") is None
+            or product["current_price"] <= product["previous_price"]]
 
 
 def get_product_page(url: str, headers: dict) -> str | None:
     """Fetch the HTML content of a product page from a given URL."""
     if not isinstance(url, str):
-        raise TypeError('URL must be of type string.')
+        raise TypeError("URL must be of type string.")
     if not isinstance(headers, dict):
-        raise TypeError('header must be of type dict')
+        raise TypeError("header must be of type dict")
 
     if not url:
         logging.error("URL is empty")
@@ -85,9 +85,9 @@ def get_product_page(url: str, headers: dict) -> str | None:
 def get_soup(url: str, headers: dict) -> BeautifulSoup | None:
     """Returns a soup object for a game given the web address."""
     if not isinstance(url, str):
-        raise TypeError('URL must be of type string.')
+        raise TypeError("URL must be of type string.")
     if not isinstance(headers, dict):
-        raise TypeError('header must be of type dict')
+        raise TypeError("header must be of type dict")
 
     response = get_product_page(url, headers=headers)
 

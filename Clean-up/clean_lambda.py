@@ -25,7 +25,7 @@ def get_cursor(conn: connection) -> cursor:
     "Returns a cursor for the database"
     if not isinstance(conn, connection):
         raise TypeError(
-            'A cursor can only be constructed from a Psycopg2 connection object')
+            "A cursor can only be constructed from a Psycopg2 connection object")
 
     return conn.cursor(cursor_factory=RealDictCursor)
 
@@ -33,7 +33,7 @@ def get_cursor(conn: connection) -> cursor:
 def delete_unsubscribed(conn: connection, table: str) -> list[dict]:
     "Deletes info about the unsubscribed products from the database"
     if not isinstance(table, str):
-        raise TypeError('table must be of type string')
+        raise TypeError("table must be of type string")
 
     try:
         with get_cursor(conn) as cur:
