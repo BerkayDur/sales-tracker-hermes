@@ -2,3 +2,5 @@ requests
 lambda_multiprocessing
 bs4
 pytest
+scrapegraphai
+python-dotenv
