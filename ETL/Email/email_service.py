@@ -143,14 +143,14 @@ def format_email_from_data_frame(
         if not email_type:
             email_type = "sale"
 
-    message = f"({row_data['website_name']}) \
-<a href='{row_data['url']}'>{row_data['product_name']}</a> "
+    message = f"""({row_data["website_name"]}) \
+<a href="{row_data["url"]}">{row_data["product_name"]}</a> """
     if not row_data["price"] or (isinstance(row_data["price"], (int, float))
                                  and isnan(row_data["price"])):
         message += f"now £{row_data["current_price"]}"
     else:
-        message += f"was £{row_data["price"]
-                           }, now £{row_data["current_price"]}"
+        message += f"""was £{row_data["price"]
+                             }, now £{row_data["current_price"]}"""
 
     message += f"{" (ON SALE)" if sale_and_thres else ""}."
 
