@@ -33,10 +33,12 @@ Dashboard/helpers.py:170:11: W0718: Catching too general exception Exception (br
 Your code has been rated at 9.92/10
 
 ************* Module login
-Dashboard/login.py:16:0: C0301: Line too long (471/100) (line-too-long)
+Dashboard/login.py:18:0: C0301: Line too long (471/100) (line-too-long)
+Dashboard/login.py:9:0: E0401: Unable to import 'bcrypt' (import-error)
+Dashboard/login.py:32:0: C0116: Missing function or method docstring (missing-function-docstring)
 
 -----------------------------------
-Your code has been rated at 9.84/10
+Your code has been rated at 9.07/10
 
 ************* Module extract_combined
 Dashboard/extract_combined.py:61:11: W0718: Catching too general exception Exception (broad-exception-caught)
