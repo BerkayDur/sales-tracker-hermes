@@ -17,9 +17,9 @@ def test_has_required_keys_all_keys_present(required_keys, fake_product_data):
 def test_has_required_keys_missing_keys(required_keys):
     """Test the has all keys function with missing keys"""
     entry = {
-        'product_id': 1,
-        'url': "https://www.asos.com/adidas",
-        'product_code': 12345
+        "product_id": 1,
+        "url": "https://www.asos.com/adidas",
+        "product_code": 12345
     }
     assert not has_required_keys(entry, required_keys)
 
@@ -40,10 +40,10 @@ def test_has_correct_types_all_correct_types(fake_product_data, required_data_ty
 def test_has_correct_types_incorrect_types(required_data_types):
     """Tests the function has_correct_types with invalid data"""
     entry = {
-        'product_id': 1,
-        'url': "https://www.asos.com/adidas",
-        'product_code': "12345",
-        'product_name': 'adidas  trainers'
+        "product_id": 1,
+        "url": "https://www.asos.com/adidas",
+        "product_code": "12345",
+        "product_name": "adidas  trainers"
     }
 
     assert not has_correct_types(entry, required_data_types)
@@ -52,9 +52,9 @@ def test_has_correct_types_incorrect_types(required_data_types):
 def test_has_correct_types_missing_key(required_data_types):
     """Tests the function has_correct_types with missing key"""
     entry = {
-        'product_id': 1,
-        'url': "https://www.asos.com/adidas",
-        'product_code': "12345",
+        "product_id": 1,
+        "url": "https://www.asos.com/adidas",
+        "product_code": "12345",
     }
 
     assert not has_correct_types(entry, required_data_types)
@@ -80,14 +80,14 @@ def test_get_soup_invalid_url(fake_headers, url):
         get_soup(url, fake_headers)
 
 
-@pytest.mark.parametrize("headers", ['invalid', None, 12.34, [1, 2, 3], 1, (), ["h", "b", "c"]])
+@pytest.mark.parametrize("headers", ["invalid", None, 12.34, [1, 2, 3], 1, (), ["h", "b", "c"]])
 def test_get_soup_invalid_headers(headers, fake_url):
     """Tests get_soup with invalid headers type"""
     with pytest.raises(TypeError):
         get_soup(fake_url, headers=headers)
 
 
-@patch('pipeline_helpers.requests.get')
+@patch("pipeline_helpers.requests.get")
 def test_get_product_page_success(mock_get, fake_headers, fake_url):
     """Tests the get_product_page function passes with a valid URL"""
     mock_response = "<html><body><h1>Mock Product Page</h1></body></html>"
@@ -97,7 +97,7 @@ def test_get_product_page_success(mock_get, fake_headers, fake_url):
     assert mock_get.call_count == 1
 
 
-@patch('pipeline_helpers.requests.get')
+@patch("pipeline_helpers.requests.get")
 def test_get_product_page_timeout_exception(mock_get, fake_headers, fake_url):
     """Tests the get_product_page function raises a Timeout error"""
     mock_get.side_effect = requests.exceptions.Timeout
@@ -105,7 +105,7 @@ def test_get_product_page_timeout_exception(mock_get, fake_headers, fake_url):
     assert product_page is None
 
 
-@patch('pipeline_helpers.requests.get')
+@patch("pipeline_helpers.requests.get")
 def test_get_product_page_request_exception(mock_get, fake_headers, fake_url):
     """Tests the get_product_page function raises a RequestsException error"""
     mock_get.side_effect = requests.exceptions.RequestException
@@ -113,7 +113,7 @@ def test_get_product_page_request_exception(mock_get, fake_headers, fake_url):
     assert not product_page
 
 
-@pytest.mark.parametrize("headers", ['invalid', None, 12.34, [1, 2, 3], 1, (), ["h", "b", "c"]])
+@pytest.mark.parametrize("headers", ["invalid", None, 12.34, [1, 2, 3], 1, (), ["h", "b", "c"]])
 def test_get_product_page_invalid_headers_type(fake_url, headers):
     """Tests get_product_page with invalid headers data type"""
     with pytest.raises(TypeError):

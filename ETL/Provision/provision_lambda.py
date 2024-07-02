@@ -24,7 +24,7 @@ def get_cursor(conn: connection) -> cursor:
     "Returns a cursor for the database"
     if not isinstance(conn, connection):
         raise TypeError(
-            'A cursor can only be constructed from a Psycopg2 connection object')
+            "A cursor can only be constructed from a Psycopg2 connection object")
     return conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 
 
@@ -32,7 +32,7 @@ def read_database(conn: connection):
     "Gets the required data from the database"
     if not isinstance(conn, connection):
         raise TypeError(
-            'A cursor can only be constructed from a Psycopg2 connection object')
+            "A cursor can only be constructed from a Psycopg2 connection object")
     with get_cursor(conn) as cur:
         cur.execute("""SELECT DISTINCT ON (product_id) product_id, product_code,
                     url, price, website_name, product_name
@@ -68,7 +68,7 @@ def group_data(data: list[dict], processing_batch_size: int) -> list[list[dict]]
     return product_outputs
 
 
-def handler(_event=None, _context=None) -> dict[str, list[list[dict]]]:
+def handler(_event, _context) -> dict[str, list[list[dict]]]:
     "Lambda handler function"
     db_conn = get_connection(ENV)
     product_data = [dict(row) for row in read_database(db_conn)]
@@ -80,4 +80,4 @@ def handler(_event=None, _context=None) -> dict[str, list[list[dict]]]:
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     load_dotenv()
-    print(handler()['output'][1])
+    print(handler(None, None)["output"][1])

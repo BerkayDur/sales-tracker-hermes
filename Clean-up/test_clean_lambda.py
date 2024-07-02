@@ -17,7 +17,7 @@ def test_delete_unsubscribed(unsubscribed_products: list[dict]) -> None:
 
     mock_cur.fetchall.return_value = unsubscribed_products
 
-    table = 'products'
+    table = "products"
     deleted_products = delete_unsubscribed(mock_conn, table)
 
     assert len(deleted_products) == len(unsubscribed_products)
@@ -29,8 +29,8 @@ def test_delete_unsubscribed(unsubscribed_products: list[dict]) -> None:
     mock_conn.commit.assert_called_once()
 
 
-@patch('clean_lambda.get_connection')
-@patch('clean_lambda.delete_unsubscribed')
+@patch("clean_lambda.get_connection")
+@patch("clean_lambda.delete_unsubscribed")
 def test_handler(mock_delete_unsubscribed, mock_get_connection,
                  unsubscribed_products: list[dict]) -> None:
     """Tests the handler function"""
