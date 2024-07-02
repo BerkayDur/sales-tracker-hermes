@@ -6,6 +6,7 @@ from lambda_multiprocessing import Pool
 from pipeline_helpers import configure_log, validate_input, remove_stale_products
 from extract_asos import process_product as extract_from_asos
 from extract_patagonia import process_product as extract_from_patagonia
+from extract_other import process_product as extract_other
 
 
 EXTRACT_FUNCTIONS = {
@@ -43,7 +44,10 @@ def process(product_data: dict):
         return None
     logging.info("Starting to run %s extract script.", website_name)
     try:
-        website_data = EXTRACT_FUNCTIONS[website_name](product_data)
+        if website_name in EXTRACT_FUNCTIONS:
+            website_data = EXTRACT_FUNCTIONS[website_name](product_data)
+        else:
+            website_data = extract_other(product_data)
         return website_data
     except ValueError:
         logging.error("extract from product %s failed! for %s ",
@@ -71,7 +75,4 @@ def handler(_event, _context=None) -> list:
 
 
 if __name__ == "__main__":
-    configure_log()
-    cleaned_data = _event
-    product_readings = extract_price_and_sales_data(cleaned_data)
-    print(remove_stale_products(product_readings))
+    ...
