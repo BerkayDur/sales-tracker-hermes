@@ -18,7 +18,7 @@ ETL/Email/test_combined_load.py ........................................ [ 54%]
 .................                                                        [ 57%]
 ETL/Email/test_email_helpers.py ..............                           [ 60%]
 ETL/Email/test_email_service.py ........................................ [ 68%]
-..FFFFFFFF.................................                              [ 77%]
+...........................................                              [ 77%]
 ETL/Pipeline/test_extract_asos.py ...................................    [ 84%]
 ETL/Pipeline/test_extract_main.py ..........                             [ 86%]
 ETL/Pipeline/test_extract_patagonia.py ...................               [ 90%]
@@ -26,4 +26,4 @@ ETL/Pipeline/test_pipeline_helpers.py .................................. [ 97%]
 ......                                                                   [ 98%]
 ETL/Provision/test_provision_lambda.py ......                            [100%]
 
-======================== 8 failed, 484 passed in 1.45s =========================
+============================= 492 passed in 1.46s ==============================
