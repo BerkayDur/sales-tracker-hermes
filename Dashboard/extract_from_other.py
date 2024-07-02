@@ -12,14 +12,12 @@ from helpers import get_product_page, configure_logging
 
 
 def scrape_product_information(html: str, config: _Environ) -> dict | None:
-    """Extract product information from a BeautifulSoup object."""
+    """Extract product information from an html str object."""
     if not isinstance(html, str):
         logging.error("html must be of type str")
         raise TypeError("html must be of type str")
 
     openai_key = config.get("OPENAI_KEY")
-
-    print(html)
 
     smart_scraper_graph = SmartScraperGraph(
         prompt="""

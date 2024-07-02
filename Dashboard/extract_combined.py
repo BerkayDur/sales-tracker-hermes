@@ -5,10 +5,12 @@ import logging
 
 from psycopg2.extensions import connection
 from dotenv import load_dotenv
+from urllib.parse import urlparse
 
 from helpers import get_cursor, get_connection, configure_logging
 from extract_from_asos import extract_product_information as extract_from_asos
 from extract_from_patagonia import extract_product_information as extract_from_patagonia
+from extract_from_other import extract_product_information as extract_from_other
 
 EXTRACT_FUNCTIONS = {
     "asos": extract_from_asos,
@@ -33,12 +35,30 @@ def identify_store(product_url: str) -> str | None:
 
 
 def get_website_id(conn: connection, website_name: str) -> int:
-    """get a website id from the database."""
+    """get a website id from the database. Add the website if it is not found."""
     with get_cursor(conn) as cur:
         cur.execute(
             "SELECT website_id FROM websites WHERE website_name = %s", (website_name,))
-        website_id = cur.fetchone()
-    return website_id.get("website_id")
+        result = cur.fetchone()
+        if result is None:
+            cur.execute(
+                "INSERT INTO websites (website_name) VALUES (%s) RETURNING website_id", (website_name,))
+            website_id = cur.fetchone()["website_id"]
+            conn.commit()
+        else:
+            website_id = result["website_id"]
+
+    return website_id
+
+
+def get_website_name(url: str) -> str:
+    """Finds a website name from its url"""
+    parsed_url = urlparse(url)
+    domain_parts = parsed_url.netloc.split('.')
+    if domain_parts[0] == 'www':
+        domain_parts.pop(0)
+    website_name = domain_parts[0]
+    return website_name
 
 
 def extract_product_information(conn: connection, product_url: str) -> tuple:
@@ -46,7 +66,12 @@ def extract_product_information(conn: connection, product_url: str) -> tuple:
     logging.info("Starting identify store from product url.")
     store_name = identify_store(product_url)
     if not store_name:
-        return None
+        logging.info(
+            "Website not stored, running AI extract script for product url.")
+        website_data = extract_from_other(product_url)
+        website_data["website_id"] = get_website_id(
+            conn, get_website_name(product_url))
+        return website_data
     website_id = get_website_id(conn, store_name)
     if not website_id:
         logging.info("extract_product_information , website_id is null.")
