@@ -20,7 +20,7 @@ def scrape_product_information(html: str, config: _Environ) -> dict | None:
     smart_scraper_graph = SmartScraperGraph(
         prompt="""
         You are provided with an HTML document containing information about a product.
-        Your task is to extract only the price of the product and if the product is on sale or not.
+        Your task is to extract the price of the product and a boolean value indicating whether the product is on sale or not (True or False only).
         Output the result in the following json format:
         {'price': _, 'is_on_sale': True/False}.
         Do not include any other information.
@@ -35,7 +35,6 @@ def scrape_product_information(html: str, config: _Environ) -> dict | None:
             "embeddings": {
                 "model": "ollama/nomic-embed-text",
                 "temperature": 0,
-                "base_url": "http://localhost:11434",
             }
         }
     )
@@ -53,6 +52,7 @@ def scrape_product_information(html: str, config: _Environ) -> dict | None:
 
 
 def process_product(product: dict) -> dict | None:
+    load_dotenv()
     """Populates a single product dictionary with current price, reading time, and sale status."""
 
     headers = {
@@ -71,9 +71,11 @@ def process_product(product: dict) -> dict | None:
         logging.error("Unable to extract information from product page!")
         return None
 
+    print(price_data)
+
     if price_data:
         curr_price = price_data["price"]
-        sale = price_data["price"]
+        sale = price_data["is_on_sale"]
 
         if not curr_price is None:
             product["current_price"] = curr_price
@@ -89,7 +91,7 @@ if __name__ == "__main__":
 
     print(process_product({
         "product_id": 1,
-        "url": "https://uk.gymshark.com/products/gymshark-crest-t-shirt-core-olive-ss22?gad_source=1&gclid=CjwKCAjwyo60BhBiEiwAHmVLJZi3kqBHW2RSaJVn2G_O0rjG9WY9R7c1oWXxA47FvilALE7zKQyZxhoC_hgQAvD_BwE&gclsrc=aw.ds",
+        "url": "https://store.steampowered.com/app/1144200/Ready_or_Not/",
         "product_code": 203474246,
         "product_name": "adidas Running Response trainers in white and blue",
         "website_name": "asos"

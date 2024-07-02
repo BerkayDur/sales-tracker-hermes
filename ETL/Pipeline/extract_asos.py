@@ -99,3 +99,13 @@ def process_product(product: dict) -> dict | None:
             return product
     logging.error("Error processing product %s", product["product_code"])
     return None
+
+
+if __name__ == "__main__":
+    print(process_product({
+        "product_id": 1,
+        "url": "https://www.asos.com/adidas-performance/adidas-running-response-trainers-in-white-and-blue/prd/203474246#colourWayId-203474304",
+        "product_code": 203474246,
+        "product_name": "adidas Running Response trainers in white and blue",
+        "website_name": "asos"
+    }))

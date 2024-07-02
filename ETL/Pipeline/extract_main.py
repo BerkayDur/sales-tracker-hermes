@@ -75,4 +75,28 @@ def handler(_event, _context=None) -> list:
 
 
 if __name__ == "__main__":
-    ...
+    print(handler(_event=[
+        {
+            "product_id": 1,
+            "url": "https://www.asos.com/bershka/bershka-high-waisted-bootcut-jeans\
+-in-black/prd/203832070#colourWayId-203832078",
+            "product_code": 203832070,
+            "product_name": "Bershka high waisted bootcut jeans in black",
+            "website_name": "asos"
+        },
+        {
+            "product_id": 2,
+            "product_code": 206107351,
+            "url": "https://www.asos.com/new-balance/new-balance-fresh-foam-arishi-v4\
+-running-trainers-in-white-and-orange/prd/206107351#colourWayId-206107353",
+            "product_name": "New Balance Fresh Foam Arishi v4 running trainers in white and orange",
+            "website_name": "asos"
+        },
+        {
+            "product_id": 3,
+            "product_code": 203832074,
+            "url": "https://uk.gymshark.com/products/gymshark-arrival-7-shorts-silhouette-grey-aw22?gad_source=1&gclid=CjwKCAjwyo60BhBiEiwAHmVLJZHqjWLMiQcbK2TWaWfCZwgRsmZ_HsEW-B6ZNexcMST9ihBZ216rexoCq80QAvD_BwE&gclsrc=aw.ds",
+            "product_name": "PASQ two pocket tote bag with removable pouch in black",
+            "website_name": "gymshark"
+        }
+    ]))

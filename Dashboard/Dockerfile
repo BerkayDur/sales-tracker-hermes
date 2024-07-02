@@ -30,6 +30,7 @@ COPY email_verification.py .
 COPY extract_combined.py .
 COPY extract_from_asos.py .
 COPY extract_from_patagonia.py .
+COPY extract_from_other.py .
 COPY helpers.py .
 COPY load.py .
 COPY ses_get_emails.py .

@@ -9,6 +9,7 @@ RUN pip install -r requirements.txt
 COPY extract_asos.py .
 COPY extract_main.py .
 COPY extract_patagonia.py .
+COPY extract_other .
 COPY pipeline_helpers.py .
 
 CMD [ "extract_main.handler" ]

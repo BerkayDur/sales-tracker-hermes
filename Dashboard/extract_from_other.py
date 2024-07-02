@@ -37,7 +37,6 @@ def scrape_product_information(html: str, config: _Environ) -> dict | None:
             "embeddings": {
                 "model": "ollama/nomic-embed-text",
                 "temperature": 0,
-                "base_url": "http://localhost:11434",
             }
         }
     )

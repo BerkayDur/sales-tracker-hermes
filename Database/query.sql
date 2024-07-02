@@ -13,3 +13,10 @@ FULL OUTER JOIN websites USING (website_id)
 FULL OUTER JOIN price_readings USING (product_id)
 FULL OUTER JOIN subscriptions USING (product_id)
 FULL OUTER JOIN users USING (user_id);
+
+SELECT DISTINCT ON (product_id) product_id, product_code,
+                    url, price, website_name, product_name
+                    FROM products
+                    LEFT JOIN price_readings USING (product_id)
+                    LEFT JOIN websites USING (website_id)
+                    ORDER BY product_id, reading_at DESC;

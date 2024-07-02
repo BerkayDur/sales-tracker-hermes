@@ -92,7 +92,8 @@ if __name__ == "__main__":
     load_dotenv()
     configure_logging()
 
-    URL = "ENTER YOUR URL HERE."
+    # URL = "ENTER YOUR URL HERE."
+    URL = "https://store.steampowered.com/app/990080/Hogwarts_Legacy/"
 
     connec = get_connection(CONFIG)
     print(extract_product_information(connec, URL))
