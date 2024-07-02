@@ -112,9 +112,11 @@ Your code has been rated at 10.00/10
 ------------------------------------
 Your code has been rated at 10.00/10
 
+************* Module extract_asos
+ETL/Pipeline/extract_asos.py:107:0: C0301: Line too long (144/100) (line-too-long)
 
-------------------------------------
-Your code has been rated at 10.00/10
+-----------------------------------
+Your code has been rated at 9.85/10
 
 
 ------------------------------------
@@ -125,14 +127,17 @@ Your code has been rated at 10.00/10
 Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
 
 ************* Module extract_other
-ETL/Pipeline/extract_other.py:92:0: C0301: Line too long (213/100) (line-too-long)
+ETL/Pipeline/extract_other.py:54:0: C0116: Missing function or method docstring (missing-function-docstring)
+ETL/Pipeline/extract_other.py:56:4: W0105: String statement has no effect (pointless-string-statement)
 
 -----------------------------------
-Your code has been rated at 9.77/10
+Your code has been rated at 9.57/10
 
+************* Module extract_main
+ETL/Pipeline/extract_main.py:98:0: C0301: Line too long (225/100) (line-too-long)
 
-------------------------------------
-Your code has been rated at 10.00/10
+-----------------------------------
+Your code has been rated at 9.79/10
 
 
 ------------------------------------
