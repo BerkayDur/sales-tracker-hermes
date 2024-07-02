@@ -177,9 +177,10 @@ def display_subscribed_product(conn: connection, product_information: dict) -> N
     for that product, containing relevant information."""
     price_readings = get_price_readings(
         conn, product_information["product_id"])
-    expander = st.expander(f"Fetching data for {
-                           product_information["product_name"]}")
-    if price_readings is not None:
+    expander = st.expander(f"Fetching data for \
+                           {product_information["product_name"]}")
+    # Bug!!!
+    if price_readings is not None and can_parse_as_float(price_readings):
         current_price = float(price_readings[
             price_readings["reading_at"] == price_readings["reading_at"].max()]["price"])
         price_change_enum = product_price_change(price_readings)
@@ -188,7 +189,7 @@ def display_subscribed_product(conn: connection, product_information: dict) -> N
 - {product_information["product_name"]}", icon=get_price_change_emoji(price_change_enum))
     with expander:
         st.write("")
-        if price_readings is not None:
+        if price_readings is not None:  # Bug!!!
             col1, col2 = st.columns(2)
             if can_parse_as_float(product_information["price_threshold"]):
                 product_information["price_threshold"] = (
@@ -237,5 +238,6 @@ if __name__ == "__main__":
     st.set_page_config(layout="wide")
     apply_custom_styling()
     make_sidebar()
+
     connec = get_connection(CONFIG)
     price_tracker_page(connec)

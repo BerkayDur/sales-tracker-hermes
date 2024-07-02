@@ -6,7 +6,9 @@ import re
 from time import sleep
 
 import streamlit as st
+import bcrypt
 from dotenv import load_dotenv
+from psycopg2 import Binary
 from psycopg2.extensions import connection
 
 from helpers import get_connection
@@ -15,67 +17,35 @@ from custom_styling import apply_custom_styling
 
 EMAIL_PATTERN = r"""(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])"""
 
-def authenticate(conn: connection, email: str) -> tuple | None:
+
+def authenticate(conn: connection, email: str) -> bool:
     """Find email in database"""
     logging.info("Searching for %s in database", email)
     with conn.cursor() as cur:
         cur.execute("""
-            SELECT email FROM users
+            SELECT email, password FROM users
             WHERE email = %s""", (email,))
         data = cur.fetchone()
     return data
 
 
-def add_email(conn: connection, email: str) -> tuple | None:
+def hash_password(password: str) -> bytes:
+    bytespw = password.encode('utf-8')
+    salt = bcrypt.gensalt()
+    return bcrypt.hashpw(bytespw, salt)
+
+
+def add_email(conn: connection, email: str, password: bytes) -> tuple | None:
     """Add email to database"""
     logging.info("Adding %s to database", email)
     with conn.cursor() as cur:
         cur.execute("""
-            INSERT INTO users(email)
-            VALUES (%s)
-            RETURNING email""", (email,))
+            INSERT INTO users(email, password)
+            VALUES (%s, %s)
+            RETURNING *""", (email, Binary(password)))
         data = cur.fetchone()
         conn.commit()
     return data
-
-
-def login_page(config: _Environ, email_pattern: str) -> None:
-    """Login page"""
-    st.header("Sign in")
-
-    login_email = st.text_input(
-        "Please enter your email address:"
-    )
-    if st.button("Login", type="primary"):
-        logging.info("Login button clicked with %s", login_email)
-        conn = get_connection(config)
-        if authenticate(conn, login_email):
-            login(login_email)
-        else:
-            logging.error("Invalid email address. Please sign up.")
-            st.error("Invalid email address. Please sign up.")
-
-    st.write("---")
-
-    st.header("Sign up")
-
-    signup_email = st.text_input(
-        "Please enter your email address:", key="email signup",
-    )
-    if st.button("Sign up", type="primary"):
-        logging.info("Sign up button clicked with %s", signup_email)
-        conn = get_connection(config)
-        if authenticate(conn, signup_email):
-            logging.error(
-                "The email %s is already registered. Please log in.", signup_email)
-            st.error(
-                f"The email {signup_email} is already registered. Please log in.")
-        elif re.match(email_pattern, signup_email):
-            add_email(conn, signup_email)
-            login(signup_email)
-        else:
-            logging.error("Invalid email address. Please try again.")
-            st.error("Invalid email address. Please try again.")
 
 
 def login(email: str) -> None:
@@ -88,9 +58,64 @@ def login(email: str) -> None:
     st.switch_page("pages/price.py")
 
 
+def login_page(config: _Environ, email_pattern: str) -> None:
+    """Login page"""
+    st.header("Sign in")
+
+    login_email = st.text_input("Please enter your email address:")
+    login_password = st.text_input(
+        "Please enter your password:", type="password").encode("utf-8")
+
+    if st.button("Login", type="primary"):
+        logging.info("Login button clicked with %s", login_email)
+        conn = get_connection(config)
+        data = authenticate(conn, login_email)
+        st.write(data, data[1])
+        if not data:
+            logging.error(
+                "Invalid email address. Please sign up.")
+            st.error("Invalid email address. Please sign up.")
+
+        elif not bcrypt.checkpw(login_password, data[1].encode("utf-8")):
+            logging.error(
+                "Invalid password. Please try again.")
+            st.error("Invalid password. Please try again.")
+
+        else:
+            login(login_email)
+
+    st.write("---")
+
+    st.header("Sign up")
+
+    signup_email = st.text_input(
+        "Please enter your email address:", key="email signup")
+    signup_password = st.text_input(
+        "Please enter your password:", key="password signup", type="password")
+
+    if st.button("Sign up", type="primary"):
+        logging.info("Sign up button clicked with %s", signup_email)
+        conn = get_connection(config)
+        if authenticate(conn, signup_email):
+            logging.error(
+                "The email %s is already registered. Please log in.", signup_email)
+            st.error(
+                f"The email {signup_email} is already registered. Please log in.")
+        elif re.match(email_pattern, signup_email):
+            hash_pw = hash_password(signup_password)
+            st.write(hash_pw)
+            add_email(conn, signup_email, hash_pw)
+            # login(signup_email)
+            # b'$2b$12$qXZGBDnq4Hp1gOtVAjrmQ.imyNPOzj7SpW3fejr0pVSEa42v0S8Vy'
+        else:
+            logging.error("Invalid email address. Please try again.")
+            st.error("Invalid email address. Please try again.")
+
+
 if __name__ == "__main__":
     logging.basicConfig(level="INFO")
     apply_custom_styling()
     make_sidebar()
     load_dotenv()
+
     login_page(ENV, EMAIL_PATTERN)
