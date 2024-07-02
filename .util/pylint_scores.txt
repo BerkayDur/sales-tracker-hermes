@@ -124,12 +124,15 @@ Your code has been rated at 10.00/10
 --------------------------------------------------------------------
 Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
 
-************* Module extract_main
-ETL/Pipeline/extract_main.py:69:4: W0621: Redefining name 'product_readings' from outer scope (line 76) (redefined-outer-name)
-ETL/Pipeline/extract_main.py:75:19: E0602: Undefined variable '_event' (undefined-variable)
+************* Module extract_other
+ETL/Pipeline/extract_other.py:92:0: C0301: Line too long (213/100) (line-too-long)
 
 -----------------------------------
-Your code has been rated at 8.75/10
+Your code has been rated at 9.77/10
+
+
+------------------------------------
+Your code has been rated at 10.00/10
 
 
 ------------------------------------
