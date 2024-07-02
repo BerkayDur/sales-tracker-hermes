@@ -1,7 +1,29 @@
 ============================= test session starts ==============================
 platform linux -- Python 3.12.4, pytest-8.2.2, pluggy-1.5.0
 rootdir: /home/runner/work/sales-tracker-hermes/sales-tracker-hermes
-collected 277 items / 8 errors
+collected 492 items
 
-!!!!!!!!!!!!!!!!!!! Interrupted: 8 errors during collection !!!!!!!!!!!!!!!!!!!!
-============================== 8 errors in 1.57s ===============================
+Clean-up/test_clean_lambda.py .............                              [  2%]
+Dashboard/test_email_verification.py .......................             [  7%]
+Dashboard/test_extract_combined.py ................                      [ 10%]
+Dashboard/test_extract_from_asos.py ..................................   [ 17%]
+Dashboard/test_extract_from_patagonia.py ............................... [ 23%]
+..                                                                       [ 24%]
+Dashboard/test_helpers.py .............................................. [ 33%]
+....................                                                     [ 37%]
+Dashboard/test_load.py ...................                               [ 41%]
+Dashboard/test_login.py ....                                             [ 42%]
+Dashboard/test_ses_get_emails.py ....................                    [ 46%]
+ETL/Email/test_combined_load.py ........................................ [ 54%]
+.................                                                        [ 57%]
+ETL/Email/test_email_helpers.py ..............                           [ 60%]
+ETL/Email/test_email_service.py ........................................ [ 68%]
+..FFFFFFFF.................................                              [ 77%]
+ETL/Pipeline/test_extract_asos.py ...................................    [ 84%]
+ETL/Pipeline/test_extract_main.py ..........                             [ 86%]
+ETL/Pipeline/test_extract_patagonia.py ...................               [ 90%]
+ETL/Pipeline/test_pipeline_helpers.py .................................. [ 97%]
+......                                                                   [ 98%]
+ETL/Provision/test_provision_lambda.py ......                            [100%]
+
+======================== 8 failed, 484 passed in 1.45s =========================
