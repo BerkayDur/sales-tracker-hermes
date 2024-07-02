@@ -59,7 +59,9 @@ def add_product_page(conn: connection) -> None:
             price_threshold = st.text_input(
                 "**Alert me when this product is below:** **:orange[*]**", placeholder="£")
             st.markdown(
-                '<span style="font-size:0.8rem; position:relative; top:-1rem;">**:orange[*]** Leave this empty to be alerted on all price decreases</span>', unsafe_allow_html=True)
+                """<span style="font-size:0.8rem; position:relative; top:-1rem;">**:orange[*]**
+                Leave this empty to be alerted on all price decreases</span>""",
+                unsafe_allow_html=True)
             if st.form_submit_button("Track this Product", type="primary"):
                 if not product_url:
                     logging.error("User must enter a URL.")

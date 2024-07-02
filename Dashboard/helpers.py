@@ -1,4 +1,4 @@
-"""This file contains functions that are used throughout this directory""""""
+"""This file contains functions that are used throughout this directory"""
 from os import _Environ
 import logging
 
@@ -87,19 +87,22 @@ def get_soup(url: str, headers: dict) -> BeautifulSoup | None:
     logging.error("Failed to get a response from the URL")
     return None
 
+
 def get_ses_client(config: _Environ) -> ses_client:
     """Returns an ses client from a configuration."""
     return boto_client(
         "ses",
-        aws_access_key_id = config["ACCESS_KEY"],
-        aws_secret_access_key = config["SECRET_ACCESS_KEY"],
-        region_name = config["AWS_REGION_NAME"]
+        aws_access_key_id=config["ACCESS_KEY"],
+        aws_secret_access_key=config["SECRET_ACCESS_KEY"],
+        region_name=config["AWS_REGION_NAME"]
     )
+
 
 def is_ses(boto_ses_client: ses_client) -> bool:
     """Returns true if ses client else false."""
     return (isinstance(boto_ses_client, BaseClient)
             and boto_ses_client._service_model.service_name == "ses")  # pylint: disable=protected-access
+
 
 def can_parse_as_float(to_check: any) -> bool:
     """Determines if a value can be parsed as a float.
@@ -108,8 +111,9 @@ def can_parse_as_float(to_check: any) -> bool:
         float(to_check)
         return True
     except (ValueError, TypeError):
-        logging.error("Input can"t be parsed as a float")
+        logging.error("Input can't be parsed as a float")
         return False
+
 
 def get_supported_websites(conn: connection) -> list:
     """Gets a list of supported websites."""
@@ -117,6 +121,7 @@ def get_supported_websites(conn: connection) -> list:
         cur.execute("SELECT website_name from websites;")
         websites = cur.fetchall()
     return [website["website_name"] for website in websites]
+
 
 def get_user_id(conn: connection, email: str) -> int | None:
     """Get a user id from the database based on an email."""
@@ -127,6 +132,7 @@ def get_user_id(conn: connection, email: str) -> int | None:
         return None
     return user_id.get("user_id")
 
+
 def get_product_id(conn: connection, url: str) -> int | None:
     """Gets the products id from the database given a url."""
     with get_cursor(conn) as cur:
@@ -136,6 +142,7 @@ def get_product_id(conn: connection, url: str) -> int | None:
         return None
     return product_id.get("product_id")
 
+
 def is_subscription_in_table(conn: connection, user_id: int, product_id: int) -> bool:
     """Determines if a user is subscribed to a particular product."""
     with get_cursor(conn) as cur:
@@ -144,6 +151,7 @@ def is_subscription_in_table(conn: connection, user_id: int, product_id: int) ->
                     (user_id, product_id))
         counts = cur.fetchone()
     return counts is not None
+
 
 def insert_subscription_into_db(
         conn: connection, user_id: int, product_id: int,
@@ -162,6 +170,7 @@ def insert_subscription_into_db(
     except Exception:
         return False
 
+
 def update_db_to_subscribe(
         conn: connection, product_url: str, price_threshold: bool | None, user_email: str) -> bool:
     """Inserts a subscription into a database, if it doesn"t already exist.
@@ -179,11 +188,13 @@ def update_db_to_subscribe(
     if is_subscription_in_table(conn, user_id, product_id):
         logging.error("You are already subscribed to this product!")
         return {"success": True, "message": "You are already subscribed to this product!"}
-    inserting_status = insert_subscription_into_db(conn, user_id, product_id, price_threshold)
+    inserting_status = insert_subscription_into_db(
+        conn, user_id, product_id, price_threshold)
     if inserting_status:
         logging.info("New subscription added!")
         return {"status": True, "message": "New subscription added."}
-    logging.info("update_db_to_subscribe failed unexpectedly (insert_subscription_to_db).")
+    logging.info(
+        "update_db_to_subscribe failed unexpectedly (insert_subscription_to_db).")
     return {"status": False, "message": "Unable to subscribe to product, please try again."}
 
 
@@ -198,6 +209,7 @@ def get_subscribed_products(conn: connection, email: str) -> list[dict]:
                     WHERE email = %s""", (email,))
         subscribed_products = cur.fetchall()
     return subscribed_products
+
 
 def get_price_readings(conn: connection, product_id: int) -> pd.DataFrame | None:
     """Get a pandas DataFrame of all price readings for a particular product."""
