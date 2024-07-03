@@ -2,10 +2,7 @@ from unittest.mock import MagicMock
 
 from psycopg2.extensions import connection
 
-from login import (
-    get_email,
-    add_email
-)
+from login import get_email, add_email
 
 
 def test_authenticate_valid_1():
