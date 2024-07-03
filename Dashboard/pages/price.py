@@ -179,8 +179,7 @@ def display_subscribed_product(conn: connection, product_information: dict) -> N
         conn, product_information["product_id"])
     expander = st.expander(f"Fetching data for \
                            {product_information["product_name"]}")
-    # Bug!!!
-    if price_readings is not None and can_parse_as_float(price_readings):
+    if price_readings is not None:  # Bug!!!
         current_price = float(price_readings[
             price_readings["reading_at"] == price_readings["reading_at"].max()]["price"])
         price_change_enum = product_price_change(price_readings)
