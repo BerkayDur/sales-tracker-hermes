@@ -12,7 +12,7 @@ Dashboard/test_extract_from_patagonia.py ............................... [ 23%]
 Dashboard/test_helpers.py .............................................. [ 33%]
 ....................                                                     [ 37%]
 Dashboard/test_load.py ...................                               [ 41%]
-Dashboard/test_login.py ..FF                                             [ 42%]
+Dashboard/test_login.py ....                                             [ 42%]
 Dashboard/test_ses_get_emails.py ....................                    [ 46%]
 ETL/Email/test_combined_load.py ........................................ [ 54%]
 .................                                                        [ 57%]
@@ -26,4 +26,4 @@ ETL/Pipeline/test_pipeline_helpers.py .................................. [ 97%]
 ......                                                                   [ 98%]
 ETL/Provision/test_provision_lambda.py ......                            [100%]
 
-======================== 2 failed, 490 passed in 1.41s =========================
+============================= 492 passed in 1.41s ==============================
