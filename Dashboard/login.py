@@ -15,6 +15,7 @@ from navigation import make_sidebar
 from custom_styling import apply_custom_styling
 
 EMAIL_PATTERN = r"""(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])"""
+# pylint: disable=line-too-long
 
 
 def get_email(conn: connection, email: str) -> tuple[str, str] | None:
@@ -26,13 +27,6 @@ def get_email(conn: connection, email: str) -> tuple[str, str] | None:
             WHERE email = %s""", (email,))
         data = cur.fetchone()
     return data
-
-
-def hash_password(password: str) -> bytes:
-    """"""
-    bytespw = password.encode('utf-8')
-    salt = gensalt()
-    return hashpw(bytespw, salt)
 
 
 def add_email(conn: connection, email: str, password: bytes) -> tuple | None:
@@ -70,24 +64,23 @@ def login_page(config: _Environ, email_pattern: str) -> None:
         logging.info("Login button clicked with %s", login_email)
         conn = get_connection(config)
         data = get_email(conn, login_email)
-        if not data:
-            logging.error("Invalid email address. Please sign up.")
-            st.error("Invalid email address. Please sign up.")
-        elif not checkpw(login_password, data[1].encode("utf-8")):
-            logging.error(
-                "Invalid password. Please try again.")
+        if data:
+            email, password = data
+            if checkpw(login_password, password.encode("utf-8")):
+                login(email)
+            logging.error("Invalid password. Please try again.")
             st.error("Invalid password. Please try again.")
         else:
-            login(login_email)
+            logging.error("Invalid email address. Please sign up.")
+            st.error("Invalid email address. Please sign up.")
 
     st.write("---")
 
     st.header("Sign up")
 
-    signup_email = st.text_input(
-        "Please enter your email address:", key="email signup")
+    signup_email = st.text_input("Please enter your email address: ")
     signup_password = st.text_input(
-        "Please enter your password:", key="password signup", type="password")
+        "Please enter your password: ", type="password").encode("utf-8")
 
     if st.button("Sign up", type="primary"):
         logging.info("Sign up button clicked with %s", signup_email)
@@ -98,7 +91,7 @@ def login_page(config: _Environ, email_pattern: str) -> None:
             st.error(
                 f"The email {signup_email} is already registered. Please log in.")
         elif re.match(email_pattern, signup_email):
-            hash_pw = hash_password(signup_password)
+            hash_pw = hashpw(signup_password, gensalt())
             add_email(conn, signup_email, hash_pw)
             login(signup_email)
         else:
