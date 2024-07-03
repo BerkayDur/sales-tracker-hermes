@@ -3,7 +3,7 @@ from unittest.mock import MagicMock
 from psycopg2.extensions import connection
 
 from login import (
-    authenticate,
+    get_email,
     add_email
 )
 
@@ -12,7 +12,7 @@ def test_authenticate_valid_1():
     mock_conn = MagicMock(spec=connection)
     mock_conn.cursor.return_value.__enter__\
         .return_value.fetchone.return_value = ("FAKE_EMAIL",)
-    assert authenticate(mock_conn, "FAKE_EMAIL") == ("FAKE_EMAIL",)
+    assert get_email(mock_conn, "FAKE_EMAIL") == ("FAKE_EMAIL",)
     assert mock_conn.cursor.return_value.__enter__\
         .return_value.execute.call_count == 1
     assert mock_conn.cursor.return_value.__enter__\
@@ -25,7 +25,7 @@ def test_authenticate_valid_2():
     mock_conn = MagicMock(spec=connection)
     mock_conn.cursor.return_value.__enter__\
         .return_value.fetchone.return_value = None
-    assert authenticate(mock_conn, "FAKE_EMAIL") == None
+    assert get_email(mock_conn, "FAKE_EMAIL") == None
     assert mock_conn.cursor.return_value.__enter__\
         .return_value.execute.call_count == 1
     assert mock_conn.cursor.return_value.__enter__\

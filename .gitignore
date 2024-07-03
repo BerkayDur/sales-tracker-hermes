@@ -1,4 +1,5 @@
 # data files/directories
+.DS_Store
 *.csv
 *.parquet
 data
