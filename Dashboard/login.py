@@ -53,7 +53,7 @@ def login(email: str) -> None:
 
 def login_page(config: _Environ, email_pattern: str) -> None:
     """Login page"""
-    st.header("Sign in")
+    st.header("Log in")
 
     login_email = st.text_input("Please enter your email address:")
     login_password = st.text_input(
