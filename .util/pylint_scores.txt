@@ -32,11 +32,9 @@ Dashboard/helpers.py:170:11: W0718: Catching too general exception Exception (br
 -----------------------------------
 Your code has been rated at 9.92/10
 
-************* Module login
-Dashboard/login.py:17:0: C0301: Line too long (471/100) (line-too-long)
 
------------------------------------
-Your code has been rated at 9.86/10
+------------------------------------
+Your code has been rated at 10.00/10
 
 ************* Module extract_combined
 Dashboard/extract_combined.py:61:11: W0718: Catching too general exception Exception (broad-exception-caught)
