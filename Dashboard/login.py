@@ -29,7 +29,7 @@ def get_email(conn: connection, email: str) -> tuple[str, str] | None:
 
 
 def add_email(conn: connection, email: str, password: bytes) -> tuple | None:
-    """Add email to database"""
+    """Return email and hashed password in database from an email"""
     logging.info("Adding %s to database", email)
     with conn.cursor() as cur:
         cur.execute("""
@@ -67,11 +67,8 @@ def login_page(config: _Environ, email_pattern: str) -> None:
             email, password = data
             if checkpw(login_password, password.encode("utf-8")):
                 login(email)
-            logging.error("Invalid password. Please try again.")
-            st.error("Invalid password. Please try again.")
-        else:
-            logging.error("Invalid email address. Please sign up.")
-            st.error("Invalid email address. Please sign up.")
+        logging.error("Invalid email address or password. Please try again.")
+        st.error("Invalid email address or password. Please try again.")
 
     st.write("---")
 
