@@ -34,7 +34,7 @@ def email_alerts_page(boto_ses_client: ses_client) -> None:
     else:
         col1, col2 = st.columns([1, 8])
         with col1:
-            email_sign_up = st.button("Sign me up!")
+            email_sign_up = st.button("Sign up!")
         if email_sign_up:
             send_verification_email(boto_ses_client, st.session_state["email"])
 

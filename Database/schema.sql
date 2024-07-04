@@ -15,7 +15,8 @@ CREATE TABLE products(
 
 CREATE TABLE users (
     user_id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    email TEXT UNIQUE NOT NULL
+    email TEXT UNIQUE NOT NULL,
+    password BYTEA NOT NULL
 );
 
 CREATE TABLE subscriptions (

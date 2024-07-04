@@ -3,8 +3,8 @@ INSERT INTO websites (website_name) VALUES
 ('asos'),
 ('patagonia');
 
-INSERT INTO users (email) VALUES
-('trainee.nabiha.mohamed@sigmalabs.co.uk');
+INSERT INTO users (email, password) VALUES
+('trainee.nabiha.mohamed@sigmalabs.co.uk', '\x24326224313224524f4c42435a52664f6955462e7979355368634678752e3763617075486a7170372e6e4f30324c523336746f6c4e414d51536d334f');
 
 INSERT INTO products (product_code, product_name, website_id, url) VALUES
 ('205780494', 'ON Cloudrunner 2 running trainers in white', 1, 'https://www.asos.com/on-running/on-cloudrunner-2-running-trainers-in-white/prd/205780494#colourWayId-205780495'),
